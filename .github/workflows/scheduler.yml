@@ -1,0 +1,51 @@
+name: Telegram Cron Alerts
+
+on:
+  schedule:
+    # Run every 5 minutes (GitHub Actions schedule resolution limit)
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+permissions:
+  contents: write # Allows the workflow to push state.json and logs/ back to the repo
+
+jobs:
+  run-alerts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run Alert Scheduler
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node runner.js
+
+      - name: Commit and Push state & logs
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Create logs directory if it doesn't exist to avoid git add errors
+          mkdir -p logs
+          
+          # Check if there are changes to state.json or logs
+          git add state.json logs/
+          
+          # Commit only if there are modified/new files
+          if ! git diff --cached --quiet; then
+            git commit -m "Runner: Sync state and logs [skip ci]"
+            git push origin HEAD:${{ github.ref }}
+          else
+            echo "No state or log changes to commit."
+          fi
