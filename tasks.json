@@ -18,5 +18,14 @@
     "active": true,
     "createdAt": "2026-07-10T18:20:34.295Z",
     "updatedAt": "2026-07-10T18:24:24.087Z"
+  },
+  {
+    "id": "task_xv8ljjirh",
+    "name": "Test",
+    "type": "static",
+    "prompt": "Remainder ! to drink water",
+    "schedule": "1h",
+    "active": true,
+    "createdAt": "2026-07-10T18:36:28.336Z"
   }
 ]
