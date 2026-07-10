@@ -8,5 +8,14 @@
     "active": true,
     "createdAt": "2026-07-10T17:46:29.257Z",
     "updatedAt": "2026-07-10T17:51:01.775Z"
+  },
+  {
+    "id": "task_fzyl9fus3",
+    "name": "Test",
+    "type": "ai",
+    "prompt": "Test prompt; give a random news that is helpful from me. check previous message and continue the same topic \n",
+    "schedule": "5m",
+    "active": true,
+    "createdAt": "2026-07-10T18:20:34.295Z"
   }
 ]
