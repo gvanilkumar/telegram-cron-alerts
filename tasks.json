@@ -14,8 +14,9 @@
     "name": "Test",
     "type": "ai",
     "prompt": "Test prompt; give a random news that is helpful from me. check previous message and continue the same topic \n",
-    "schedule": "5m",
+    "schedule": "5h",
     "active": true,
-    "createdAt": "2026-07-10T18:20:34.295Z"
+    "createdAt": "2026-07-10T18:20:34.295Z",
+    "updatedAt": "2026-07-10T18:24:24.087Z"
   }
 ]
