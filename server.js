@@ -74,25 +74,25 @@ async function gitSync() {
   }
 
   try {
-    // Pull first
+    // 1. Stage all files (config, state, and logs)
+    await runCmd('git add tasks.json settings.json state.json logs/history.json');
+    
+    // 2. Commit changes locally (if any)
+    try {
+      await runCmd('git commit -m "Local config and state update [skip ci]"');
+    } catch (commitErr) {
+      // If there's nothing to commit, commit will fail. We ignore this safely.
+      if (!commitErr.message.includes('nothing to commit') && !commitErr.message.includes('no changes added')) {
+        throw commitErr;
+      }
+    }
+
+    // 3. Pull with rebase from remote counterpart
     await runCmd('git pull --rebase origin HEAD');
     
-    // Add changes
-    await runCmd('git add tasks.json settings.json');
-    
-    // Commit only if there are changes
-    try {
-      await runCmd('git commit -m "Update configuration [skip ci]"');
-      // Push changes
-      await runCmd('git push origin HEAD');
-      return { synced: true, message: 'Configurations successfully synced to GitHub.' };
-    } catch (commitErr) {
-      // If there's nothing to commit, commit will fail with empty message/no changes. That is fine.
-      if (commitErr.message.includes('nothing to commit') || commitErr.message.includes('no changes added')) {
-        return { synced: true, message: 'Nothing to sync.' };
-      }
-      throw commitErr;
-    }
+    // 4. Push changes back
+    await runCmd('git push origin HEAD');
+    return { synced: true, message: 'Configurations successfully synced to GitHub.' };
   } catch (err) {
     console.error('Git sync error:', err.message);
     throw new Error(`Git sync failed: ${err.message}`);
