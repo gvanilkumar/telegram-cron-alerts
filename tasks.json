@@ -1,21 +1,12 @@
 [
   {
-    "id": "task_l1sz21kj9",
-    "name": "SpaceX News Summary",
+    "id": "task_u2hq8qti3",
+    "name": "Global Market Trigger",
     "type": "ai",
-    "prompt": "Search for the latest news about SpaceX launch developments. Provide a summary using this template:\n\n*SpaceX Launch News Summary*\n\n• *Latest Launch:* Summarize the most recent launch event in 2 sentences.\n• *Key Achievement:* Describe the main success of this launch in 1 sentence.\n• *Next Target:* List the upcoming target date or milestone.\n\nCRITICAL FORMATTING RULES FOR TELEGRAM:\n1. Use single asterisks for bold: e.g., *bold text* (never use double asterisks like **bold**).\n2. Use single underscores for italics: e.g., _italic text_.\n3. Do not use markdown headings (no #, ##, or ###).\n4. Use standard bullet characters (•) instead of asterisks (*) for list items.",
+    "prompt": "Analyze the latest global news (focusing on Donald Trump announcements, US trade/tariff policies, Fed rate updates, or major geopolitical shifts) from the last 24 hours that impact the Indian Stock Market (Nifty/Sensex).\n\nGenerate a very brief, high-signal alert using this exact template:\n\n*Market Impact Alert* 🚨\n\n• *Key News:* [Summarize the most critical news item in 1 sentence]\n• *Nifty/Sensex Impact:* [How it affects Indian markets in 1 sentence]\n• *Sentiment:* [Bullish | Bearish | Neutral]\n• *Confidence Score:* [X% (e.g., 75%)]\n• *Trigger Action:* [*INVEST* | *HOLD* | *CAUTION*]\n\nCRITICAL FORMATTING RULES FOR TELEGRAM:\n1. Use single asterisks for bold: e.g., *bold text* (never use double asterisks like **bold**).\n2. Use single underscores for italics: e.g., _italic text_.\n3. Do not use markdown headings (no #, ##, or ###).\n4. Use standard bullet characters (•) instead of asterisks (*) for list items.\n5. Keep the total message under 600 characters for a quick phone trigger.\n6.  Have a proper format that is visibly attractive",
     "schedule": "5m",
     "active": true,
-    "createdAt": "2026-07-10T15:43:58.458Z",
-    "updatedAt": "2026-07-10T16:25:21.336Z"
-  },
-  {
-    "id": "task_dbgk81idt",
-    "name": "Daily Mindset & Focus",
-    "type": "ai",
-    "prompt": "_\\\"Quote of the day\\\"_ - Author Name\n• *Today's Goal:* A 1-sentence focus area for today.\n• *Actionable Tip:* A 1-sentence productivity tip.\nCRITICAL FORMATTING RULES FOR TELEGRAM:\n1. Use single asterisks for bold: e.g., *bold text* (never use double asterisks like **bold**).\n2. Use single underscores for italics: e.g., _italic text_.\n3. Do not use markdown headings (no #, ##, or ###).\n4. Use standard bullet characters (•) instead of asterisks (*) for list items.",
-    "schedule": "5m",
-    "active": true,
-    "createdAt": "2026-07-10T16:27:58.274Z"
+    "createdAt": "2026-07-10T17:46:29.257Z",
+    "updatedAt": "2026-07-10T17:51:01.775Z"
   }
 ]
