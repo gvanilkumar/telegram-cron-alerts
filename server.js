@@ -77,14 +77,10 @@ async function gitSync() {
     // 1. Stage all files (config, state, and logs)
     await runCmd('git add tasks.json settings.json state.json logs/history.json');
     
-    // 2. Commit changes locally (if any)
-    try {
+    // 2. Commit changes locally only if there are active staged changes
+    const changes = await runCmd('git diff --cached --name-only');
+    if (changes.trim()) {
       await runCmd('git commit -m "Local config and state update [skip ci]"');
-    } catch (commitErr) {
-      // If there's nothing to commit, commit will fail. We ignore this safely.
-      if (!commitErr.message.includes('nothing to commit') && !commitErr.message.includes('no changes added')) {
-        throw commitErr;
-      }
     }
 
     // 3. Pull with rebase from remote counterpart
