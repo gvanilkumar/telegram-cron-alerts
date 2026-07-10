@@ -11,11 +11,12 @@
   },
   {
     "id": "task_xv8ljjirh",
-    "name": "Test",
+    "name": "Drink Water!",
     "type": "static",
     "prompt": "Remainder ! to drink water",
     "schedule": "1h",
     "active": true,
-    "createdAt": "2026-07-10T18:36:28.336Z"
+    "createdAt": "2026-07-10T18:36:28.336Z",
+    "updatedAt": "2026-07-10T18:36:54.444Z"
   }
 ]
