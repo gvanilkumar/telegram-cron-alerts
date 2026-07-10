@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "id": "task_l1sz21kj9",
+    "name": "SpaceX News Summary",
+    "type": "ai",
+    "prompt": "Provide a 3-bullet point summary of recent SpaceX launch news",
+    "schedule": "5m",
+    "active": true,
+    "createdAt": "2026-07-10T15:43:58.458Z"
+  }
+]
