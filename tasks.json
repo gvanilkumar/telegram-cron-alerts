@@ -19,7 +19,7 @@
     "id": "task_ex7yxx426",
     "name": "financial news website",
     "type": "ai",
-    "prompt": "Monitor financial news websites, such as Bloomberg, Reuters, and The Economic Times, to track the latest news impacting the Indian market. Scan the scraped page text for keywords like \"Indian market\", \"Sensex\", \"Nifty\", and \"Rupee\". Trigger an alert when news articles mention significant market fluctuations, policy changes, or economic updates. If nothing has changed, or if the conditions are not met, output 'no update' and nothing else. The alert notification should be in a brief summary format, prefixed with 🚨, and include relevant details such as the news headline and a brief description. Output the alert to Telegram or Discord. Ensure the alert is concise and informative, with a maximum of 2000 characters.",
+    "prompt": "Monitor a target webpage for evidence-based news updates, scanning the scraped page text for official announcements or reports. Trigger alerts when new information is found, specifically looking for keywords such as \"breaking news,\" \"latest update,\" or \"official statement.\" The alert should include a brief summary, timestamp of when the news was announced, and relevant details in bullet points, prefixed with a 🚨 emoji for importance. Output should be concise and formatted to fit well in a Telegram or Discord message. If nothing has changed, or if the conditions are not met, output 'no update' and nothing else. The desired output format is: 🚨 [brief summary] - [timestamp] \\n * [key points]. Ensure the alert is informative, yet easy to read on a mobile device.",
     "schedule": "5m",
     "url": "",
     "channels": [
@@ -29,6 +29,6 @@
     "threshold": 0.9,
     "active": true,
     "createdAt": "2026-07-11T11:13:19.964Z",
-    "updatedAt": "2026-07-11T11:14:05.324Z"
+    "updatedAt": "2026-07-11T11:15:34.604Z"
   }
 ]
