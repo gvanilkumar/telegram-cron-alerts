@@ -150,7 +150,7 @@ async function run() {
             const modelName = customModel || 'gpt-4o-mini';
             alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, customUrl, modelName);
           } else if (geminiApiKey.startsWith('gsk_')) {
-            alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama3-70b-8192');
+            alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama-3.3-70b-versatile');
           } else if (geminiApiKey.startsWith('sk-')) {
             alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.openai.com/v1/chat/completions', 'gpt-4o-mini');
           } else {
