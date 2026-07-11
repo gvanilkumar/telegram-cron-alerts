@@ -553,6 +553,9 @@ async function executeAiPrompt(prompt) {
     body: JSON.stringify({
       contents: [{
         parts: [{ text: `${systemInstruction}\n\nUser Request: ${prompt}` }]
+      }],
+      tools: [{
+        googleSearch: {}
       }]
     })
   });
