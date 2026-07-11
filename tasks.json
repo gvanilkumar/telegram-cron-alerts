@@ -22,5 +22,18 @@
     "active": true,
     "createdAt": "2026-07-11T03:09:55.096Z",
     "updatedAt": "2026-07-11T03:11:13.657Z"
+  },
+  {
+    "id": "task_vy09agjed",
+    "name": "Water remainder",
+    "type": "ai",
+    "prompt": "Water remainder",
+    "schedule": "5m",
+    "url": "",
+    "channels": [
+      "telegram"
+    ],
+    "active": true,
+    "createdAt": "2026-07-11T03:47:34.712Z"
   }
 ]
