@@ -83,8 +83,8 @@ async function gitSync() {
       await runCmd('git commit -m "Local config and state update [skip ci]"');
     }
 
-    // 3. Pull with rebase from remote counterpart
-    await runCmd('git pull --rebase origin HEAD');
+    // 3. Pull with rebase from remote counterpart (non-blocking, auto-resolving conflicts in favor of cloud runner's state)
+    await runCmd('git -c core.editor=true pull --rebase -X ours origin HEAD');
     
     // 4. Push changes back
     await runCmd('git push origin HEAD');
@@ -100,6 +100,7 @@ async function scrapeWebpage(url) {
   logDebug(`Scraping webpage: ${url}`);
   try {
     const response = await fetch(url, {
+      signal: AbortSignal.timeout(10000), // 10s scraping timeout limit
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
       }

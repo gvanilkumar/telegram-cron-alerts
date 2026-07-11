@@ -34,6 +34,7 @@ async function scrapeWebpage(url) {
   logDebug(`Scraping webpage: ${url}`);
   try {
     const response = await fetch(url, {
+      signal: AbortSignal.timeout(10000), // 10s scraping timeout limit
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
       }
