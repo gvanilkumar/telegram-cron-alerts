@@ -1,8 +1,9 @@
 {
   "task_eec29pse1": 1783757950989,
   "task_ak83xn71j": {
-    "lastRun": 1783787383695,
+    "lastRun": 1783787470847,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n\n• *Source/Speaker:* Indian Market Update \n• *Announcement:* Indian shares rise to 10-week high; HDFC Bank leads after strong Q1 growth. \n• *Market Stance:* 🟢 BULLISH for India\n\n📊 *CONFIDENCE LEVEL:* HIGH (95% — Reason: Strong Q1 growth indicates a positive market trend)\n\n🎯 *INDIAN MARKET IMPACT ARCHETYPE:*\n• *Directly Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Banking, Finance\n• *Expected FII Sentiment:* Net Inflows\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Watch for continued growth in the Banking sector, and monitor the Nifty Bank index for potential buying opportunities.",
-    "lastEmbedding": null
+    "lastEmbedding": null,
+    "consecutiveFailures": 1
   }
 }
