@@ -14,21 +14,5 @@
     ],
     "deduplicate": true,
     "threshold": 0.9
-  },
-  {
-    "id": "task_ex7yxx426",
-    "name": "financial news website",
-    "type": "ai",
-    "prompt": "Monitor a target webpage for evidence-based news updates, scanning the scraped page text for official announcements or reports. Trigger alerts when new information is found, specifically looking for keywords such as \"breaking news,\" \"latest update,\" or \"official statement.\" The alert should include a brief summary, timestamp of when the news was announced, and relevant details in bullet points, prefixed with a 🚨 emoji for importance. Output should be concise and formatted to fit well in a Telegram or Discord message. If nothing has changed, or if the conditions are not met, output 'no update' and nothing else. The desired output format is: 🚨 [brief summary] - [timestamp] \\n * [key points]. Ensure the alert is informative, yet easy to read on a mobile device.",
-    "schedule": "5m",
-    "url": "",
-    "channels": [
-      "telegram"
-    ],
-    "deduplicate": true,
-    "threshold": 0.9,
-    "active": true,
-    "createdAt": "2026-07-11T11:13:19.964Z",
-    "updatedAt": "2026-07-11T11:15:34.604Z"
   }
 ]
