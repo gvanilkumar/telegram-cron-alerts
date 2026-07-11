@@ -13,6 +13,21 @@ function logDebug(msg) {
   console.log(`[${new Date().toISOString()}] ${msg}`);
 }
 
+// Fetch wrapper with automatic retries and exponential backoff for network resilience
+async function fetchWithRetry(url, options = {}, retries = 3, delay = 1000) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await fetch(url, options);
+      return response;
+    } catch (err) {
+      if (i === retries - 1) throw err;
+      logDebug(`Fetch connection error: ${err.message}. Retrying in ${delay}ms...`);
+      await new Promise(resolve => setTimeout(resolve, delay));
+      delay *= 2;
+    }
+  }
+}
+
 // Paths
 const rootDir = __dirname;
 const envPath = path.join(rootDir, '.env');
@@ -134,7 +149,7 @@ async function executeAiPrompt(prompt, apiKey) {
   const systemInstruction = `You are a helpful automation assistant. Return a concise, clear alert or summary according to the user request. Make it look beautiful on a phone screen. Use Markdown formatting when appropriate. Keep the response under 1500 characters.`;
   const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
   
-  const response = await fetch(geminiUrl, {
+  const response = await fetchWithRetry(geminiUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -166,7 +181,7 @@ async function executeOpenAiCompatiblePrompt(prompt, apiKey, url, model) {
     endpoint = endpoint.replace(/\/$/, '') + '/chat/completions';
   }
 
-  const response = await fetch(endpoint, {
+  const response = await fetchWithRetry(endpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -391,7 +406,7 @@ app.post('/api/tasks/:id/run', async (req, res) => {
       try {
         const formattedText = `🔔 *Manual Run: ${task.name}*\n\n${alertMessage}`;
         const tgUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-        let tgRes = await fetch(tgUrl, {
+        let tgRes = await fetchWithRetry(tgUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -404,7 +419,7 @@ app.post('/api/tasks/:id/run', async (req, res) => {
           const errorData = await tgRes.json();
           if (errorData.description && errorData.description.includes('can\'t parse')) {
             const plainText = `🔔 Manual Run: ${task.name}\n\n${alertMessage}`;
-            tgRes = await fetch(tgUrl, {
+             tgRes = await fetchWithRetry(tgUrl, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ chat_id: chatId, text: plainText })
@@ -421,7 +436,7 @@ app.post('/api/tasks/:id/run', async (req, res) => {
       try {
         const discordUrl = process.env.DISCORD_WEBHOOK_URL;
         const formattedText = `🔔 **Manual Run: ${task.name}**\n\n${alertMessage}`;
-        const res = await fetch(discordUrl, {
+        const res = await fetchWithRetry(discordUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ content: formattedText })
@@ -436,7 +451,7 @@ app.post('/api/tasks/:id/run', async (req, res) => {
       try {
         const slackUrl = process.env.SLACK_WEBHOOK_URL;
         const formattedText = `🔔 *Manual Run: ${task.name}*\n\n${alertMessage}`;
-        const res = await fetch(slackUrl, {
+        const res = await fetchWithRetry(slackUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text: formattedText })
@@ -612,7 +627,7 @@ app.post('/api/test-telegram', async (req, res) => {
 
   try {
     const url = `https://api.telegram.org/bot${token}/sendMessage`;
-    const response = await fetch(url, {
+    const response = await fetchWithRetry(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -642,7 +657,7 @@ app.post('/api/test-discord', async (req, res) => {
   }
 
   try {
-    const response = await fetch(url, {
+    const response = await fetchWithRetry(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -670,7 +685,7 @@ app.post('/api/test-slack', async (req, res) => {
   }
 
   try {
-    const response = await fetch(url, {
+    const response = await fetchWithRetry(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

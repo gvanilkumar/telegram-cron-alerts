@@ -29,6 +29,21 @@ function logDebug(msg) {
   console.log(`[${new Date().toISOString()}] ${msg}`);
 }
 
+// Fetch wrapper with automatic retries and exponential backoff for network resilience
+async function fetchWithRetry(url, options = {}, retries = 3, delay = 1000) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await fetch(url, options);
+      return response;
+    } catch (err) {
+      if (i === retries - 1) throw err;
+      logDebug(`Fetch connection error: ${err.message}. Retrying in ${delay}ms...`);
+      await new Promise(resolve => setTimeout(resolve, delay));
+      delay *= 2;
+    }
+  }
+}
+
 // Scrape webpage context using native fetch and cleaning HTML tags
 async function scrapeWebpage(url) {
   logDebug(`Scraping webpage: ${url}`);
@@ -262,7 +277,7 @@ async function executeAiPrompt(prompt) {
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`;
   
-  const response = await fetch(url, {
+  const response = await fetchWithRetry(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -298,7 +313,7 @@ async function executeOpenAiCompatiblePrompt(prompt, apiKey, url, model) {
     endpoint = endpoint.replace(/\/$/, '') + '/chat/completions';
   }
 
-  const response = await fetch(endpoint, {
+  const response = await fetchWithRetry(endpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -338,7 +353,7 @@ async function sendTelegramMessage(text, taskName) {
   const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
   
   // Try sending with Markdown formatting first
-  let response = await fetch(url, {
+  let response = await fetchWithRetry(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -357,7 +372,7 @@ async function sendTelegramMessage(text, taskName) {
       logDebug(`Markdown parsing failed for Telegram message. Retrying in plain text.`);
       
       const plainText = `🔔 Alert: ${taskName}\n\n${text}`;
-      response = await fetch(url, {
+      response = await fetchWithRetry(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -381,7 +396,7 @@ async function sendDiscordMessage(text, taskName, webhookUrl) {
   
   const formattedText = `🔔 **Alert: ${taskName}**\n\n${text}`;
   
-  const response = await fetch(webhookUrl, {
+  const response = await fetchWithRetry(webhookUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -403,7 +418,7 @@ async function sendSlackMessage(text, taskName, webhookUrl) {
   // Slack uses *bold* for bold and _italic_ for italic (matches Telegram!)
   const formattedText = `🔔 *Alert: ${taskName}*\n\n${text}`;
   
-  const response = await fetch(webhookUrl, {
+  const response = await fetchWithRetry(webhookUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
