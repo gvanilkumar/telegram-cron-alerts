@@ -1,7 +1,7 @@
 [
   {
     "id": "task_ak83xn71j",
-    "name": "Indian Market - SyncUp!",
+    "name": "Indian Market Update",
     "type": "ai",
     "prompt": "Monitor financial news websites for updates impacting the Indian stock market. If a target URL is provided, scan the scraped page text to identify relevant updates; otherwise, scan prominent financial news websites. Trigger alerts when news articles mention significant market fluctuations (>=2% change), economic policy changes, or company announcements affecting major stocks, specifically looking for keywords such as \"Indian stock market,\" \"NSE,\" \"BSE,\" and \"Sensex.\" The alert conditions include market fluctuations, policy changes, and company announcements, with a focus on major stocks. If nothing has changed, or if the conditions are not met, output 'no update' and nothing else. Output alerts in a concise, bullet-point format, prefixed with 🚨 for critical updates, including: brief summary, datetime, source link, confidence score, and recommendation to \"stay\" or \"re-enter\" the market. Send alerts via Telegram or Discord.",
     "schedule": "5m",
@@ -13,6 +13,6 @@
     "threshold": 0.9,
     "active": true,
     "createdAt": "2026-07-11T15:57:56.515Z",
-    "updatedAt": "2026-07-11T15:58:21.144Z"
+    "updatedAt": "2026-07-11T16:04:28.208Z"
   }
 ]
