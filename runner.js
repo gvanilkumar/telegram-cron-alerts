@@ -295,14 +295,27 @@ async function run() {
       try {
         let promptText = task.prompt || '';
         
-        // Fetch scraped webpage context if URL is provided
-        if (task.url && task.type === 'ai') {
+        // Fetch scraped webpage context if URL is provided, otherwise fallback to Google News Search RSS
+        if (task.type === 'ai') {
+          let targetUrl = task.url;
+          let isFallback = false;
+          if (!targetUrl) {
+            const searchQuery = task.name || 'financial news';
+            targetUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=en-US&gl=US&ceid=US:en`;
+            isFallback = true;
+          }
+          
           try {
-            const pageContext = await scrapeWebpage(task.url);
-            promptText = `Context from webpage (${task.url}):\n---\n${pageContext}\n---\n\nUser Request: ${task.prompt}`;
+            const pageContext = await scrapeWebpage(targetUrl);
+            if (isFallback) {
+              logDebug(`Auto-scraped Google News RSS search query for: "${task.name}"`);
+              promptText = `Context from Google News Search RSS for "${task.name}":\n---\n${pageContext}\n---\n\nUser Request: ${task.prompt}`;
+            } else {
+              promptText = `Context from webpage (${targetUrl}):\n---\n${pageContext}\n---\n\nUser Request: ${task.prompt}`;
+            }
           } catch (scrapeErr) {
-            logDebug(`Proceeding without webpage content due to scrape error.`);
-            promptText = `[Note: Unable to fetch live content from ${task.url} due to error: ${scrapeErr.message}]\n\nUser Request: ${task.prompt}`;
+            logDebug(`Proceeding without webpage content due to scrape error: ${scrapeErr.message}`);
+            promptText = `[Note: Unable to fetch live content from ${targetUrl || 'default news'} due to error: ${scrapeErr.message}]\n\nUser Request: ${task.prompt}`;
           }
         }
 

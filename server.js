@@ -513,13 +513,26 @@ app.post('/api/tasks/:id/run', async (req, res) => {
 
     // Web Scraping context
     let promptText = task.prompt || '';
-    if (task.url && task.type === 'ai') {
+    if (task.type === 'ai') {
+      let targetUrl = task.url;
+      let isFallback = false;
+      if (!targetUrl) {
+        const searchQuery = task.name || 'financial news';
+        targetUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=en-US&gl=US&ceid=US:en`;
+        isFallback = true;
+      }
+      
       try {
-        const pageText = await scrapeWebpage(task.url);
-        promptText = `Context from webpage (${task.url}):\n---\n${pageText}\n---\n\nUser Request: ${task.prompt}`;
+        const pageText = await scrapeWebpage(targetUrl);
+        if (isFallback) {
+          logDebug(`Manual run: Auto-scraped Google News RSS search query for: "${task.name}"`);
+          promptText = `Context from Google News Search RSS for "${task.name}":\n---\n${pageText}\n---\n\nUser Request: ${task.prompt}`;
+        } else {
+          promptText = `Context from webpage (${targetUrl}):\n---\n${pageText}\n---\n\nUser Request: ${task.prompt}`;
+        }
       } catch (scrapeErr) {
         logDebug(`Proceeding without webpage content due to scrape error: ${scrapeErr.message}`);
-        promptText = `[Note: Unable to fetch live content from ${task.url} due to error: ${scrapeErr.message}]\n\nUser Request: ${task.prompt}`;
+        promptText = `[Note: Unable to fetch live content from ${targetUrl || 'default news'} due to error: ${scrapeErr.message}]\n\nUser Request: ${task.prompt}`;
       }
     }
 
@@ -944,7 +957,7 @@ app.post('/api/scrape/preview', async (req, res) => {
 
 // Simulate AI prompt execution against a URL scrape outcome
 app.post('/api/prompt/simulate', async (req, res) => {
-  const { url, prompt, type } = req.body;
+  const { url, prompt, type, name } = req.body;
   if (!prompt) {
     return res.status(400).json({ error: 'Prompt instructions are required.' });
   }
@@ -956,10 +969,23 @@ app.post('/api/prompt/simulate', async (req, res) => {
 
   try {
     let promptText = prompt;
-    if (url && type === 'ai') {
+    if (type === 'ai') {
+      let targetUrl = url;
+      let isFallback = false;
+      if (!targetUrl) {
+        const searchQuery = name || 'financial news';
+        targetUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=en-US&gl=US&ceid=US:en`;
+        isFallback = true;
+      }
+
       try {
-        const pageText = await scrapeWebpage(url);
-        promptText = `Context from webpage (${url}):\n---\n${pageText}\n---\n\nUser Request: ${prompt}`;
+        const pageText = await scrapeWebpage(targetUrl);
+        if (isFallback) {
+          logDebug(`Simulation: Auto-scraped Google News RSS search query for: "${name || 'unnamed'}"`);
+          promptText = `Context from Google News Search RSS for "${name || 'unnamed'}":\n---\n${pageText}\n---\n\nUser Request: ${prompt}`;
+        } else {
+          promptText = `Context from webpage (${targetUrl}):\n---\n${pageText}\n---\n\nUser Request: ${prompt}`;
+        }
       } catch (scrapeErr) {
         promptText = `[Note: Scraper failed to fetch page content: ${scrapeErr.message}]\n\nUser Request: ${prompt}`;
       }

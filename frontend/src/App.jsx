@@ -112,7 +112,8 @@ export default function App() {
         body: JSON.stringify({
           url: taskForm.url,
           prompt: taskForm.prompt,
-          type: taskForm.type
+          type: taskForm.type,
+          name: taskForm.name
         })
       });
       const data = await res.json();
