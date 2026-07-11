@@ -1,8 +1,9 @@
 {
   "task_eec29pse1": 1783757950989,
   "task_ak83xn71j": {
-    "lastRun": 1783790890100,
+    "lastRun": 1783791067680,
     "lastAlertText": "🌐 *GLOBAL ALERT: INDIAN MARKET IMPACT*\n\n🔍 *Event:* NSE files for IPO amid surge in mega‑listings  \n👤 *Source:* National Stock Exchange of India (NSE)\n\n📊 *Market Sentiment Impact:* Bullish  \n🎯 *Primary Sectors Affected:* #Financials #Brokerage #CapitalMarkets\n\n💡 *Transmission Mechanism:*  \n• *Macro/Currency:* Potential boost to INR inflows as FIIs target new equity issuance.  \n• *Micro/Sector:* Direct uplift for NSE‑listed brokers and ancillary services; may spur further listings.\n\n🎲 *Impact Confidence Score:* 8/10  \n• *Rationale:* Concrete filing with clear regulatory path; market reaction already trending positive.",
-    "lastEmbedding": null
+    "lastEmbedding": null,
+    "consecutiveFailures": 1
   }
 }
