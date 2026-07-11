@@ -99,8 +99,25 @@ async function gitSync() {
       await runCmd('git commit -m "Local config and state update [skip ci]"');
     }
 
-    // 3. Pull with rebase from remote counterpart (non-blocking, auto-resolving conflicts in favor of cloud runner's state)
-    await runCmd('git -c core.editor=true pull --rebase -X ours origin HEAD');
+    // 3. Pull with rebase from remote counterpart. Auto-stash dirty working changes, pull, and pop stash.
+    let stashed = false;
+    try {
+      const status = await runCmd('git status --porcelain');
+      // Check if there are unstaged changes (staged ones are committed above)
+      if (status.trim()) {
+        await runCmd('git stash -u');
+        stashed = true;
+      }
+      await runCmd('git -c core.editor=true pull --rebase -X ours origin HEAD');
+    } finally {
+      if (stashed) {
+        try {
+          await runCmd('git stash pop');
+        } catch (stashErr) {
+          console.error('Stash pop warning:', stashErr.message);
+        }
+      }
+    }
     
     // 4. Push changes back
     await runCmd('git push origin HEAD');
@@ -211,9 +228,33 @@ function calculateLocalSimilarity(str1, str2) {
   return dotProduct / (Math.sqrt(mag1) * Math.sqrt(mag2));
 }
 
-// Scrape webpage context using native fetch and cleaning HTML tags
+// Scrape webpage context using Jina Reader (with local raw HTML parser fallback)
 async function scrapeWebpage(url) {
   logDebug(`Scraping webpage: ${url}`);
+  
+  // 1. Try Jina Reader first for ultra-clean Markdown context
+  try {
+    logDebug(`Attempting clean markdown scrape via Jina Reader for: ${url}`);
+    const jinaResponse = await fetch(`https://r.jina.ai/${url}`, {
+      signal: AbortSignal.timeout(10000),
+      headers: {
+        'User-Agent': 'Telegram-Cron-Alerts-Scraper/1.0'
+      }
+    });
+    
+    if (jinaResponse.ok) {
+      const text = await jinaResponse.text();
+      if (text && text.trim().length > 100) {
+        logDebug(`Jina Reader scrape successful! Length: ${text.length} chars.`);
+        return text.trim().substring(0, 15000); // Truncate to avoid context window blowouts
+      }
+    }
+    logDebug(`Jina Reader returned empty or non-200 status: ${jinaResponse.status}. Falling back to raw HTML scraper.`);
+  } catch (jinaErr) {
+    logDebug(`Jina Reader failed: ${jinaErr.message}. Falling back to raw HTML scraper.`);
+  }
+
+  // 2. Raw HTML scraper fallback
   try {
     const response = await fetch(url, {
       signal: AbortSignal.timeout(10000), // 10s scraping timeout limit
@@ -237,10 +278,14 @@ async function scrapeWebpage(url) {
     // Normalize spaces and trim
     text = text.replace(/\s+/g, ' ').trim();
     
-    // Limit to 5000 characters
+    if (text.length === 0) {
+      throw new Error('Webpage returned empty text content.');
+    }
+    
+    // Limit to 5000 characters for fallback
     return text.substring(0, 5000);
   } catch (err) {
-    logDebug(`Scraping failed: ${err.message}`);
+    logDebug(`Raw HTML scraping failed: ${err.message}`);
     throw new Error(`Failed to scrape ${url}: ${err.message}`);
   }
 }
