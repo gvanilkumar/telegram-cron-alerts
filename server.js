@@ -611,7 +611,7 @@ app.get('/api/ai/models', async (req, res) => {
   }
 
   try {
-    const response = await fetchWithRetry(modelsUrl, {
+    const response = await fetch(modelsUrl, {
       headers: { 'Authorization': `Bearer ${apiKey}` }
     });
     if (!response.ok) {
@@ -825,32 +825,42 @@ app.post('/api/prompt/simulate', async (req, res) => {
   }
 
   try {
+    const provider = config.settings.aiProvider || 'auto';
+    const groqModel = config.settings.groqModel || 'groq/compound';
+    const isCompound = (provider === 'groq' || (provider === 'auto' && geminiApiKey && geminiApiKey.startsWith('gsk_')))
+      && groqModel.startsWith('groq/compound');
+
     let promptText = prompt;
     if (type === 'ai') {
-      let targetUrl = url;
-      let isFallback = false;
-      if (!targetUrl) {
-        const searchQuery = name || 'financial news';
-        targetUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=en-US&gl=US&ceid=US:en`;
-        isFallback = true;
-      }
-
-      try {
-        const pageText = await scrapeWebpage(targetUrl);
-        if (isFallback) {
-          logger.debug(`Simulation: Auto-scraped Google News RSS search query for: "${name || 'unnamed'}"`);
-          promptText = `Context from news search:\n---\n${pageText}\n---\n\nUser Request: ${prompt}`;
-        } else {
-          promptText = `Context from webpage (${targetUrl}):\n---\n${pageText}\n---\n\nUser Request: ${prompt}`;
+      if (!isCompound) {
+        let targetUrl = url;
+        let isFallback = false;
+        if (!targetUrl) {
+          const searchQuery = name || 'financial news';
+          targetUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=en-US&gl=US&ceid=US:en`;
+          isFallback = true;
         }
-      } catch (scrapeErr) {
-        promptText = `[Note: Scraper failed to fetch page content: ${scrapeErr.message}]\n\nUser Request: ${prompt}`;
+
+        try {
+          const pageText = await scrapeWebpage(targetUrl);
+          if (isFallback) {
+            logger.debug(`Simulation: Auto-scraped Google News RSS search query for: "${name || 'unnamed'}"`);
+            promptText = `Context from news search:\n---\n${pageText}\n---\n\nUser Request: ${prompt}`;
+          } else {
+            promptText = `Context from webpage (${targetUrl}):\n---\n${pageText}\n---\n\nUser Request: ${prompt}`;
+          }
+        } catch (scrapeErr) {
+          promptText = `[Note: Scraper failed to fetch page content: ${scrapeErr.message}]\n\nUser Request: ${prompt}`;
+        }
+      } else {
+        logger.debug(`Simulation: Skipping scrape for groq/compound — model has built-in web search.`);
+        const hint = url ? ` Search this page for context: ${url}` : (name ? ` Search the web for: ${name}` : '');
+        promptText = `${prompt}${hint}`;
       }
     }
 
     let alertMessage = '';
     if (type === 'ai') {
-      const provider = config.settings.aiProvider || 'auto';
       if (provider === 'custom' && config.customApiEndpoint) {
         alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
       } else if (provider === 'groq') {
