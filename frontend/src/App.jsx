@@ -37,8 +37,13 @@ export default function App() {
     slackWebhookUrl: '',
     customApiEndpoint: '',
     customAiModel: '',
+    timezone: '',
     autoSync: false
   });
+
+  // Live cron validation states
+  const [cronValidation, setCronValidation] = useState({ valid: true, error: null, nextRuns: [] });
+  const [validatingCron, setValidatingCron] = useState(false);
 
   // Fetch initial data
   useEffect(() => {
@@ -54,6 +59,36 @@ export default function App() {
       return () => clearTimeout(timer);
     }
   }, [toast]);
+
+  // Live cron validation effect
+  useEffect(() => {
+    const isPreset = ['5m', '15m', '1h', '5h', 'daily', 'weekly', 'monthly'].includes(taskForm.schedule);
+    if (isPreset) {
+      setCronValidation({ valid: true, error: null, nextRuns: [] });
+      return;
+    }
+
+    const validateCron = async () => {
+      setValidatingCron(true);
+      try {
+        const tz = settingsForm.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+        const res = await fetch(`/api/cron/validate?expr=${encodeURIComponent(taskForm.schedule)}&tz=${encodeURIComponent(tz)}`);
+        const data = await res.json();
+        if (data.valid) {
+          setCronValidation({ valid: true, error: null, nextRuns: data.nextRuns });
+        } else {
+          setCronValidation({ valid: false, error: data.error, nextRuns: [] });
+        }
+      } catch (err) {
+        setCronValidation({ valid: false, error: err.message, nextRuns: [] });
+      } finally {
+        setValidatingCron(false);
+      }
+    };
+
+    const delayDebounce = setTimeout(validateCron, 500);
+    return () => clearTimeout(delayDebounce);
+  }, [taskForm.schedule, settingsForm.timezone]);
 
   const showToast = (message, type = 'success') => {
     setToast({ message, type });
@@ -95,6 +130,7 @@ export default function App() {
         slackWebhookUrl: '',
         customApiEndpoint: data.customApiEndpoint || '',
         customAiModel: data.customAiModel || '',
+        timezone: data.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
         autoSync: data.autoSync
       });
     } catch (err) {
@@ -652,19 +688,59 @@ export default function App() {
                       id="task-schedule"
                       name="schedule" 
                       className="form-control"
-                      value={taskForm.schedule}
-                      onChange={handleTaskFormChange}
+                      value={['5m', '15m', '1h', '5h', 'daily', 'weekly', 'monthly'].includes(taskForm.schedule) ? taskForm.schedule : 'custom'}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (val === 'custom') {
+                          setTaskForm(prev => ({ ...prev, schedule: '*/15 * * * *' })); // default custom cron
+                        } else {
+                          setTaskForm(prev => ({ ...prev, schedule: val }));
+                        }
+                      }}
                     >
                       <option value="5m">Every 5 Minutes</option>
                       <option value="15m">Every 15 Minutes</option>
                       <option value="1h">Every Hour</option>
                       <option value="5h">Every 5 Hours</option>
-                      <option value="daily">Daily</option>
-                      <option value="weekly">Weekly</option>
-                      <option value="monthly">Monthly</option>
+                      <option value="daily">Daily at 9:00 AM</option>
+                      <option value="weekly">Weekly (Sunday 9:00 AM)</option>
+                      <option value="monthly">Monthly (1st at 9:00 AM)</option>
+                      <option value="custom">Custom Cron Expression...</option>
                     </select>
                   </div>
                 </div>
+
+                {!['5m', '15m', '1h', '5h', 'daily', 'weekly', 'monthly'].includes(taskForm.schedule) && (
+                  <div className="form-group" style={{ marginTop: '0.75rem' }}>
+                    <label htmlFor="task-custom-cron">Custom Cron Expression</label>
+                    <input 
+                      type="text" 
+                      id="task-custom-cron"
+                      name="schedule" 
+                      className="form-control"
+                      placeholder="e.g. */10 9-17 * * 1-5"
+                      value={taskForm.schedule}
+                      onChange={handleTaskFormChange}
+                      required
+                    />
+                    <small style={{ display: 'block', marginTop: '0.35rem' }}>
+                      {validatingCron ? (
+                        <span style={{ color: 'var(--text-dark)' }}>⏳ Validating schedule...</span>
+                      ) : cronValidation.valid ? (
+                        <span style={{ color: 'var(--color-success)' }}>
+                          ✓ Valid Cron. Next local runs: 
+                          <ul style={{ margin: '0.2rem 0 0 1rem', padding: 0 }}>
+                            {cronValidation.nextRuns.map((time, idx) => (
+                              <li key={idx}>{new Date(time).toLocaleString()}</li>
+                            ))}
+                          </ul>
+                        </span>
+                      ) : (
+                        <span style={{ color: '#ef4444' }}>✗ Invalid Cron: {cronValidation.error}</span>
+                      )}
+                    </small>
+                  </div>
+                )}
 
                 {taskForm.type === 'ai' && (
                   <div className="form-group">
@@ -778,7 +854,12 @@ export default function App() {
                 )}
 
                 <div className="flex-gap-2 mt-4">
-                  <button type="submit" className="btn btn-primary" disabled={loading} style={{ flexGrow: 1 }}>
+                  <button 
+                    type="submit" 
+                    className="btn btn-primary" 
+                    disabled={loading || (!['5m', '15m', '1h', '5h', 'daily', 'weekly', 'monthly'].includes(taskForm.schedule) && !cronValidation.valid)} 
+                    style={{ flexGrow: 1 }}
+                  >
                     {editingTask ? 'Update Task' : 'Create Task'}
                   </button>
                   {editingTask && (
@@ -976,6 +1057,30 @@ export default function App() {
                   <label htmlFor="autoSync" style={{ margin: 0, cursor: 'pointer' }}>
                     Auto-sync configurations with GitHub on save
                   </label>
+                </div>
+
+                <div className="form-group" style={{ marginTop: '1rem' }}>
+                  <label htmlFor="timezone">Scheduler Timezone</label>
+                  <select 
+                    id="timezone"
+                    name="timezone" 
+                    className="form-control"
+                    value={settingsForm.timezone}
+                    onChange={handleSettingsChange}
+                  >
+                    <option value="UTC">UTC</option>
+                    <option value="Asia/Kolkata">Asia/Kolkata (IST - India)</option>
+                    <option value="America/New_York">America/New_York (EST - New York)</option>
+                    <option value="Europe/London">Europe/London (GMT - London)</option>
+                    <option value="Asia/Singapore">Asia/Singapore (SGT - Singapore)</option>
+                    <option value="America/Los_Angeles">America/Los_Angeles (PST - Pacific Time)</option>
+                    <option value="Europe/Paris">Europe/Paris (CET - Paris)</option>
+                    <option value="Asia/Tokyo">Asia/Tokyo (JST - Tokyo)</option>
+                    <option value="Australia/Sydney">Australia/Sydney (AEDT - Sydney)</option>
+                  </select>
+                  <small style={{ display: 'block', marginTop: '0.25rem', color: 'var(--text-dark)' }}>
+                    Your alerts and scheduling calculations will respect this timezone. (Auto-detected: <code>{Intl.DateTimeFormat().resolvedOptions().timeZone}</code>)
+                  </small>
                 </div>
 
                 <div className="flex-gap-2">
