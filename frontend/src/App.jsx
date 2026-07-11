@@ -1170,7 +1170,7 @@ export default function App() {
                 <li>
                   <strong>Create a GitHub PAT:</strong>
                   <p className="mt-1">
-                    Create a <a href="https://github.com/settings/tokens/new?scopes=workflow" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>Personal Access Token (Classic)</a> with <code>workflow</code> scope selected.
+                    Create a <a href="https://github.com/settings/tokens/new?scopes=repo,workflow" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>Personal Access Token (Classic)</a> with both <strong><code>repo</code></strong> and <strong><code>workflow</code></strong> scopes selected (required for private repositories).
                   </p>
                 </li>
                 <li>
