@@ -55,42 +55,11 @@ if (!fs.existsSync(stateManager.logsPath)) {
   fs.writeFileSync(stateManager.logsPath, '[]', 'utf8');
 }
 
-<<<<<<< Updated upstream
 /**
  * Parses GitHub repository name/owner from Git configuration.
  * @returns {Promise<string>}
  */
 async function getGitRepoPath() {
-=======
-// Helper to run shell commands
-function runCmd(command) {
-  return new Promise((resolve, reject) => {
-    exec(command, { cwd: rootDir }, (error, stdout, stderr) => {
-      if (error) {
-        reject(new Error(stderr.trim() || error.message));
-      } else {
-        resolve(stdout.trim());
-      }
-    });
-  });
-}
-
-// Convert Markdown formatting to Telegram HTML format
-function convertMarkdownToHtml(markdownText) {
-  if (!markdownText) return '';
-  // Convert [text](url) to <a href="$2">$1</a>
-  let html = markdownText.replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, '<a href="$2">$1</a>');
-  // Convert **bold** to <b>bold</b>
-  html = html.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
-  return html;
-}
-
-// Git Sync helper
-async function gitSync() {
-  const settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
-  if (!settings.autoSync) return { synced: false, message: 'Auto-sync is disabled' };
-
->>>>>>> Stashed changes
   try {
     const url = await runCmd('git config --get remote.origin.url');
     if (!url) return '';
@@ -772,7 +741,7 @@ Return ONLY the final enhanced prompt text inside your response. Do not include 
     if (provider === 'custom' && config.customApiEndpoint) {
       enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
     } else if (provider === 'groq') {
-      enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama-3.3-70b-versatile');
+      enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'compound');
     } else if (provider === 'cerebras') {
       enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'gpt-oss-120b');
     } else if (provider === 'openai') {
@@ -783,7 +752,7 @@ Return ONLY the final enhanced prompt text inside your response. Do not include 
       if (config.customApiEndpoint) {
         enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
       } else if (geminiApiKey.startsWith('gsk_')) {
-        enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama-3.3-70b-versatile');
+        enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'compound');
       } else if (geminiApiKey.startsWith('cbs-') || geminiApiKey.startsWith('csk-')) {
         enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'gpt-oss-120b');
       } else if (geminiApiKey.startsWith('sk-')) {
@@ -856,7 +825,7 @@ app.post('/api/prompt/simulate', async (req, res) => {
       if (provider === 'custom' && config.customApiEndpoint) {
         alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
       } else if (provider === 'groq') {
-        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama-3.3-70b-versatile');
+        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'compound');
       } else if (provider === 'cerebras') {
         alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'gpt-oss-120b');
       } else if (provider === 'openai') {
@@ -867,7 +836,7 @@ app.post('/api/prompt/simulate', async (req, res) => {
         if (config.customApiEndpoint) {
           alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
         } else if (geminiApiKey.startsWith('gsk_')) {
-          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama-3.3-70b-versatile');
+          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'compound');
         } else if (geminiApiKey.startsWith('cbs-') || geminiApiKey.startsWith('csk-')) {
           alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'gpt-oss-120b');
         } else if (geminiApiKey.startsWith('sk-')) {
