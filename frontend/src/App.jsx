@@ -525,10 +525,21 @@ export default function App() {
       {/* Header */}
       <header className="app-header">
         <div className="logo-section">
-          <div className="logo-icon">🔔</div>
+          <div className="logo-icon" style={{ display: 'flex', alignItems: 'center' }}>
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 0 8px var(--accent-cyan))' }}>
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="var(--accent-cyan)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M2 17L12 22L22 17" stroke="var(--accent-purple)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M2 12L12 17L22 12" stroke="var(--accent-cyan)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <circle cx="12" cy="7" r="2" fill="var(--text-main)" />
+            </svg>
+          </div>
           <div className="logo-text">
-            <h1>Telegram Alerts</h1>
-            <p>GitHub Actions Serverless Scheduler</p>
+            <h1 style={{ background: 'linear-gradient(135deg, var(--text-main) 30%, var(--accent-cyan) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontWeight: '800', letterSpacing: '0.5px', margin: 0 }}>
+              AuraVigil
+            </h1>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', letterSpacing: '0.2px', margin: 0 }}>
+              Serverless Web Sentinels & AI Alert Scheduler
+            </p>
           </div>
         </div>
 
