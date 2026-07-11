@@ -1,4 +1,101 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+
+// Dynamic model picker: fetches models live from the selected provider
+function DynamicModelPicker({ provider, apiKey, savedApiKey, endpoint, value, onChange }) {
+  const [models, setModels] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [fetched, setFetched] = useState(false);
+
+  const fetchModels = useCallback(async () => {
+    const key = apiKey || savedApiKey;
+    if (!key || key === '(saved)' && !apiKey) {
+      // Use saved key on server side — still call the endpoint
+    }
+    setLoading(true);
+    setError('');
+    try {
+      const params = new URLSearchParams({ provider });
+      if (apiKey) params.set('key', apiKey);
+      if (endpoint) params.set('endpoint', endpoint);
+      const res = await fetch(`/api/ai/models?${params}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to load models');
+      setModels(data.models || []);
+      setFetched(true);
+      // Auto-select first if current value not in list
+      if (data.models?.length && !data.models.find(m => m.id === value)) {
+        onChange(data.models[0].id);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [provider, apiKey, endpoint]);
+
+  useEffect(() => {
+    fetchModels();
+  }, [fetchModels]);
+
+  const label = provider === 'groq' ? 'Groq Model' : provider === 'openai' ? 'OpenAI Model' : 'Model';
+
+  return (
+    <div className="form-group">
+      <label htmlFor="dynamicModel" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        {label}
+        <button
+          type="button"
+          onClick={fetchModels}
+          disabled={loading}
+          style={{
+            background: 'none', border: 'none', cursor: loading ? 'default' : 'pointer',
+            fontSize: '0.8rem', color: 'var(--accent)', padding: '0 4px',
+            opacity: loading ? 0.5 : 1
+          }}
+          title="Refresh model list"
+        >
+          {loading ? '⏳' : '🔄'} {loading ? 'Loading…' : 'Refresh'}
+        </button>
+      </label>
+
+      {error && (
+        <div style={{ color: '#f87171', fontSize: '0.82rem', marginBottom: '0.4rem' }}>
+          ⚠️ {error}
+        </div>
+      )}
+
+      {loading && !fetched ? (
+        <div className="form-control" style={{ color: 'var(--text-dark)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <span style={{ animation: 'spin 1s linear infinite', display: 'inline-block' }}>⏳</span> Fetching models from API…
+        </div>
+      ) : models.length > 0 ? (
+        <>
+          <select
+            id="dynamicModel"
+            className="form-control"
+            value={value}
+            onChange={e => onChange(e.target.value)}
+          >
+            {models.map(m => (
+              <option key={m.id} value={m.id}>{m.name || m.id}</option>
+            ))}
+          </select>
+          {value?.startsWith('groq/compound') && (
+            <small style={{ display: 'block', marginTop: '0.25rem', color: 'var(--text-dark)' }}>
+              ✨ Compound models search the web automatically — no URL needed in tasks.
+            </small>
+          )}
+        </>
+      ) : fetched ? (
+        <div style={{ color: 'var(--text-dark)', fontSize: '0.85rem' }}>
+          No models found. Enter your API key above and click 🔄 Refresh.
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -39,7 +136,8 @@ export default function App() {
     customAiModel: '',
     timezone: '',
     autoSync: false,
-    aiProvider: 'auto'
+    aiProvider: 'auto',
+    groqModel: 'groq/compound'
   });
 
   // Live cron validation states
@@ -215,7 +313,8 @@ export default function App() {
         customAiModel: data.customAiModel || '',
         timezone: data.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
         autoSync: data.autoSync,
-        aiProvider: data.aiProvider || 'auto'
+        aiProvider: data.aiProvider || 'auto',
+        groqModel: data.groqModel || 'groq/compound'
       });
     } catch (err) {
       showToast(err.message, 'error');
@@ -1359,6 +1458,17 @@ export default function App() {
                     <option value="custom">Custom OpenAI-Compatible API</option>
                   </select>
                 </div>
+
+                {(settingsForm.aiProvider === 'groq' || settingsForm.aiProvider === 'openai' || settingsForm.aiProvider === 'custom') && (
+                  <DynamicModelPicker
+                    provider={settingsForm.aiProvider}
+                    apiKey={settingsForm.geminiApiKey}
+                    savedApiKey={settings.credentialsConfigured?.geminiApiKey ? '(saved)' : ''}
+                    endpoint={settingsForm.customApiEndpoint}
+                    value={settingsForm.groqModel}
+                    onChange={(val) => setSettingsForm(prev => ({ ...prev, groqModel: val }))}
+                  />
+                )}
 
                 <div className="form-group">
                   <label htmlFor="geminiApiKey">AI API Key (Gemini / Groq / OpenAI / Custom)</label>
