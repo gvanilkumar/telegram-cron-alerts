@@ -484,6 +484,14 @@ app.get('/api/settings', (req, res) => {
   }
 });
 
+// Helper to ignore masked placeholders or empty autofills when saving settings
+function getCleanCredential(newValue, existingValue) {
+  if (!newValue || newValue.includes('...')) {
+    return existingValue || '';
+  }
+  return newValue.trim();
+}
+
 // Update settings & credentials
 app.post('/api/settings', (req, res) => {
   try {
@@ -495,11 +503,11 @@ app.post('/api/settings', (req, res) => {
 
     // 2. Save credentials in .env if provided
     let envContent = '';
-    const token = req.body.telegramBotToken || process.env.TELEGRAM_BOT_TOKEN || '';
-    const chat = req.body.telegramChatId || process.env.TELEGRAM_CHAT_ID || '';
-    const gemini = req.body.geminiApiKey || process.env.GEMINI_API_KEY || '';
-    const discord = req.body.discordWebhookUrl || process.env.DISCORD_WEBHOOK_URL || '';
-    const slack = req.body.slackWebhookUrl || process.env.SLACK_WEBHOOK_URL || '';
+    const token = getCleanCredential(req.body.telegramBotToken, process.env.TELEGRAM_BOT_TOKEN);
+    const chat = getCleanCredential(req.body.telegramChatId, process.env.TELEGRAM_CHAT_ID);
+    const gemini = getCleanCredential(req.body.geminiApiKey, process.env.GEMINI_API_KEY);
+    const discord = getCleanCredential(req.body.discordWebhookUrl, process.env.DISCORD_WEBHOOK_URL);
+    const slack = getCleanCredential(req.body.slackWebhookUrl, process.env.SLACK_WEBHOOK_URL);
 
     envContent += `TELEGRAM_BOT_TOKEN=${token}\n`;
     envContent += `TELEGRAM_CHAT_ID=${chat}\n`;
