@@ -1,8 +1,9 @@
 {
   "task_eec29pse1": 1783757950989,
   "task_ak83xn71j": {
-    "lastRun": 1783786724233,
+    "lastRun": 1783786847649,
     "lastAlertText": "🚨 Indian Market Update:\n* Indian shares rise to 10-week high; HDFC Bank leads after strong Q1 growth\n* Datetime: Sat, 11 Jul 2026 16:15:03 GMT\n* Source: [Reuters](https://news.google.com/rss/articles/CBMisgFBVV95cUxOREQtVVJtV3Q4TTZ2WXltcmxiS24tUzY2ZWxBM2JVYVpuMm9UNTNKb3Mzb1Z4aGpyZEs0VFAtNW5RY0djZ0U2YzNySG1jWkwtS2V4RmhkM3pocm4zLU1xQWtNZEpfTzdOLURIZE1fdWgtcVNnZmZKNXZ3T3BCWExTY0NOWTZIN0xmaWRHV3M2dTlmZDJWTVY2MGlNNEcyRGQ4ZlZZaFhmVjJfTXpQeFAwVGdn?oc=5)\n* Confidence score: 0.8\n* Recommendation: re-enter the market",
-    "lastEmbedding": null
+    "lastEmbedding": null,
+    "consecutiveFailures": 1
   }
 }
