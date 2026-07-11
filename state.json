@@ -1,9 +1,8 @@
 {
   "task_eec29pse1": 1783757950989,
   "task_ak83xn71j": {
-    "lastRun": 1783787470847,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n\n• *Source/Speaker:* Indian Market Update \n• *Announcement:* Indian shares rise to 10-week high; HDFC Bank leads after strong Q1 growth. \n• *Market Stance:* 🟢 BULLISH for India\n\n📊 *CONFIDENCE LEVEL:* HIGH (95% — Reason: Strong Q1 growth indicates a positive market trend)\n\n🎯 *INDIAN MARKET IMPACT ARCHETYPE:*\n• *Directly Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Banking, Finance\n• *Expected FII Sentiment:* Net Inflows\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Watch for continued growth in the Banking sector, and monitor the Nifty Bank index for potential buying opportunities.",
-    "lastEmbedding": null,
-    "consecutiveFailures": 1
+    "lastRun": 1783787488093,
+    "lastAlertText": "🌐 *GLOBAL ALERT: INDIAN MARKET IMPACT*\n\n🔍 *Event:* Indian shares rise to 10-week high, led by HDFC Bank after strong Q1 growth.\n👤 *Source:* Reuters\n\n📊 *Market Sentiment Impact:* Bullish\n🎯 *Primary Sectors Affected:* #Banking #Finance\n\n💡 *Transmission Mechanism:*\n• *Macro/Currency:* Strong Q1 growth may attract FII flows, supporting the INR.\n• *Micro/Sector:* HDFC Bank's strong performance may boost investor confidence in the banking sector.\n\n🎲 *Impact Confidence Score:* 8/10\n• *Rationale:* The news is based on a concrete Q1 earnings report, making it a reliable indicator of market sentiment.",
+    "lastEmbedding": null
   }
 }
