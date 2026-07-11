@@ -370,33 +370,7 @@ app.post('/api/tasks/:id/run', async (req, res) => {
 
     if (channels.includes('telegram')) {
       try {
-<<<<<<< Updated upstream
         await sendTelegramMessage(alertMessage, task.name, botToken, chatId);
-=======
-        const htmlContent = convertMarkdownToHtml(alertMessage);
-        const formattedText = `🔔 <b>Manual Run: ${task.name}</b>\n\n${htmlContent}`;
-        const tgUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-        let tgRes = await fetchWithRetry(tgUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: chatId,
-            text: formattedText,
-            parse_mode: 'HTML',
-          })
-        });
-        if (!tgRes.ok) {
-          const errorData = await tgRes.json();
-          logDebug(`HTML parsing failed for Telegram manual run (${errorData.description}). Retrying in plain text.`);
-          const plainText = `🔔 Manual Run: ${task.name}\n\n${alertMessage}`;
-          tgRes = await fetchWithRetry(tgUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: chatId, text: plainText })
-          });
-        }
-        if (!tgRes.ok) throw new Error(`Telegram returned status ${tgRes.status}`);
->>>>>>> Stashed changes
       } catch (err) {
         deliveryErrors.push(`Telegram: ${err.message}`);
       }
