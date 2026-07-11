@@ -110,6 +110,106 @@ async function gitSync() {
   }
 }
 
+// Get vector embedding from Google Gemini API
+async function getGeminiEmbedding(text, apiKey) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key=${apiKey}`;
+  const response = await fetchWithRetry(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      content: {
+        parts: [{ text: text }]
+      }
+    })
+  });
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`Gemini Embedding API returned status ${response.status}: ${errText}`);
+  }
+  const data = await response.json();
+  const values = data.embedding?.values;
+  if (!values) throw new Error('Empty embedding values from Gemini');
+  return values;
+}
+
+// Get vector embedding from OpenAI API
+async function getOpenAiEmbedding(text, apiKey) {
+  const url = 'https://api.openai.com/v1/embeddings';
+  const response = await fetchWithRetry(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      input: text,
+      model: 'text-embedding-3-small'
+    })
+  });
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`OpenAI Embedding API returned status ${response.status}: ${errText}`);
+  }
+  const data = await response.json();
+  const values = data.data?.[0]?.embedding;
+  if (!values) throw new Error('Empty embedding values from OpenAI');
+  return values;
+}
+
+// Generic embedding retriever with error handling
+async function getEmbedding(text, apiKey) {
+  if (!apiKey || !text) return null;
+  try {
+    if (apiKey.startsWith('sk-')) {
+      return await getOpenAiEmbedding(text, apiKey);
+    } else if (!apiKey.startsWith('gsk_')) {
+      return await getGeminiEmbedding(text, apiKey);
+    }
+  } catch (err) {
+    logDebug(`Warning: Embedding generation failed (${err.message}). Falling back to local similarity.`);
+  }
+  return null;
+}
+
+// Calculate Cosine Similarity between two numerical vectors
+function calculateCosineSimilarity(vec1, vec2) {
+  if (!vec1 || !vec2 || vec1.length !== vec2.length) return 0;
+  let dotProduct = 0;
+  let normA = 0;
+  let normB = 0;
+  for (let i = 0; i < vec1.length; i++) {
+    dotProduct += vec1[i] * vec2[i];
+    normA += vec1[i] * vec1[i];
+    normB += vec2[i] * vec2[i];
+  }
+  if (normA === 0 || normB === 0) return 0;
+  return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+}
+
+// Local word-frequency Cosine similarity fallback
+function calculateLocalSimilarity(str1, str2) {
+  if (!str1 || !str2) return 0;
+  const tokenize = text => text.toLowerCase().replace(/[^\w\s]/g, ' ').split(/\s+/).filter(w => w.length > 0);
+  const words1 = tokenize(str1);
+  const words2 = tokenize(str2);
+  if (words1.length === 0 || words2.length === 0) return 0;
+  const freq1 = {};
+  const freq2 = {};
+  const allWords = new Set([...words1, ...words2]);
+  words1.forEach(w => freq1[w] = (freq1[w] || 0) + 1);
+  words2.forEach(w => freq2[w] = (freq2[w] || 0) + 1);
+  let dotProduct = 0, mag1 = 0, mag2 = 0;
+  allWords.forEach(w => {
+    const v1 = freq1[w] || 0;
+    const v2 = freq2[w] || 0;
+    dotProduct += v1 * v2;
+    mag1 += v1 * v1;
+    mag2 += v2 * v2;
+  });
+  if (mag1 === 0 || mag2 === 0) return 0;
+  return dotProduct / (Math.sqrt(mag1) * Math.sqrt(mag2));
+}
+
 // Scrape webpage context using native fetch and cleaning HTML tags
 async function scrapeWebpage(url) {
   logDebug(`Scraping webpage: ${url}`);
@@ -236,6 +336,8 @@ app.post('/api/tasks', async (req, res) => {
       schedule: req.body.schedule, // '5m', '15m', '1h', etc.
       url: req.body.url || "",
       channels: req.body.channels || ['telegram'],
+      deduplicate: !!req.body.deduplicate,
+      threshold: req.body.threshold !== undefined ? parseFloat(req.body.threshold) : 0.90,
       active: true,
       createdAt: new Date().toISOString(),
     };
@@ -275,6 +377,8 @@ app.put('/api/tasks/:id', async (req, res) => {
       schedule: req.body.schedule !== undefined ? req.body.schedule : tasks[index].schedule,
       url: req.body.url !== undefined ? req.body.url : tasks[index].url,
       channels: req.body.channels !== undefined ? req.body.channels : tasks[index].channels,
+      deduplicate: req.body.deduplicate !== undefined ? !!req.body.deduplicate : tasks[index].deduplicate,
+      threshold: req.body.threshold !== undefined ? parseFloat(req.body.threshold) : (tasks[index].threshold !== undefined ? tasks[index].threshold : 0.90),
       active: req.body.active !== undefined ? req.body.active : tasks[index].active,
       updatedAt: new Date().toISOString(),
     };
@@ -395,8 +499,94 @@ app.post('/api/tasks/:id/run', async (req, res) => {
       alertMessage = task.prompt;
     }
 
-    if (!alertMessage) {
-      throw new Error('Generated content was empty.');
+    // Retrieve deduplication config
+    let shouldSkip = false;
+    let similarityScore = 0;
+    let newVector = null;
+    let prevText = null;
+    let prevVector = null;
+
+    let state = {};
+    if (fs.existsSync(statePath)) {
+      try {
+        state = JSON.parse(fs.readFileSync(statePath, 'utf8'));
+      } catch (e) {
+        logDebug('Error parsing state in manual run');
+      }
+    }
+
+    if (task.deduplicate && task.type === 'ai') {
+      const taskState = state[task.id];
+      if (taskState && typeof taskState === 'object') {
+        prevText = taskState.lastAlertText;
+        prevVector = taskState.lastEmbedding;
+      }
+      
+      if (prevText) {
+        // Get embedding of new candidate alert message
+        newVector = await getEmbedding(alertMessage, geminiApiKey);
+        
+        if (newVector && prevVector && Array.isArray(newVector) && Array.isArray(prevVector)) {
+          similarityScore = calculateCosineSimilarity(newVector, prevVector);
+          logDebug(`Semantic similarity (Manual Run Neural): ${Math.round(similarityScore * 100)}%`);
+        } else {
+          similarityScore = calculateLocalSimilarity(alertMessage, prevText);
+          logDebug(`Semantic similarity (Manual Run Local Fallback): ${Math.round(similarityScore * 100)}%`);
+        }
+        
+        const threshold = task.threshold !== undefined ? task.threshold : 0.90;
+        if (similarityScore >= threshold) {
+          shouldSkip = true;
+        }
+      }
+    }
+
+    if (shouldSkip) {
+      logDebug(`Skipping alert delivery for manual run task "${task.name}". Similarity is above threshold (${Math.round(similarityScore * 100)}% >= ${Math.round((task.threshold || 0.90) * 100)}%).`);
+      
+      // Update state: retain previous baseline
+      state[task.id] = {
+        lastRun: Date.now(),
+        lastAlertText: prevText,
+        lastEmbedding: prevVector
+      };
+      fs.writeFileSync(statePath, JSON.stringify(state, null, 2), 'utf8');
+
+      // Write skipped log
+      const logEntry = {
+        timestamp: new Date().toISOString(),
+        taskId: task.id,
+        taskName: task.name,
+        schedule: task.schedule,
+        status: 'skipped',
+        output: `[Manual Run Skipped] Similarity (${Math.round(similarityScore * 100)}%) is above threshold.`
+      };
+
+      let existingLogs = [];
+      if (fs.existsSync(logsPath)) {
+        existingLogs = JSON.parse(fs.readFileSync(logsPath, 'utf8'));
+      }
+      const combinedLogs = [logEntry, ...existingLogs].slice(0, 200);
+      fs.writeFileSync(logsPath, JSON.stringify(combinedLogs, null, 2), 'utf8');
+
+      // Trigger sync
+      let syncStatus = { synced: false, message: 'Auto-sync not triggered' };
+      try {
+        syncStatus = await gitSync();
+      } catch (syncErr) {
+        syncStatus = { synced: false, error: syncErr.message };
+      }
+
+      return res.json({ 
+        success: true, 
+        message: `Alert skipped (similarity ${Math.round(similarityScore * 100)}% is above threshold).`, 
+        sync: syncStatus 
+      });
+    }
+
+    // Generate new embedding vector if we haven't already
+    if (task.deduplicate && task.type === 'ai' && !newVector) {
+      newVector = await getEmbedding(alertMessage, geminiApiKey);
     }
 
     // Deliver to selected channels
@@ -419,7 +609,7 @@ app.post('/api/tasks/:id/run', async (req, res) => {
           const errorData = await tgRes.json();
           if (errorData.description && errorData.description.includes('can\'t parse')) {
             const plainText = `🔔 Manual Run: ${task.name}\n\n${alertMessage}`;
-             tgRes = await fetchWithRetry(tgUrl, {
+            tgRes = await fetchWithRetry(tgUrl, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ chat_id: chatId, text: plainText })
@@ -467,11 +657,12 @@ app.post('/api/tasks/:id/run', async (req, res) => {
     }
 
     // Update state last run
-    if (fs.existsSync(statePath)) {
-      const state = JSON.parse(fs.readFileSync(statePath, 'utf8'));
-      state[task.id] = Date.now();
-      fs.writeFileSync(statePath, JSON.stringify(state, null, 2), 'utf8');
-    }
+    state[task.id] = {
+      lastRun: Date.now(),
+      lastAlertText: alertMessage,
+      lastEmbedding: newVector
+    };
+    fs.writeFileSync(statePath, JSON.stringify(state, null, 2), 'utf8');
 
     // Write to logs
     const logEntry = {

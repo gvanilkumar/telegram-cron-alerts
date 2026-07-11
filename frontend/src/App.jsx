@@ -23,7 +23,9 @@ export default function App() {
     prompt: '',
     schedule: '5m',
     url: '',
-    channels: ['telegram']
+    channels: ['telegram'],
+    deduplicate: false,
+    threshold: 0.90
   });
 
   // Settings credentials form state
@@ -102,8 +104,9 @@ export default function App() {
 
   // Task Handlers
   const handleTaskFormChange = (e) => {
-    const { name, value } = e.target;
-    setTaskForm(prev => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    const val = type === 'checkbox' ? checked : value;
+    setTaskForm(prev => ({ ...prev, [name]: val }));
   };
 
   const startEditTask = (task) => {
@@ -114,13 +117,15 @@ export default function App() {
       prompt: task.prompt,
       schedule: task.schedule,
       url: task.url || '',
-      channels: task.channels || ['telegram']
+      channels: task.channels || ['telegram'],
+      deduplicate: !!task.deduplicate,
+      threshold: task.threshold !== undefined ? task.threshold : 0.90
     });
   };
 
   const cancelEditTask = () => {
     setEditingTask(null);
-    setTaskForm({ name: '', type: 'ai', prompt: '', schedule: '5m', url: '', channels: ['telegram'] });
+    setTaskForm({ name: '', type: 'ai', prompt: '', schedule: '5m', url: '', channels: ['telegram'], deduplicate: false, threshold: 0.90 });
   };
 
   const handleSaveTask = async (e) => {
@@ -551,6 +556,18 @@ export default function App() {
                               {ch.toUpperCase()}
                             </span>
                           ))}
+                          {task.deduplicate && (
+                            <span style={{ 
+                              fontSize: '0.75rem', 
+                              padding: '0.1rem 0.35rem', 
+                              borderRadius: '4px',
+                              background: 'rgba(239,68,68,0.1)',
+                              color: '#f87171',
+                              border: '1px solid rgba(239,68,68,0.2)'
+                            }}>
+                              DEDUPLICATE ({Math.round(task.threshold * 100)}%)
+                            </span>
+                          )}
                         </div>
                         {task.url && (
                           <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.35rem', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', maxWidth: '250px' }}>
@@ -718,6 +735,47 @@ export default function App() {
                     </label>
                   </div>
                 </div>
+
+                {taskForm.type === 'ai' && (
+                  <div className="form-group" style={{ marginTop: '1.25rem' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer', margin: 0 }}>
+                      <input 
+                        type="checkbox" 
+                        name="deduplicate"
+                        style={{ width: '16px', height: '16px' }}
+                        checked={!!taskForm.deduplicate}
+                        onChange={handleTaskFormChange}
+                      />
+                      <span style={{ fontWeight: 'bold' }}>Deduplicate Alerts (Semantic AI Filter)</span>
+                    </label>
+                    <small style={{ display: 'block', marginTop: '0.25rem', color: 'var(--text-dark)' }}>
+                      Uses neural embeddings (Gemini/OpenAI) or semantic distance to skip duplicate or very similar updates.
+                    </small>
+
+                    {taskForm.deduplicate && (
+                      <div style={{ marginTop: '0.75rem', paddingLeft: '1.5rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                          <label htmlFor="task-threshold" style={{ margin: 0 }}>Similarity Threshold: <strong>{Math.round(taskForm.threshold * 100)}%</strong></label>
+                        </div>
+                        <input 
+                          type="range" 
+                          id="task-threshold"
+                          name="threshold" 
+                          min="0.50" 
+                          max="0.99" 
+                          step="0.01"
+                          className="form-control"
+                          style={{ padding: 0, height: 'auto', cursor: 'pointer' }}
+                          value={taskForm.threshold}
+                          onChange={handleTaskFormChange}
+                        />
+                        <small style={{ display: 'block', marginTop: '0.25rem', color: 'var(--text-dark)' }}>
+                          Higher % means alerts must be almost identical to be skipped. Lower % skips alerts that are broadly similar. (Recommended: 90%)
+                        </small>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 <div className="flex-gap-2 mt-4">
                   <button type="submit" className="btn btn-primary" disabled={loading} style={{ flexGrow: 1 }}>
