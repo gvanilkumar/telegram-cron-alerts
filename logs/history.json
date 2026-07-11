@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-07-11T17:28:10.104Z",
+    "taskId": "task_ak83xn71j",
+    "taskName": "Indian Market Update",
+    "schedule": "5m",
+    "status": "success",
+    "output": "[Manual Run] 🌐 *GLOBAL ALERT: INDIAN MARKET IMPACT*\n\n🔍 *Event:* NSE files for IPO amid surge in mega‑listings  \n👤 *Source:* National Stock Exchange of India (NS..."
+  },
+  {
     "timestamp": "2026-07-11T17:27:46.262Z",
     "taskId": "task_ak83xn71j",
     "taskName": "Indian Market Update",
