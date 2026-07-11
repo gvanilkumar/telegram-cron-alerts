@@ -258,18 +258,19 @@ app.post('/api/tasks/:id/run', async (req, res) => {
     }
 
     let alertMessage = '';
+    let provider = 'auto';
     if (task.type === 'ai') {
       if (!geminiApiKey) {
         return res.status(400).json({ error: 'AI API Key is not configured in Settings.' });
       }
 
-      const provider = config.settings.aiProvider || 'auto';
+      provider = config.settings.aiProvider || 'auto';
       if (provider === 'custom' && config.customApiEndpoint) {
         alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
       } else if (provider === 'groq') {
         alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama-3.3-70b-versatile');
       } else if (provider === 'cerebras') {
-        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'llama3.1-70b');
+        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'gpt-oss-120b');
       } else if (provider === 'openai') {
         alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.openai.com/v1/chat/completions', 'gpt-4o-mini');
       } else if (provider === 'gemini') {
@@ -279,8 +280,8 @@ app.post('/api/tasks/:id/run', async (req, res) => {
           alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
         } else if (geminiApiKey.startsWith('gsk_')) {
           alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama-3.3-70b-versatile');
-        } else if (geminiApiKey.startsWith('cbs-')) {
-          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'llama3.1-70b');
+        } else if (geminiApiKey.startsWith('cbs-') || geminiApiKey.startsWith('csk-')) {
+          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'gpt-oss-120b');
         } else if (geminiApiKey.startsWith('sk-')) {
           alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.openai.com/v1/chat/completions', 'gpt-4o-mini');
         } else {
@@ -716,7 +717,7 @@ Return ONLY the final enhanced prompt text inside your response. Do not include 
     } else if (provider === 'groq') {
       enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama-3.3-70b-versatile');
     } else if (provider === 'cerebras') {
-      enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'llama3.1-70b');
+      enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'gpt-oss-120b');
     } else if (provider === 'openai') {
       enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, 'https://api.openai.com/v1/chat/completions', 'gpt-4o-mini');
     } else if (provider === 'gemini') {
@@ -726,8 +727,8 @@ Return ONLY the final enhanced prompt text inside your response. Do not include 
         enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
       } else if (geminiApiKey.startsWith('gsk_')) {
         enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama-3.3-70b-versatile');
-      } else if (geminiApiKey.startsWith('cbs-')) {
-        enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'llama3.1-70b');
+      } else if (geminiApiKey.startsWith('cbs-') || geminiApiKey.startsWith('csk-')) {
+        enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'gpt-oss-120b');
       } else if (geminiApiKey.startsWith('sk-')) {
         enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, 'https://api.openai.com/v1/chat/completions', 'gpt-4o-mini');
       } else {
@@ -800,7 +801,7 @@ app.post('/api/prompt/simulate', async (req, res) => {
       } else if (provider === 'groq') {
         alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama-3.3-70b-versatile');
       } else if (provider === 'cerebras') {
-        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'llama3.1-70b');
+        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'gpt-oss-120b');
       } else if (provider === 'openai') {
         alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.openai.com/v1/chat/completions', 'gpt-4o-mini');
       } else if (provider === 'gemini') {
@@ -810,8 +811,8 @@ app.post('/api/prompt/simulate', async (req, res) => {
           alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
         } else if (geminiApiKey.startsWith('gsk_')) {
           alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama-3.3-70b-versatile');
-        } else if (geminiApiKey.startsWith('cbs-')) {
-          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'llama3.1-70b');
+        } else if (geminiApiKey.startsWith('cbs-') || geminiApiKey.startsWith('csk-')) {
+          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'gpt-oss-120b');
         } else if (geminiApiKey.startsWith('sk-')) {
           alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.openai.com/v1/chat/completions', 'gpt-4o-mini');
         } else {
