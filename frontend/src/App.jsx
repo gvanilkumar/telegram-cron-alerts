@@ -45,6 +45,10 @@ export default function App() {
   const [cronValidation, setCronValidation] = useState({ valid: true, error: null, nextRuns: [] });
   const [validatingCron, setValidatingCron] = useState(false);
 
+  // GitHub Dispatch testing states
+  const [githubPat, setGithubPat] = useState('');
+  const [testingDispatch, setTestingDispatch] = useState(false);
+
   // Fetch initial data
   useEffect(() => {
     fetchTasks();
@@ -290,6 +294,28 @@ export default function App() {
       showToast(err.message, 'error');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleTestDispatch = async () => {
+    if (!githubPat) {
+      showToast('Please enter your GitHub Personal Access Token (PAT) first.', 'error');
+      return;
+    }
+    setTestingDispatch(true);
+    try {
+      const res = await fetch('/api/test-dispatch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pat: githubPat })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to trigger test dispatch');
+      showToast('⚡ Success! Test cloud run triggered on GitHub Actions!', 'success');
+    } catch (err) {
+      showToast(err.message, 'error');
+    } finally {
+      setTestingDispatch(false);
     }
   };
 
@@ -1129,6 +1155,120 @@ export default function App() {
                 <li>
                   <strong>Commit and Push:</strong>
                   <p className="mt-1">Toggle <strong>"Auto-sync"</strong> in settings, save, and then click the <strong>"Sync GitHub"</strong> button at the top right to push configurations and activate the runner.</p>
+                </li>
+              </ol>
+            </div>
+
+            {/* Precision Scheduling Card */}
+            <div className="glass-card mt-4">
+              <h2 className="section-title">Precision Cloud Scheduling Setup</h2>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-dark)', marginBottom: '1rem' }}>
+                GitHub's free cron scheduler is often delayed by 15-45 minutes. You can trigger your alerts at the exact scheduled second using a free cron service (like <strong>Cron-Job.org</strong>) hitting GitHub's Dispatch API.
+              </p>
+              
+              <ol className="instructions-list">
+                <li>
+                  <strong>Create a GitHub PAT:</strong>
+                  <p className="mt-1">
+                    Create a <a href="https://github.com/settings/tokens/new?scopes=workflow" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>Personal Access Token (Classic)</a> with <code>workflow</code> scope selected.
+                  </p>
+                </li>
+                <li>
+                  <strong>Create a Free Job on <a href="https://cron-job.org" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary)' }}>Cron-Job.org</a>:</strong>
+                  <p className="mt-1">Use these exact configurations:</p>
+                  
+                  <div style={{ background: 'rgba(0,0,0,0.2)', padding: '0.75rem', borderRadius: '4px', fontSize: '0.85rem', margin: '0.5rem 0' }}>
+                    <div style={{ marginBottom: '0.5rem' }}>
+                      <strong>Method:</strong> <code>POST</code>
+                    </div>
+                    
+                    <div style={{ marginBottom: '0.5rem' }}>
+                      <strong>URL:</strong>
+                      <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.25rem' }}>
+                        <input 
+                          type="text" 
+                          readOnly 
+                          className="form-control" 
+                          value={settings.githubRepoPath ? `https://api.github.com/repos/${settings.githubRepoPath}/actions/workflows/scheduler.yml/dispatches` : 'https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO/actions/workflows/scheduler.yml/dispatches'} 
+                          style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem', flexGrow: 1 }} 
+                          id="dispatch-url-input"
+                        />
+                        <button 
+                          type="button" 
+                          className="btn btn-secondary" 
+                          onClick={() => {
+                            const copyText = document.getElementById("dispatch-url-input");
+                            copyText.select();
+                            navigator.clipboard.writeText(copyText.value);
+                            showToast('URL copied to clipboard!');
+                          }} 
+                          style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem' }}
+                        >
+                          Copy
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <div style={{ marginBottom: '0.5rem' }}>
+                      <strong>Headers (Request Headers):</strong>
+                      <ul style={{ margin: '0.25rem 0 0 1rem', padding: 0 }}>
+                        <li><code>Authorization: Bearer YOUR_GITHUB_PAT</code></li>
+                        <li><code>Accept: application/vnd.github.v3+json</code></li>
+                        <li><code>User-Agent: Cron-Job-Trigger</code></li>
+                      </ul>
+                    </div>
+                    
+                    <div>
+                      <strong>Request Body (JSON):</strong>
+                      <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.25rem' }}>
+                        <input 
+                          type="text" 
+                          readOnly 
+                          className="form-control" 
+                          value='{"ref": "main"}' 
+                          style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem', flexGrow: 1 }} 
+                          id="dispatch-body-input"
+                        />
+                        <button 
+                          type="button" 
+                          className="btn btn-secondary" 
+                          onClick={() => {
+                            const copyText = document.getElementById("dispatch-body-input");
+                            copyText.select();
+                            navigator.clipboard.writeText(copyText.value);
+                            showToast('Body copied to clipboard!');
+                          }} 
+                          style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem' }}
+                        >
+                          Copy
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                
+                <li>
+                  <strong>Verify / Test Setup:</strong>
+                  <p className="mt-1">Paste your GitHub PAT below to verify immediately. If valid, it triggers your cloud Action run right now:</p>
+                  <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+                    <input 
+                      type="password" 
+                      className="form-control" 
+                      placeholder="Paste your GitHub PAT" 
+                      value={githubPat} 
+                      onChange={(e) => setGithubPat(e.target.value)} 
+                      style={{ flexGrow: 1 }}
+                    />
+                    <button 
+                      type="button" 
+                      className="btn btn-primary" 
+                      onClick={handleTestDispatch} 
+                      disabled={testingDispatch || !githubPat}
+                      style={{ fontSize: '0.85rem', whiteSpace: 'nowrap' }}
+                    >
+                      {testingDispatch ? 'Testing...' : 'Test Dispatch ⚡'}
+                    </button>
+                  </div>
                 </li>
               </ol>
             </div>

@@ -730,8 +730,22 @@ app.get('/api/cron/validate', (req, res) => {
   }
 });
 
+// Helper to parse GitHub repo path from git remote URL
+function getGitRepoPath() {
+  return new Promise((resolve) => {
+    exec('git config --get remote.origin.url', (err, stdout) => {
+      if (err || !stdout) {
+        return resolve('');
+      }
+      const url = stdout.trim();
+      const match = url.match(/github\.com[:/]([^/]+\/[^/.]+)/);
+      resolve(match ? match[1] : '');
+    });
+  });
+}
+
 // Get local settings
-app.get('/api/settings', (req, res) => {
+app.get('/api/settings', async (req, res) => {
   try {
     const settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
     
@@ -770,10 +784,51 @@ app.get('/api/settings', (req, res) => {
       customApiEndpoint: process.env.CUSTOM_API_ENDPOINT || '',
       customAiModel: process.env.CUSTOM_AI_MODEL || '',
       timezone: process.env.TIMEZONE || 'UTC',
-      autoSync: settings.autoSync
+      autoSync: settings.autoSync,
+      githubRepoPath: (await getGitRepoPath()) || ''
     });
   } catch (err) {
     res.status(500).json({ error: 'Failed to read settings: ' + err.message });
+  }
+});
+
+// Trigger a test workflow dispatch on GitHub
+app.post('/api/test-dispatch', async (req, res) => {
+  const { pat } = req.body;
+  if (!pat) {
+    return res.status(400).json({ error: 'GitHub Personal Access Token (PAT) is required.' });
+  }
+
+  try {
+    const repoPath = await getGitRepoPath();
+    if (!repoPath) {
+      throw new Error('Could not identify your GitHub repository name from local Git configuration.');
+    }
+
+    const url = `https://api.github.com/repos/${repoPath}/actions/workflows/scheduler.yml/dispatches`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${pat}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'Telegram-Cron-Alerts-Manager'
+      },
+      body: JSON.stringify({ ref: 'main' })
+    });
+
+    if (response.status === 204) {
+      res.json({ success: true, message: 'Workflow dispatch triggered successfully!' });
+    } else {
+      const text = await response.text();
+      let parsedError = text;
+      try {
+        const json = JSON.parse(text);
+        if (json.message) parsedError = json.message;
+      } catch (e) {}
+      throw new Error(`GitHub API Error (${response.status}): ${parsedError}`);
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
