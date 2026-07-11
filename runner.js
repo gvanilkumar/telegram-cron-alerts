@@ -95,9 +95,16 @@ async function run() {
 
       try {
         let promptText = task.prompt || '';
+
+        // Resolve provider early so we can skip scraping for compound models
+        const provider = (task.type === 'ai') ? (config.settings.aiProvider || 'auto') : 'none';
+        const resolvedModel = (provider === 'groq') ? 'groq/compound'
+          : (provider === 'auto' && config.geminiApiKey && config.geminiApiKey.startsWith('gsk_')) ? 'groq/compound'
+          : null;
+        const isCompound = resolvedModel === 'groq/compound';
         
-        // Scrape page context if task type is AI
-        if (task.type === 'ai') {
+        // Scrape page context if task type is AI (skip for compound — it has built-in web search)
+        if (task.type === 'ai' && !isCompound) {
           let targetUrl = task.url;
           let isFallback = false;
           if (!targetUrl) {
@@ -118,16 +125,18 @@ async function run() {
             logger.warn(`Proceeding without webpage content due to scrape error: ${scrapeErr.message}`);
             promptText = `[Note: Unable to fetch live content from ${targetUrl || 'default news'} due to error: ${scrapeErr.message}]\n\nUser Request: ${task.prompt}`;
           }
+        } else if (task.type === 'ai' && isCompound) {
+          logger.debug(`Skipping scrape for groq/compound — model has built-in web search.`);
+          // Hint the model to search the web if a URL or task name is available
+          const hint = task.url ? ` Search this page for context: ${task.url}` : (task.name ? ` Search the web for: ${task.name}` : '');
+          promptText = `${task.prompt}${hint}`;
         }
 
         let alertMessage = '';
-        let provider = 'auto';
         if (task.type === 'ai') {
           if (!config.geminiApiKey) {
             throw new Error('AI API Key (GEMINI_API_KEY environment variable) is not configured.');
           }
-          
-          provider = config.settings.aiProvider || 'auto';
           
           if (provider === 'custom' && config.customApiEndpoint) {
             alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');

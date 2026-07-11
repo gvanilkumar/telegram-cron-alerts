@@ -232,39 +232,48 @@ app.post('/api/tasks/:id/run', async (req, res) => {
       return res.status(400).json({ error: 'Slack Webhook URL is not configured in Settings.' });
     }
 
-    // Web Scraping context
+    // Resolve provider early so we can decide whether to scrape
+    const provider = config.settings.aiProvider || 'auto';
+    const isCompound = provider === 'groq' ||
+      (provider === 'auto' && geminiApiKey && geminiApiKey.startsWith('gsk_'));
+
+    // Web Scraping context (skip for groq/compound — it has built-in web search)
     let promptText = task.prompt || '';
     if (task.type === 'ai') {
-      let targetUrl = task.url;
-      let isFallback = false;
-      if (!targetUrl) {
-        const searchQuery = task.name || 'financial news';
-        targetUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=en-US&gl=US&ceid=US:en`;
-        isFallback = true;
-      }
-      
-      try {
-        const pageText = await scrapeWebpage(targetUrl);
-        if (isFallback) {
-          logger.debug(`Manual run: Auto-scraped Google News RSS search query for: "${task.name}"`);
-          promptText = `Context from news search:\n---\n${pageText}\n---\n\nUser Request: ${task.prompt}`;
-        } else {
-          promptText = `Context from webpage (${targetUrl}):\n---\n${pageText}\n---\n\nUser Request: ${task.prompt}`;
+      if (!isCompound) {
+        let targetUrl = task.url;
+        let isFallback = false;
+        if (!targetUrl) {
+          const searchQuery = task.name || 'financial news';
+          targetUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=en-US&gl=US&ceid=US:en`;
+          isFallback = true;
         }
-      } catch (scrapeErr) {
-        logger.warn(`Proceeding without webpage content due to scrape error: ${scrapeErr.message}`);
-        promptText = `[Note: Unable to fetch live content from ${targetUrl || 'default news'} due to error: ${scrapeErr.message}]\n\nUser Request: ${task.prompt}`;
+        
+        try {
+          const pageText = await scrapeWebpage(targetUrl);
+          if (isFallback) {
+            logger.debug(`Manual run: Auto-scraped Google News RSS search query for: "${task.name}"`);
+            promptText = `Context from news search:\n---\n${pageText}\n---\n\nUser Request: ${task.prompt}`;
+          } else {
+            promptText = `Context from webpage (${targetUrl}):\n---\n${pageText}\n---\n\nUser Request: ${task.prompt}`;
+          }
+        } catch (scrapeErr) {
+          logger.warn(`Proceeding without webpage content due to scrape error: ${scrapeErr.message}`);
+          promptText = `[Note: Unable to fetch live content from ${targetUrl || 'default news'} due to error: ${scrapeErr.message}]\n\nUser Request: ${task.prompt}`;
+        }
+      } else {
+        logger.debug(`Manual run: Skipping scrape for groq/compound — model has built-in web search.`);
+        const hint = task.url ? ` Search this page for context: ${task.url}` : (task.name ? ` Search the web for: ${task.name}` : '');
+        promptText = `${task.prompt}${hint}`;
       }
     }
 
     let alertMessage = '';
-    let provider = 'auto';
     if (task.type === 'ai') {
       if (!geminiApiKey) {
         return res.status(400).json({ error: 'AI API Key is not configured in Settings.' });
       }
 
-      provider = config.settings.aiProvider || 'auto';
       if (provider === 'custom' && config.customApiEndpoint) {
         alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
       } else if (provider === 'groq') {
