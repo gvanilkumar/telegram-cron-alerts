@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-07-11T18:50:25.295Z",
+    "taskId": "task_ak83xn71j",
+    "taskName": "Indian Market - Update",
+    "schedule": "5m",
+    "status": "success",
+    "output": "[Manual Run] 🚨 *GLOBAL POLICY TRIGGERS ALERT*\n\n• *Source/Speaker:* Donald Trump  \n• *Announcement:* US announces plans to impose new tariffs on certain imported g..."
+  },
+  {
     "timestamp": "2026-07-11T18:50:05.244Z",
     "taskId": "task_ak83xn71j",
     "taskName": "Indian Market - Update",
