@@ -9,9 +9,10 @@
     "channels": [
       "telegram"
     ],
-    "deduplicate": false,
+    "deduplicate": true,
     "threshold": 0.9,
     "active": true,
-    "createdAt": "2026-07-11T15:57:56.515Z"
+    "createdAt": "2026-07-11T15:57:56.515Z",
+    "updatedAt": "2026-07-11T15:58:21.144Z"
   }
 ]
