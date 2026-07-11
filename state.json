@@ -1,8 +1,8 @@
 {
   "task_eec29pse1": 1783757950989,
   "task_ak83xn71j": {
-    "lastRun": 1783785568010,
-    "lastAlertText": "🚨 **Indian Market Update**\n* No specific target URL provided, scanning prominent financial news websites...\n* Found article: \"India’s job market is growing, but workers and recruiters are struggling to sync up\" (HR Brew)\n* No significant market fluctuations (>=2% change), economic policy changes, or company announcements affecting major stocks mentioned.\n* **No update**",
+    "lastRun": 1783785591325,
+    "lastAlertText": "🚨 **Indian Market Update**\n* Brief Summary: India's job market growth, worker-recruiter sync issues\n* Datetime: Fri, 23 Jan 2026 08:00:00 GMT\n* Source Link: https://news.google.com/rss/articles/CBMi0wFBVV95cUxQRnZfdThSNmlTZndoVUhJS0VOcVo4UTVhOTdIZ3h2cXY5cnBRYmJnS2cxbTZzdHNGWG1rQy1qbFFHZEZxa3dfamFxU3RWQXBFSXgzc3ViMkR4NDdDV0lsX2VvZ01RSDI2MlZiS09kZGwxUVdPdnZpY1hHbVNEUkk3NDJMVW1mRkVNbDRwR2pCczA0SGVIYlhyOGZaQUtSY25kZ0lPSGV2TDVaaTJpQ2huR2F3em41U2FfWVYwX204anFSVVhWbG1uME5SUU5faG9DemRJ\n* Confidence Score: 0.6\n* Recommendation: Stay",
     "lastEmbedding": null
   }
 }

@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-07-11T15:59:51.328Z",
+    "taskId": "task_ak83xn71j",
+    "taskName": "Indian Market - SyncUp!",
+    "schedule": "5m",
+    "status": "success",
+    "output": "[Manual Run] 🚨 **Indian Market Update**\n* Brief Summary: India's job market growth, worker-recruiter sync issues\n* Datetime: Fri, 23 Jan 2026 08:00:00 GMT\n* Sourc..."
+  },
+  {
     "timestamp": "2026-07-11T15:59:28.012Z",
     "taskId": "task_ak83xn71j",
     "taskName": "Indian Market - SyncUp!",
