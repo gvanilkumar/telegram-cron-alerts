@@ -46,15 +46,17 @@ jobs:
           # Create logs directory if it doesn't exist to avoid git add errors
           mkdir -p logs
           
-          # Check if there are changes to state.json or logs
-          git add state.json logs/
+          # Stage state.json to detect actual alert updates (success or error)
+          git add state.json
           
-          # Commit only if there are modified/new files
+          # Only commit and push if state.json has actual updates
           if ! git diff --cached --quiet; then
+            # Stage the logs history as well so they sync together
+            git add logs/
             git commit -m "Runner: Sync state and logs [skip ci]"
             # Pull and rebase from remote first in case new tasks were configured during execution
             git pull --rebase origin main
             git push origin HEAD:${{ github.ref }}
           else
-            echo "No state or log changes to commit."
+            echo "No alert state changes. Skipping Git commit to prevent history bloat."
           fi

@@ -260,9 +260,9 @@ async function run() {
   let stateChanged = false;
   const executionLogs = [];
 
-  for (const task of tasks) {
+  await Promise.all(tasks.map(async (task) => {
     if (!task.active) {
-      continue;
+      return;
     }
 
     const taskState = state[task.id];
@@ -278,7 +278,7 @@ async function run() {
       isDue = !lastRun || lastRun < prevRunTime;
     } catch (cronErr) {
       logDebug(`Warning: Task "${task.name}" has invalid cron schedule "${task.schedule}" / "${cronExpr}": ${cronErr.message}. Skipping.`);
-      continue;
+      return;
     }
 
     if (isDue) {
@@ -469,7 +469,7 @@ async function run() {
         logDebug(`Task "${task.name}" is not due.`);
       }
     }
-  }
+  }));
 
   // Write updated states and logs
   if (stateChanged) {
