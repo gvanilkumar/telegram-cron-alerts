@@ -33,6 +33,8 @@ export default function App() {
     geminiApiKey: '',
     discordWebhookUrl: '',
     slackWebhookUrl: '',
+    customApiEndpoint: '',
+    customAiModel: '',
     autoSync: false
   });
 
@@ -89,6 +91,8 @@ export default function App() {
         geminiApiKey: '',
         discordWebhookUrl: '',
         slackWebhookUrl: '',
+        customApiEndpoint: data.customApiEndpoint || '',
+        customAiModel: data.customAiModel || '',
         autoSync: data.autoSync
       });
     } catch (err) {
@@ -817,18 +821,50 @@ export default function App() {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="geminiApiKey">Gemini API Key</label>
+                  <label htmlFor="geminiApiKey">AI API Key (Gemini / Groq / OpenAI / Custom)</label>
                   <input 
                     type="password" 
                     id="geminiApiKey"
                     name="geminiApiKey" 
                     className="form-control"
-                    placeholder={settings.masked.geminiApiKey || "Enter Google Gemini API Key"}
+                    placeholder={settings.masked.geminiApiKey || "Enter your AI API Key"}
                     value={settingsForm.geminiApiKey}
                     onChange={handleSettingsChange}
                   />
                   <small style={{ display: 'block', marginTop: '0.25rem', color: 'var(--text-dark)' }}>
-                    Used for AI-generated alert text. Get one from Google AI Studio.
+                    Paste your API Key. The engine auto-detects Groq (starts with <code>gsk_</code>), OpenAI (starts with <code>sk-</code>), and Gemini.
+                  </small>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="customApiEndpoint">Custom API Endpoint URL (Optional)</label>
+                  <input 
+                    type="url" 
+                    id="customApiEndpoint"
+                    name="customApiEndpoint" 
+                    className="form-control"
+                    placeholder="e.g. https://api.deepseek.com/v1"
+                    value={settingsForm.customApiEndpoint}
+                    onChange={handleSettingsChange}
+                  />
+                  <small style={{ display: 'block', marginTop: '0.25rem', color: 'var(--text-dark)' }}>
+                    If you want to use other providers like DeepSeek, OpenRouter, Mistral, or a local LLM (Ollama).
+                  </small>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="customAiModel">Custom AI Model Name (Optional)</label>
+                  <input 
+                    type="text" 
+                    id="customAiModel"
+                    name="customAiModel" 
+                    className="form-control"
+                    placeholder="e.g. deepseek-chat (defaults to gpt-4o-mini if endpoint is custom)"
+                    value={settingsForm.customAiModel}
+                    onChange={handleSettingsChange}
+                  />
+                  <small style={{ display: 'block', marginTop: '0.25rem', color: 'var(--text-dark)' }}>
+                    The model identifier to query at your custom endpoint.
                   </small>
                 </div>
 

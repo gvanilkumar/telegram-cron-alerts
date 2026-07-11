@@ -128,6 +128,74 @@ async function scrapeWebpage(url) {
   }
 }
 
+async function executeAiPrompt(prompt, apiKey) {
+  logDebug(`Calling Gemini API for prompt...`);
+  const systemInstruction = `You are a helpful automation assistant. Return a concise, clear alert or summary according to the user request. Make it look beautiful on a phone screen. Use Markdown formatting when appropriate. Keep the response under 1500 characters.`;
+  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  
+  const response = await fetch(geminiUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: `${systemInstruction}\n\nUser Request: ${prompt}` }] }]
+    })
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`Gemini API returned status ${response.status}: ${errText}`);
+  }
+
+  const data = await response.json();
+  const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+  
+  if (!generatedText) {
+    throw new Error('Gemini API returned empty response structure.');
+  }
+
+  return generatedText.trim();
+}
+
+async function executeOpenAiCompatiblePrompt(prompt, apiKey, url, model) {
+  logDebug(`Calling OpenAI-compatible API at ${url} (model: ${model})...`);
+  const systemInstruction = `You are a helpful automation assistant. Return a concise, clear alert or summary according to the user request. Make it look beautiful on a phone screen. Use Markdown formatting when appropriate. Keep the response under 1500 characters.`;
+
+  let endpoint = url;
+  if (!endpoint.endsWith('/chat/completions') && !endpoint.endsWith('/chat/completions/')) {
+    endpoint = endpoint.replace(/\/$/, '') + '/chat/completions';
+  }
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      model: model,
+      messages: [
+        { role: 'system', content: systemInstruction },
+        { role: 'user', content: prompt }
+      ],
+      temperature: 0.7
+    })
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`AI API returned status ${response.status}: ${errText}`);
+  }
+
+  const data = await response.json();
+  const generatedText = data.choices?.[0]?.message?.content;
+
+  if (!generatedText) {
+    throw new Error('AI API returned empty response structure.');
+  }
+
+  return generatedText.trim();
+}
+
 // --- API Endpoints ---
 
 // Get all tasks
@@ -291,28 +359,22 @@ app.post('/api/tasks/:id/run', async (req, res) => {
     let alertMessage = '';
     if (task.type === 'ai') {
       if (!geminiApiKey) {
-        return res.status(400).json({ error: 'Gemini API Key is not configured in local Settings.' });
+        return res.status(400).json({ error: 'AI API Key is not configured in Settings.' });
       }
 
-      // Query Gemini
-      const systemInstruction = `You are a helpful automation assistant. Return a concise, clear alert or summary according to the user request. Make it look beautiful on a phone screen. Use Markdown formatting when appropriate. Keep the response under 1500 characters.`;
-      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`;
-      
-      const response = await fetch(geminiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: `${systemInstruction}\n\nUser Request: ${promptText}` }] }]
-        })
-      });
+      const customUrl = process.env.CUSTOM_API_ENDPOINT;
+      const customModel = process.env.CUSTOM_AI_MODEL;
 
-      if (!response.ok) {
-        const errText = await response.text();
-        throw new Error(`Gemini API returned status ${response.status}: ${errText}`);
+      if (customUrl) {
+        const modelName = customModel || 'gpt-4o-mini';
+        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, customUrl, modelName);
+      } else if (geminiApiKey.startsWith('gsk_')) {
+        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama3-70b-8192');
+      } else if (geminiApiKey.startsWith('sk-')) {
+        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.openai.com/v1/chat/completions', 'gpt-4o-mini');
+      } else {
+        alertMessage = await executeAiPrompt(promptText, geminiApiKey);
       }
-
-      const data = await response.json();
-      alertMessage = data.candidates?.[0]?.content?.parts?.[0]?.text;
     } else {
       alertMessage = task.prompt;
     }
@@ -477,6 +539,8 @@ app.get('/api/settings', (req, res) => {
         discordWebhookUrl: discordUrlMasked,
         slackWebhookUrl: slackUrlMasked
       },
+      customApiEndpoint: process.env.CUSTOM_API_ENDPOINT || '',
+      customAiModel: process.env.CUSTOM_AI_MODEL || '',
       autoSync: settings.autoSync
     });
   } catch (err) {
@@ -508,12 +572,16 @@ app.post('/api/settings', (req, res) => {
     const gemini = getCleanCredential(req.body.geminiApiKey, process.env.GEMINI_API_KEY);
     const discord = getCleanCredential(req.body.discordWebhookUrl, process.env.DISCORD_WEBHOOK_URL);
     const slack = getCleanCredential(req.body.slackWebhookUrl, process.env.SLACK_WEBHOOK_URL);
+    const customApiEndpoint = (req.body.customApiEndpoint !== undefined ? req.body.customApiEndpoint : (process.env.CUSTOM_API_ENDPOINT || '')).trim();
+    const customAiModel = (req.body.customAiModel !== undefined ? req.body.customAiModel : (process.env.CUSTOM_AI_MODEL || '')).trim();
 
     envContent += `TELEGRAM_BOT_TOKEN=${token}\n`;
     envContent += `TELEGRAM_CHAT_ID=${chat}\n`;
     envContent += `GEMINI_API_KEY=${gemini}\n`;
     envContent += `DISCORD_WEBHOOK_URL=${discord}\n`;
     envContent += `SLACK_WEBHOOK_URL=${slack}\n`;
+    envContent += `CUSTOM_API_ENDPOINT=${customApiEndpoint}\n`;
+    envContent += `CUSTOM_AI_MODEL=${customAiModel}\n`;
 
     fs.writeFileSync(envPath, envContent, 'utf8');
 
@@ -523,6 +591,8 @@ app.post('/api/settings', (req, res) => {
     process.env.GEMINI_API_KEY = gemini;
     process.env.DISCORD_WEBHOOK_URL = discord;
     process.env.SLACK_WEBHOOK_URL = slack;
+    process.env.CUSTOM_API_ENDPOINT = customApiEndpoint;
+    process.env.CUSTOM_AI_MODEL = customAiModel;
 
     res.json({ success: true, message: 'Settings saved successfully.' });
   } catch (err) {

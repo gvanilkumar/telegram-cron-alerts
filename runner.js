@@ -140,9 +140,22 @@ async function run() {
 
         if (task.type === 'ai') {
           if (!geminiApiKey) {
-            throw new Error('GEMINI_API_KEY is not configured but task type is AI.');
+            throw new Error('AI API Key (GEMINI_API_KEY environment variable) is not configured.');
           }
-          alertMessage = await executeAiPrompt(promptText);
+          
+          const customUrl = process.env.CUSTOM_API_ENDPOINT;
+          const customModel = process.env.CUSTOM_AI_MODEL;
+
+          if (customUrl) {
+            const modelName = customModel || 'gpt-4o-mini';
+            alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, customUrl, modelName);
+          } else if (geminiApiKey.startsWith('gsk_')) {
+            alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama3-70b-8192');
+          } else if (geminiApiKey.startsWith('sk-')) {
+            alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.openai.com/v1/chat/completions', 'gpt-4o-mini');
+          } else {
+            alertMessage = await executeAiPrompt(promptText);
+          }
         } else {
           alertMessage = task.prompt || 'No message content defined.';
         }
@@ -270,6 +283,46 @@ async function executeAiPrompt(prompt) {
   
   if (!generatedText) {
     throw new Error('Gemini API returned empty response structure.');
+  }
+
+  return generatedText.trim();
+}
+
+async function executeOpenAiCompatiblePrompt(prompt, apiKey, url, model) {
+  logDebug(`Calling OpenAI-compatible API at ${url} (model: ${model})...`);
+  const systemInstruction = `You are a helpful automation assistant. Return a concise, clear alert or summary according to the user request. Make it look beautiful on a phone screen. Use Markdown formatting when appropriate (bold, bullet points, emoji). Keep the response under 1500 characters.`;
+
+  let endpoint = url;
+  if (!endpoint.endsWith('/chat/completions') && !endpoint.endsWith('/chat/completions/')) {
+    endpoint = endpoint.replace(/\/$/, '') + '/chat/completions';
+  }
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      model: model,
+      messages: [
+        { role: 'system', content: systemInstruction },
+        { role: 'user', content: prompt }
+      ],
+      temperature: 0.7
+    })
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`AI API returned status ${response.status}: ${errText}`);
+  }
+
+  const data = await response.json();
+  const generatedText = data.choices?.[0]?.message?.content;
+
+  if (!generatedText) {
+    throw new Error('AI API returned empty response structure.');
   }
 
   return generatedText.trim();

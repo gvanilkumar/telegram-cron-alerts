@@ -31,6 +31,8 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          CUSTOM_API_ENDPOINT: ${{ secrets.CUSTOM_API_ENDPOINT }}
+          CUSTOM_AI_MODEL: ${{ secrets.CUSTOM_AI_MODEL }}
         run: node runner.js
 
       - name: Commit and Push state & logs
