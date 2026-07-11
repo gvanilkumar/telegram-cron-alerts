@@ -7,6 +7,12 @@
     "schedule": "5m",
     "active": true,
     "createdAt": "2026-07-10T17:46:29.257Z",
-    "updatedAt": "2026-07-10T17:51:01.775Z"
+    "updatedAt": "2026-07-11T10:24:17.267Z",
+    "url": "",
+    "channels": [
+      "telegram"
+    ],
+    "deduplicate": true,
+    "threshold": 0.9
   }
 ]
