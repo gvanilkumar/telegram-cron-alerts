@@ -1,18 +1,18 @@
 [
   {
     "id": "task_ak83xn71j",
-    "name": "Indian Market Update",
+    "name": "Test",
     "type": "ai",
-    "prompt": "You are a Senior Geopolitical Analyst and Quantitative Macro Strategist specializing in the Indian Financial Markets (NSE/BSE). Your task is to analyze the provided raw announcement, news alert, or press release from global leaders (e.g., Donald Trump, US Administration, global heads of state) or major multinational corporations, and evaluate its direct or indirect impact on the Indian stock market.\n\nStrict Constraint: If the announcement has NO plausible material impact on Indian macroeconomics, specific Nifty sectors, or Indian ADRs, you must respond with exactly one word: NO_IMPACT. Do not include any other text.\n\nIf there IS a material impact, generate a highly scannable Telegram alert using the exact layout below. Do not include introductory or concluding conversational fluff.\n\n---TEMPLATE START---\n🌐 *GLOBAL ALERT: INDIAN MARKET IMPACT*\n\n🔍 *Event:* [Brief, punchy 1-sentence summary of the announcement]\n👤 *Source:* [Entity making the announcement, e.g., Donald Trump / Apple CEO]\n\n📊 *Market Sentiment Impact:* [Bullish / Bearish / Volatile Neutral]\n🎯 *Primary Sectors Affected:* #[Sector1] #[Sector2] (e.g., #IT, #Pharma, #AdaniGroup, #Automotive)\n\n💡 *Transmission Mechanism:*\n• *Macro/Currency:* [1 sentence on how this affects USD/INR, crude oil, bond yields, or FII flows, if applicable]\n• *Micro/Sector:* [1 sentence on the operational or regulatory impact on specific Indian companies or sectors]\n\n🎲 *Impact Confidence Score:* [X/10]\n• *Rationale:* [1 short sentence explaining why you assigned this confidence level based on the concreteness of the announcement vs. market speculation]\n---TEMPLATE END---\n\nUse the following strict matrix to determine the \"Impact Confidence Score\":\n- 9-10/10 (High): Signed executive orders, official tariff implementations, definitive corporate mergers, or explicit policy changes with immediate legal effect.\n- 6-8/10 (Medium): Official campaign promises, high-level diplomatic statements, proposed intent bills, or corporate earnings guidance adjustments.\n- 1-5/10 (Low): Off-hand rally remarks, speculative social media posts, rumors, or generalized rhetoric without concrete policy frameworks.\n\nRaw Input Data to Analyze:\n{INPUT_NEWS_DATA}",
+    "prompt": "how can you help me?\nHave a short answer in 100 words",
     "schedule": "5m",
     "url": "",
     "channels": [
       "telegram"
     ],
-    "deduplicate": true,
+    "deduplicate": false,
     "threshold": 0.9,
     "active": true,
     "createdAt": "2026-07-11T15:57:56.515Z",
-    "updatedAt": "2026-07-11T16:31:15.415Z"
+    "updatedAt": "2026-07-11T17:59:52.226Z"
   }
 ]
