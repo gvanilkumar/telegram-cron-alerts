@@ -126,7 +126,7 @@ async function run() {
             throw new Error('AI API Key (GEMINI_API_KEY environment variable) is not configured.');
           }
           
-          const provider = config.settings.aiProvider || 'gemini';
+          const provider = config.settings.aiProvider || 'auto';
           
           if (provider === 'custom' && config.customApiEndpoint) {
             alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
@@ -162,7 +162,7 @@ async function run() {
         let newVector = null;
 
         if (task.deduplicate && task.type === 'ai' && prevText) {
-          newVector = await getEmbedding(alertMessage, config.geminiApiKey);
+          newVector = await getEmbedding(alertMessage, config.geminiApiKey, provider);
           if (newVector && prevVector && Array.isArray(newVector) && Array.isArray(prevVector)) {
             similarityScore = calculateCosineSimilarity(newVector, prevVector);
             logger.debug(`Semantic similarity (Neural): ${Math.round(similarityScore * 100)}%`);

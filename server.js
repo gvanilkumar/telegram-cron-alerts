@@ -263,7 +263,7 @@ app.post('/api/tasks/:id/run', async (req, res) => {
         return res.status(400).json({ error: 'AI API Key is not configured in Settings.' });
       }
 
-      const provider = config.settings.aiProvider || 'gemini';
+      const provider = config.settings.aiProvider || 'auto';
       if (provider === 'custom' && config.customApiEndpoint) {
         alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
       } else if (provider === 'groq') {
@@ -308,7 +308,7 @@ app.post('/api/tasks/:id/run', async (req, res) => {
       }
       
       if (prevText) {
-        newVector = await getEmbedding(alertMessage, geminiApiKey);
+        newVector = await getEmbedding(alertMessage, geminiApiKey, provider);
         if (newVector && prevVector && Array.isArray(newVector) && Array.isArray(prevVector)) {
           similarityScore = calculateCosineSimilarity(newVector, prevVector);
           logger.debug(`Semantic similarity (Manual Run Neural): ${Math.round(similarityScore * 100)}%`);
@@ -710,7 +710,7 @@ Return ONLY the final enhanced prompt text inside your response. Do not include 
   try {
     let enhancedText = '';
 
-    const provider = config.settings.aiProvider || 'gemini';
+    const provider = config.settings.aiProvider || 'auto';
     if (provider === 'custom' && config.customApiEndpoint) {
       enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
     } else if (provider === 'groq') {
@@ -794,7 +794,7 @@ app.post('/api/prompt/simulate', async (req, res) => {
 
     let alertMessage = '';
     if (type === 'ai') {
-      const provider = config.settings.aiProvider || 'gemini';
+      const provider = config.settings.aiProvider || 'auto';
       if (provider === 'custom' && config.customApiEndpoint) {
         alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
       } else if (provider === 'groq') {
