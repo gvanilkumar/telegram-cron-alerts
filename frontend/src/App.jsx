@@ -72,6 +72,60 @@ export default function App() {
     }
   };
 
+  // Scraper Preview & Alert Simulation states
+  const [previewingScrape, setPreviewingScrape] = useState(false);
+  const [scrapedText, setScrapedText] = useState('');
+  const [simulatingAlert, setSimulatingAlert] = useState(false);
+  const [simulatedAlert, setSimulatedAlert] = useState('');
+
+  const handlePreviewScrape = async () => {
+    if (!taskForm.url) return;
+    setPreviewingScrape(true);
+    setScrapedText('');
+    showToast('Fetching and cleaning webpage text...', 'success');
+    try {
+      const res = await fetch('/api/scrape/preview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: taskForm.url })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to fetch preview');
+      setScrapedText(data.text);
+      showToast('Scrape preview retrieved successfully!', 'success');
+    } catch (err) {
+      showToast(err.message, 'error');
+    } finally {
+      setPreviewingScrape(false);
+    }
+  };
+
+  const handleSimulateAlert = async () => {
+    if (!taskForm.prompt) return;
+    setSimulatingAlert(true);
+    setSimulatedAlert('');
+    showToast('Simulating alert execution...', 'success');
+    try {
+      const res = await fetch('/api/prompt/simulate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          url: taskForm.url,
+          prompt: taskForm.prompt,
+          type: taskForm.type
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to simulate alert');
+      setSimulatedAlert(data.alertMessage);
+      showToast('Simulation complete!', 'success');
+    } catch (err) {
+      showToast(err.message, 'error');
+    } finally {
+      setSimulatingAlert(false);
+    }
+  };
+
   // Fetch initial data
   useEffect(() => {
     fetchTasks();
@@ -859,12 +913,26 @@ export default function App() {
 
                 {taskForm.type === 'ai' && (
                   <div className="form-group">
-                    <label htmlFor="task-url">Target Webpage URL to Scrape (Optional)</label>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <label htmlFor="task-url" style={{ margin: 0 }}>Target Webpage URL to Scrape (Optional)</label>
+                      {taskForm.url && (
+                        <button 
+                          type="button" 
+                          className="btn btn-secondary" 
+                          disabled={previewingScrape}
+                          onClick={handlePreviewScrape}
+                          style={{ padding: '0.2rem 0.6rem', fontSize: '0.75rem', margin: 0, textTransform: 'none' }}
+                        >
+                          {previewingScrape ? '⏳ Fetching...' : '🔍 Test Scrape'}
+                        </button>
+                      )}
+                    </div>
                     <input 
                       type="url" 
                       id="task-url"
                       name="url" 
                       className="form-control"
+                      style={{ marginTop: '0.35rem' }}
                       placeholder="e.g. https://www.moneycontrol.com/news/business/markets/"
                       value={taskForm.url}
                       onChange={handleTaskFormChange}
@@ -872,6 +940,25 @@ export default function App() {
                     <small style={{ display: 'block', marginTop: '0.25rem', color: 'var(--text-dark)' }}>
                       If provided, the runner will fetch this page, clean the text content, and feed it to Gemini as live context.
                     </small>
+
+                    {scrapedText && (
+                      <div style={{ marginTop: '0.75rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                          <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: 'var(--accent-cyan)' }}>📄 Extracted Page Text Preview:</span>
+                          <button 
+                            type="button" 
+                            className="btn btn-secondary" 
+                            style={{ padding: '0.15rem 0.4rem', fontSize: '0.7rem' }}
+                            onClick={() => setScrapedText('')}
+                          >
+                            Close Preview
+                          </button>
+                        </div>
+                        <pre className="code-block" style={{ maxHeight: '180px', overflowY: 'auto', whiteSpace: 'pre-wrap', fontSize: '0.8rem' }}>
+                          {scrapedText}
+                        </pre>
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -1071,7 +1158,18 @@ export default function App() {
                   </div>
                 )}
 
-                <div className="flex-gap-2 mt-4">
+                <div className="flex-gap-2 mt-4" style={{ flexWrap: 'wrap' }}>
+                  {taskForm.prompt && (
+                    <button 
+                      type="button" 
+                      className="btn btn-secondary" 
+                      disabled={simulatingAlert}
+                      onClick={handleSimulateAlert}
+                      style={{ flexGrow: 1 }}
+                    >
+                      {simulatingAlert ? '⏳ Simulating...' : '⚡ Simulate Alert'}
+                    </button>
+                  )}
                   <button 
                     type="submit" 
                     className="btn btn-primary" 
@@ -1086,6 +1184,25 @@ export default function App() {
                     </button>
                   )}
                 </div>
+
+                {simulatedAlert && (
+                  <div style={{ marginTop: '1rem', background: 'rgba(139, 92, 246, 0.08)', border: '1px solid var(--accent-purple-glow)', padding: '1rem', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                      <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--accent-purple)' }}>✨ Simulated AI Alert Output:</span>
+                      <button 
+                        type="button" 
+                        className="btn btn-secondary" 
+                        style={{ padding: '0.15rem 0.4rem', fontSize: '0.7rem' }}
+                        onClick={() => setSimulatedAlert('')}
+                      >
+                        Close Preview
+                      </button>
+                    </div>
+                    <div style={{ fontSize: '0.9rem', color: 'var(--text-main)', whiteSpace: 'pre-wrap', lineHeight: '1.45' }}>
+                      {simulatedAlert}
+                    </div>
+                  </div>
+                )}
               </form>
             </div>
           </div>

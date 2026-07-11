@@ -927,6 +927,68 @@ Return ONLY the final enhanced prompt text inside your response. Do not include 
   }
 });
 
+// Preview scraped webpage text using configured scraper
+app.post('/api/scrape/preview', async (req, res) => {
+  const { url } = req.body;
+  if (!url) {
+    return res.status(400).json({ error: 'URL is required for preview.' });
+  }
+  try {
+    const text = await scrapeWebpage(url);
+    res.json({ success: true, text });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to preview scrape: ' + err.message });
+  }
+});
+
+// Simulate AI prompt execution against a URL scrape outcome
+app.post('/api/prompt/simulate', async (req, res) => {
+  const { url, prompt, type } = req.body;
+  if (!prompt) {
+    return res.status(400).json({ error: 'Prompt instructions are required.' });
+  }
+
+  const geminiApiKey = process.env.GEMINI_API_KEY;
+  if (type === 'ai' && !geminiApiKey) {
+    return res.status(400).json({ error: 'AI API Key is not configured in Settings.' });
+  }
+
+  try {
+    let promptText = prompt;
+    if (url && type === 'ai') {
+      try {
+        const pageText = await scrapeWebpage(url);
+        promptText = `Context from webpage (${url}):\n---\n${pageText}\n---\n\nUser Request: ${prompt}`;
+      } catch (scrapeErr) {
+        promptText = `[Note: Scraper failed to fetch page content: ${scrapeErr.message}]\n\nUser Request: ${prompt}`;
+      }
+    }
+
+    let alertMessage = '';
+    if (type === 'ai') {
+      const customUrl = process.env.CUSTOM_API_ENDPOINT;
+      const customModel = process.env.CUSTOM_AI_MODEL;
+
+      if (customUrl) {
+        const modelName = customModel || 'gpt-4o-mini';
+        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, customUrl, modelName);
+      } else if (geminiApiKey.startsWith('gsk_')) {
+        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama-3.3-70b-versatile');
+      } else if (geminiApiKey.startsWith('sk-')) {
+        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.openai.com/v1/chat/completions', 'gpt-4o-mini');
+      } else {
+        alertMessage = await executeAiPrompt(promptText, geminiApiKey);
+      }
+    } else {
+      alertMessage = prompt;
+    }
+
+    res.json({ success: true, alertMessage });
+  } catch (err) {
+    res.status(500).json({ error: 'Simulation failed: ' + err.message });
+  }
+});
+
 // Helper to ignore masked placeholders or empty autofills when saving settings
 function getCleanCredential(newValue, existingValue) {
   if (!newValue || newValue.includes('...')) {

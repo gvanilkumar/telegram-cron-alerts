@@ -373,7 +373,8 @@ async function run() {
           state[task.id] = {
             lastRun: now,
             lastAlertText: prevText,
-            lastEmbedding: prevVector
+            lastEmbedding: prevVector,
+            consecutiveFailures: 0
           };
           stateChanged = true;
         } else {
@@ -431,11 +432,12 @@ async function run() {
           logEntry.status = 'success';
           logEntry.output = alertMessage.substring(0, 150) + (alertMessage.length > 150 ? '...' : '');
           
-          // Update state: store timestamp, text, and vector
+          // Update state: store timestamp, text, vector, and reset consecutive failures
           state[task.id] = {
             lastRun: now,
             lastAlertText: alertMessage,
-            lastEmbedding: newVector
+            lastEmbedding: newVector,
+            consecutiveFailures: 0
           };
           stateChanged = true;
         }
@@ -444,17 +446,22 @@ async function run() {
         logEntry.status = 'error';
         logEntry.output = `Error: ${err.message}`;
         
-        const taskState = state[task.id];
-        const prevText = (taskState && typeof taskState === 'object') ? taskState.lastAlertText : null;
-        const prevVector = (taskState && typeof taskState === 'object') ? taskState.lastEmbedding : null;
-
+        const failures = (taskState && typeof taskState === 'object') ? (taskState.consecutiveFailures || 0) + 1 : 1;
+        
         // Still update state lastRun to avoid infinitely retrying a broken prompt on every cron run
         state[task.id] = {
           lastRun: now,
           lastAlertText: prevText,
-          lastEmbedding: prevVector
+          lastEmbedding: prevVector,
+          consecutiveFailures: failures
         };
         stateChanged = true;
+
+        if (failures === 3) {
+          logDebug(`[Self-Monitoring] Task "${task.name}" failed 3 consecutive times. Dispatching system alert.`);
+          // Send system diagnostic alert (non-blocking, logs its own errors)
+          await sendSystemDiagnosticAlert(task, err.message);
+        }
       }
 
       executionLogs.push(logEntry);
@@ -498,6 +505,38 @@ async function run() {
   }
 
   logDebug('Alert Runner Finished.');
+}
+
+// Send system diagnostics when a task breaks repeatedly in the cloud
+async function sendSystemDiagnosticAlert(task, errorMessage) {
+  const channels = task.channels || ['telegram'];
+  const systemMsg = `⚠️ [AuraVigil System Alert]\nTask "${task.name}" has failed 3 consecutive times.\n\nLatest Error: ${errorMessage}`;
+  
+  if (channels.includes('telegram') && botToken && chatId) {
+    try {
+      await sendTelegramMessage(systemMsg, 'AuraVigil System Diagnostic');
+    } catch (e) {
+      logDebug(`Failed to deliver Telegram system alert: ${e.message}`);
+    }
+  }
+  
+  const discordUrl = process.env.DISCORD_WEBHOOK_URL;
+  if (channels.includes('discord') && discordUrl) {
+    try {
+      await sendDiscordMessage(systemMsg, 'AuraVigil System Diagnostic', discordUrl);
+    } catch (e) {
+      logDebug(`Failed to deliver Discord system alert: ${e.message}`);
+    }
+  }
+  
+  const slackUrl = process.env.SLACK_WEBHOOK_URL;
+  if (channels.includes('slack') && slackUrl) {
+    try {
+      await sendSlackMessage(systemMsg, 'AuraVigil System Diagnostic', slackUrl);
+    } catch (e) {
+      logDebug(`Failed to deliver Slack system alert: ${e.message}`);
+    }
+  }
 }
 
 async function executeAiPrompt(prompt) {
