@@ -55,11 +55,42 @@ if (!fs.existsSync(stateManager.logsPath)) {
   fs.writeFileSync(stateManager.logsPath, '[]', 'utf8');
 }
 
+<<<<<<< Updated upstream
 /**
  * Parses GitHub repository name/owner from Git configuration.
  * @returns {Promise<string>}
  */
 async function getGitRepoPath() {
+=======
+// Helper to run shell commands
+function runCmd(command) {
+  return new Promise((resolve, reject) => {
+    exec(command, { cwd: rootDir }, (error, stdout, stderr) => {
+      if (error) {
+        reject(new Error(stderr.trim() || error.message));
+      } else {
+        resolve(stdout.trim());
+      }
+    });
+  });
+}
+
+// Convert Markdown formatting to Telegram HTML format
+function convertMarkdownToHtml(markdownText) {
+  if (!markdownText) return '';
+  // Convert [text](url) to <a href="$2">$1</a>
+  let html = markdownText.replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, '<a href="$2">$1</a>');
+  // Convert **bold** to <b>bold</b>
+  html = html.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+  return html;
+}
+
+// Git Sync helper
+async function gitSync() {
+  const settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+  if (!settings.autoSync) return { synced: false, message: 'Auto-sync is disabled' };
+
+>>>>>>> Stashed changes
   try {
     const url = await runCmd('git config --get remote.origin.url');
     if (!url) return '';
@@ -370,7 +401,33 @@ app.post('/api/tasks/:id/run', async (req, res) => {
 
     if (channels.includes('telegram')) {
       try {
+<<<<<<< Updated upstream
         await sendTelegramMessage(alertMessage, task.name, botToken, chatId);
+=======
+        const htmlContent = convertMarkdownToHtml(alertMessage);
+        const formattedText = `🔔 <b>Manual Run: ${task.name}</b>\n\n${htmlContent}`;
+        const tgUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+        let tgRes = await fetchWithRetry(tgUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: formattedText,
+            parse_mode: 'HTML',
+          })
+        });
+        if (!tgRes.ok) {
+          const errorData = await tgRes.json();
+          logDebug(`HTML parsing failed for Telegram manual run (${errorData.description}). Retrying in plain text.`);
+          const plainText = `🔔 Manual Run: ${task.name}\n\n${alertMessage}`;
+          tgRes = await fetchWithRetry(tgUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: chatId, text: plainText })
+          });
+        }
+        if (!tgRes.ok) throw new Error(`Telegram returned status ${tgRes.status}`);
+>>>>>>> Stashed changes
       } catch (err) {
         deliveryErrors.push(`Telegram: ${err.message}`);
       }
