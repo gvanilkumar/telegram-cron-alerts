@@ -319,6 +319,58 @@ export default function App() {
     }
   };
 
+  const [enhancingPrompt, setEnhancingPrompt] = useState(false);
+  const [promptTips, setPromptTips] = useState([]);
+
+  // Real-time client-side prompt advisor
+  useEffect(() => {
+    if (taskForm.type !== 'ai') {
+      setPromptTips([]);
+      return;
+    }
+    const text = taskForm.prompt || '';
+    const tips = [];
+    
+    if (text.length === 0) {
+      tips.push("Describe what you want the AI to watch for (e.g. price changes, release announcements).");
+    } else {
+      if (text.length < 25) {
+        tips.push("Prompt is a bit short. Add more detail so the AI extracts accurate information.");
+      }
+      if (!text.toLowerCase().includes('no update') && !text.toLowerCase().includes('skip') && !text.toLowerCase().includes('ignore')) {
+        tips.push("Add a fallback condition (e.g. 'If nothing has changed, output \"no update\"') to make deduplication work perfectly.");
+      }
+      if (!text.toLowerCase().includes('sentence') && !text.toLowerCase().includes('bullet') && !text.toLowerCase().includes('limit') && !text.toLowerCase().includes('brief')) {
+        tips.push("Specify length or format limits (e.g. 'summarize in 3 bullet points' or 'keep it under 3 sentences') for cleaner notifications.");
+      }
+      if (taskForm.url && !text.toLowerCase().includes('page') && !text.toLowerCase().includes('context') && !text.toLowerCase().includes('site')) {
+        tips.push("Reference the source (e.g. 'Scan this page context...') so the AI knows to inspect the scraped HTML text.");
+      }
+    }
+    setPromptTips(tips);
+  }, [taskForm.prompt, taskForm.type, taskForm.url]);
+
+  const handleEnhancePrompt = async () => {
+    if (!taskForm.prompt) return;
+    setEnhancingPrompt(true);
+    showToast('Optimizing your prompt using AI...', 'success');
+    try {
+      const res = await fetch('/api/prompt/enhance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: taskForm.prompt, url: taskForm.url })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to enhance prompt');
+      setTaskForm(prev => ({ ...prev, prompt: data.enhancedPrompt }));
+      showToast('✨ Prompt optimized successfully!', 'success');
+    } catch (err) {
+      showToast(err.message, 'error');
+    } finally {
+      setEnhancingPrompt(false);
+    }
+  };
+
   const injectPromptTemplate = (templateText) => {
     setTaskForm(prev => ({ ...prev, prompt: templateText }));
     showToast('Template loaded! You can now customize it.', 'success');
@@ -792,10 +844,23 @@ export default function App() {
                 )}
 
                 <div className="form-group">
-                  <label htmlFor="task-prompt">
-                    {taskForm.type === 'ai' 
-                      ? 'AI Prompt Instructions (What should Gemini write?)' 
-                      : 'Static Message Content (Text to send directly)'}
+                  <label htmlFor="task-prompt" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span>
+                      {taskForm.type === 'ai' 
+                        ? 'AI Prompt Instructions (What should Gemini write?)' 
+                        : 'Static Message Content (Text to send directly)'}
+                    </span>
+                    {taskForm.type === 'ai' && taskForm.prompt && (
+                      <button 
+                        type="button" 
+                        className="btn btn-secondary" 
+                        disabled={enhancingPrompt || loading}
+                        onClick={handleEnhancePrompt}
+                        style={{ padding: '0.2rem 0.6rem', fontSize: '0.75rem', margin: 0, textTransform: 'none' }}
+                      >
+                        {enhancingPrompt ? '🪄 Optimizing...' : '🪄 Enhance with AI'}
+                      </button>
+                    )}
                   </label>
                   <textarea 
                     id="task-prompt"
@@ -808,6 +873,16 @@ export default function App() {
                     onChange={handleTaskFormChange}
                     required
                   />
+                  {promptTips.length > 0 && (
+                    <div style={{ background: 'rgba(245, 158, 11, 0.08)', borderLeft: '3px solid #f59e0b', padding: '0.6rem 0.75rem', borderRadius: '4px', marginTop: '0.5rem', fontSize: '0.85rem' }}>
+                      <span style={{ fontWeight: 'bold', color: '#d97706', display: 'block', marginBottom: '0.2rem' }}>💡 Real-time Suggestions:</span>
+                      <ul style={{ margin: 0, paddingLeft: '1.25rem', color: 'var(--text-dark)' }}>
+                        {promptTips.map((tip, idx) => (
+                          <li key={idx} style={{ marginBottom: '0.25rem' }}>{tip}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
 
                 {taskForm.type === 'ai' ? (

@@ -832,6 +832,56 @@ app.post('/api/test-dispatch', async (req, res) => {
   }
 });
 
+// Enhance a user prompt using LLM
+app.post('/api/prompt/enhance', async (req, res) => {
+  const { prompt, url } = req.body;
+  if (!prompt) {
+    return res.status(400).json({ error: 'Prompt content is required' });
+  }
+
+  const geminiApiKey = process.env.GEMINI_API_KEY;
+  if (!geminiApiKey) {
+    return res.status(400).json({ error: 'AI API Key must be configured in Settings to use the Prompt Enhancer.' });
+  }
+
+  const targetUrlContext = url ? `Target webpage URL is: ${url}` : 'No target URL provided.';
+  
+  const instructionPrompt = `You are a professional prompt engineer for web scraping and notification alerts.
+The user has a task that monitors a page and alerts them on Telegram/Discord.
+User's goal / draft instructions: "${prompt}"
+${targetUrlContext}
+
+Please improve and rewrite their prompt. The rewritten prompt MUST:
+1. Explain what context to look at (if target URL is provided, mention to scan the scraped page text).
+2. Detail the exact triggers or conditions to look for.
+3. Explicitly instruct the AI: "If nothing has changed, or if the conditions are not met, output 'no update' and nothing else." (This is crucial for deduplication!).
+4. Define a clear output format for the alert notification (e.g. brief summary, bullet points, emoji prefix).
+5. Be highly professional and keep the final prompt under 6-8 sentences.
+
+Return ONLY the final enhanced prompt text inside your response. Do not include quotes, wrappers, conversational chatter, or explanations. Start directly with the prompt text.`;
+
+  try {
+    let enhancedText = '';
+    const customUrl = process.env.CUSTOM_API_ENDPOINT;
+    const customModel = process.env.CUSTOM_AI_MODEL;
+
+    if (customUrl) {
+      const modelName = customModel || 'gpt-4o-mini';
+      enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, customUrl, modelName);
+    } else if (geminiApiKey.startsWith('gsk_')) {
+      enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama-3.3-70b-versatile');
+    } else if (geminiApiKey.startsWith('sk-')) {
+      enhancedText = await executeOpenAiCompatiblePrompt(instructionPrompt, geminiApiKey, 'https://api.openai.com/v1/chat/completions', 'gpt-4o-mini');
+    } else {
+      enhancedText = await executeAiPrompt(instructionPrompt, geminiApiKey);
+    }
+
+    res.json({ success: true, enhancedPrompt: enhancedText.trim() });
+  } catch (err) {
+    res.status(500).json({ error: 'Enhancement failed: ' + err.message });
+  }
+});
+
 // Helper to ignore masked placeholders or empty autofills when saving settings
 function getCleanCredential(newValue, existingValue) {
   if (!newValue || newValue.includes('...')) {
