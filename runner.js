@@ -130,6 +130,8 @@ async function run() {
             alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
           } else if (config.geminiApiKey.startsWith('gsk_')) {
             alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama-3.3-70b-versatile');
+          } else if (config.geminiApiKey.startsWith('cbs-')) {
+            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'llama3.1-70b');
           } else if (config.geminiApiKey.startsWith('sk-')) {
             alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.openai.com/v1/chat/completions', 'gpt-4o-mini');
           } else {
