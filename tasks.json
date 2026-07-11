@@ -10,16 +10,6 @@
     "updatedAt": "2026-07-10T17:51:01.775Z"
   },
   {
-    "id": "task_xv8ljjirh",
-    "name": "Drink Water!",
-    "type": "static",
-    "prompt": "Remainder ! to drink water",
-    "schedule": "1h",
-    "active": true,
-    "createdAt": "2026-07-10T18:36:28.336Z",
-    "updatedAt": "2026-07-10T18:36:54.444Z"
-  },
-  {
     "id": "task_d3m2zz2kc",
     "name": "MoneyControl Updates",
     "type": "ai",
