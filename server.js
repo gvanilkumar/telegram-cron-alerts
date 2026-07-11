@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
 const dotenv = require('dotenv');
+const parser = require('cron-parser');
 
 
 const app = express();
@@ -709,6 +710,26 @@ app.get('/api/logs', (req, res) => {
   }
 });
 
+// Validate cron expression and return next 3 run times in timezone
+app.get('/api/cron/validate', (req, res) => {
+  const { expr, tz } = req.query;
+  if (!expr) {
+    return res.status(400).json({ valid: false, error: 'Expression is required' });
+  }
+  try {
+    const options = tz ? { tz } : {};
+    const interval = parser.parseExpression(expr, options);
+    const times = [
+      interval.next().toString(),
+      interval.next().toString(),
+      interval.next().toString(),
+    ];
+    res.json({ valid: true, nextRuns: times });
+  } catch (err) {
+    res.json({ valid: false, error: err.message });
+  }
+});
+
 // Get local settings
 app.get('/api/settings', (req, res) => {
   try {
@@ -748,6 +769,7 @@ app.get('/api/settings', (req, res) => {
       },
       customApiEndpoint: process.env.CUSTOM_API_ENDPOINT || '',
       customAiModel: process.env.CUSTOM_AI_MODEL || '',
+      timezone: process.env.TIMEZONE || 'UTC',
       autoSync: settings.autoSync
     });
   } catch (err) {
@@ -781,6 +803,7 @@ app.post('/api/settings', (req, res) => {
     const slack = getCleanCredential(req.body.slackWebhookUrl, process.env.SLACK_WEBHOOK_URL);
     const customApiEndpoint = (req.body.customApiEndpoint !== undefined ? req.body.customApiEndpoint : (process.env.CUSTOM_API_ENDPOINT || '')).trim();
     const customAiModel = (req.body.customAiModel !== undefined ? req.body.customAiModel : (process.env.CUSTOM_AI_MODEL || '')).trim();
+    const timezone = (req.body.timezone !== undefined ? req.body.timezone : (process.env.TIMEZONE || 'UTC')).trim();
 
     envContent += `TELEGRAM_BOT_TOKEN=${token}\n`;
     envContent += `TELEGRAM_CHAT_ID=${chat}\n`;
@@ -789,6 +812,7 @@ app.post('/api/settings', (req, res) => {
     envContent += `SLACK_WEBHOOK_URL=${slack}\n`;
     envContent += `CUSTOM_API_ENDPOINT=${customApiEndpoint}\n`;
     envContent += `CUSTOM_AI_MODEL=${customAiModel}\n`;
+    envContent += `TIMEZONE=${timezone}\n`;
 
     fs.writeFileSync(envPath, envContent, 'utf8');
 
@@ -800,6 +824,7 @@ app.post('/api/settings', (req, res) => {
     process.env.SLACK_WEBHOOK_URL = slack;
     process.env.CUSTOM_API_ENDPOINT = customApiEndpoint;
     process.env.CUSTOM_AI_MODEL = customAiModel;
+    process.env.TIMEZONE = timezone;
 
     res.json({ success: true, message: 'Settings saved successfully.' });
   } catch (err) {

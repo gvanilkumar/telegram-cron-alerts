@@ -1,7 +1,15 @@
 const fs = require('fs');
 const path = require('path');
+const dotenv = require('dotenv');
+const cronParser = require('cron-parser');
 
-// Constants for preset schedules (in milliseconds)
+// Load environment variables locally
+const envPath = path.join(__dirname, '.env');
+if (fs.existsSync(envPath)) {
+  dotenv.config({ path: envPath });
+}
+
+// Constants for preset schedules (in milliseconds) - Deprecated in favor of cron but kept for reference
 const INTERVALS = {
   '5m': 5 * 60 * 1000,
   '15m': 15 * 60 * 1000,
@@ -11,6 +19,20 @@ const INTERVALS = {
   'weekly': 7 * 24 * 60 * 60 * 1000,
   'monthly': 30 * 24 * 60 * 60 * 1000,
 };
+
+// Map preset frequency strings to cron expressions
+function getCronExpression(schedule) {
+  const presets = {
+    '5m': '*/5 * * * *',
+    '15m': '*/15 * * * *',
+    '1h': '0 * * * *',
+    '5h': '0 */5 * * *',
+    'daily': '0 9 * * *',
+    'weekly': '0 9 * * 0',
+    'monthly': '0 9 1 * *',
+  };
+  return presets[schedule] || schedule;
+}
 
 // Max history logs to keep in logs/history.json
 const MAX_LOGS = 200;
@@ -217,16 +239,19 @@ async function run() {
 
     const taskState = state[task.id];
     const lastRun = (taskState && typeof taskState === 'object') ? taskState.lastRun : (taskState || 0);
-    const interval = INTERVALS[task.schedule];
     
-    if (!interval) {
-      logDebug(`Warning: Task "${task.name}" has invalid schedule "${task.schedule}". Skipping.`);
+    const cronExpr = getCronExpression(task.schedule);
+    const tz = process.env.TIMEZONE || 'UTC';
+    
+    let isDue = false;
+    try {
+      const parsedInterval = cronParser.parseExpression(cronExpr, { tz });
+      const prevRunTime = parsedInterval.prev().getTime();
+      isDue = !lastRun || lastRun < prevRunTime;
+    } catch (cronErr) {
+      logDebug(`Warning: Task "${task.name}" has invalid cron schedule "${task.schedule}" / "${cronExpr}": ${cronErr.message}. Skipping.`);
       continue;
     }
-
-    // Determine if task is due. Apply a 30s buffer to account for GitHub Actions scheduling variations
-    const buffer = 30 * 1000;
-    const isDue = (now - lastRun) >= (interval - buffer);
 
     if (isDue) {
       logDebug(`Executing Task: "${task.name}" (${task.schedule})`);
@@ -406,8 +431,15 @@ async function run() {
 
       executionLogs.push(logEntry);
     } else {
-      const nextRunTime = new Date(lastRun + interval);
-      logDebug(`Task "${task.name}" is not due. Next run at: ${nextRunTime.toISOString()}`);
+      try {
+        const cronExpr = getCronExpression(task.schedule);
+        const tz = process.env.TIMEZONE || 'UTC';
+        const parsedInterval = cronParser.parseExpression(cronExpr, { tz });
+        const nextRunTime = parsedInterval.next().toDate();
+        logDebug(`Task "${task.name}" is not due. Next run at: ${nextRunTime.toISOString()} (${tz})`);
+      } catch (e) {
+        logDebug(`Task "${task.name}" is not due.`);
+      }
     }
   }
 
