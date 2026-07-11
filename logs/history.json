@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-07-11T03:45:27.470Z",
+    "taskId": "task_d3m2zz2kc",
+    "taskName": "MoneyControl Updates",
+    "schedule": "5m",
+    "status": "success",
+    "output": "[Manual Run] **MoneyControl News**\n===============\n\n* **Indian Indices**: Get latest updates on Indian stock market\n* **Stock Updates**: Top Gainers, Losers, 52 We..."
+  },
+  {
     "timestamp": "2026-07-11T03:10:17.181Z",
     "taskId": "task_d3m2zz2kc",
     "taskName": "MoneyControl Updates",
