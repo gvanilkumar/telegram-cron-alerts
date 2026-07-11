@@ -132,7 +132,7 @@ async function run() {
           if (provider === 'custom' && config.customApiEndpoint) {
             alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
           } else if (provider === 'groq') {
-            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'llama-3.3-70b-versatile');
+            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', 'compound');
           } else if (provider === 'cerebras') {
             alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'gpt-oss-120b');
           } else if (provider === 'openai') {
