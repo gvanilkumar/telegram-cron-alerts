@@ -4,10 +4,10 @@
     "name": "Global Market Trigger",
     "type": "ai",
     "prompt": "Analyze the latest global news (focusing on Donald Trump announcements, US trade/tariff policies, Fed rate updates, or major geopolitical shifts) from the last 24 hours that impact the Indian Stock Market (Nifty/Sensex).\n\nGenerate a very brief, high-signal alert using this exact template:\n\n*Market Impact Alert* 🚨\n\n• *Key News:* [Summarize the most critical news item in 1 sentence]\n• *Nifty/Sensex Impact:* [How it affects Indian markets in 1 sentence]\n• *Sentiment:* [Bullish | Bearish | Neutral]\n• *Confidence Score:* [X% (e.g., 75%)]\n• *Trigger Action:* [*INVEST* | *HOLD* | *CAUTION*]\n\nCRITICAL FORMATTING RULES FOR TELEGRAM:\n1. Use single asterisks for bold: e.g., *bold text* (never use double asterisks like **bold**).\n2. Use single underscores for italics: e.g., _italic text_.\n3. Do not use markdown headings (no #, ##, or ###).\n4. Use standard bullet characters (•) instead of asterisks (*) for list items.\n5. Keep the total message under 600 characters for a quick phone trigger.\n6.  Have a proper format that is visibly attractive",
-    "schedule": "5m",
+    "schedule": "*/10 9-15 * * 1-7",
     "active": true,
     "createdAt": "2026-07-10T17:46:29.257Z",
-    "updatedAt": "2026-07-11T10:24:17.267Z",
+    "updatedAt": "2026-07-11T10:28:26.695Z",
     "url": "",
     "channels": [
       "telegram"
