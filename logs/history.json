@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-07-11T16:29:43.699Z",
+    "taskId": "task_ak83xn71j",
+    "taskName": "Indian Market Update",
+    "schedule": "5m",
+    "status": "success",
+    "output": "[Manual Run] 🚨 *GLOBAL POLICY TRIGGERS ALERT*\n\n• *Source/Speaker:* Indian Market Update \n• *Announcement:* Indian shares rise to 10-week high; HDFC Bank leads aft..."
+  },
+  {
     "timestamp": "2026-07-11T16:25:22.316Z",
     "taskId": "task_ak83xn71j",
     "taskName": "Indian Market Update",
