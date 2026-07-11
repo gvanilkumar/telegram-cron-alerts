@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-07-11T12:01:07.303Z",
+    "taskId": "task_u2hq8qti3",
+    "taskName": "Global Market Trigger",
+    "schedule": "*/10 9-15 * * 1-7",
+    "status": "error",
+    "output": "Error: Gemini API returned status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+  },
+  {
     "timestamp": "2026-07-11T11:50:52.357Z",
     "taskId": "task_u2hq8qti3",
     "taskName": "Global Market Trigger",
