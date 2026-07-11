@@ -49,6 +49,29 @@ export default function App() {
   const [githubPat, setGithubPat] = useState('');
   const [testingDispatch, setTestingDispatch] = useState(false);
 
+  // UX Copy states
+  const [copiedUrl, setCopiedUrl] = useState(false);
+  const [copiedBody, setCopiedBody] = useState(false);
+
+  // Expandable Log state
+  const [expandedLogId, setExpandedLogId] = useState(null);
+
+  // Copy helper
+  const handleCopy = (elementId, type) => {
+    const copyText = document.getElementById(elementId);
+    if (!copyText) return;
+    copyText.select();
+    navigator.clipboard.writeText(copyText.value);
+    
+    if (type === 'url') {
+      setCopiedUrl(true);
+      setTimeout(() => setCopiedUrl(false), 1500);
+    } else if (type === 'body') {
+      setCopiedBody(true);
+      setTimeout(() => setCopiedBody(false), 1500);
+    }
+  };
+
   // Fetch initial data
   useEffect(() => {
     fetchTasks();
@@ -483,6 +506,12 @@ export default function App() {
     return labels[val] || val;
   };
 
+  const totalMonitors = tasks.length;
+  const activeSchedules = tasks.filter(t => t.active).length;
+  const successLogsCount = logs.filter(l => l.status === 'success' || l.status === 'skipped').length;
+  const healthPct = logs.length > 0 ? Math.round((successLogsCount / logs.length) * 100) : 100;
+  const savedCount = logs.filter(l => l.status === 'skipped').length;
+
   return (
     <div className="app-container">
       {/* Toast Alert */}
@@ -509,7 +538,7 @@ export default function App() {
             onClick={handleGitSync} 
             disabled={gitLoading}
           >
-            <span>{gitLoading ? '⚙' : '🔄'}</span>
+            <span className={gitLoading ? 'spin-icon' : ''}>🔄</span>
             <span>{gitLoading ? 'Syncing...' : 'Sync GitHub'}</span>
           </button>
           
@@ -554,33 +583,25 @@ export default function App() {
         {/* --- DASHBOARD TAB --- */}
         {activeTab === 'dashboard' && (
           <div>
-            <div className="dashboard-grid">
-              <div className="glass-card stat-card">
-                <div className="stat-info">
-                  <h3>Active Alert Tasks</h3>
-                  <div className="stat-number">{tasks.filter(t => t.active).length} / {tasks.length}</div>
-                </div>
-                <div className="stat-icon purple">⏰</div>
+            <div className="metrics-ribbon">
+              <div className="metric-card">
+                <div className="metric-value">{totalMonitors}</div>
+                <div className="metric-label">📁 Total Monitors</div>
               </div>
               
-              <div className="glass-card stat-card">
-                <div className="stat-info">
-                  <h3>Alerts Executed</h3>
-                  <div className="stat-number">
-                    {logs.filter(l => l.status === 'success').length}
-                  </div>
-                </div>
-                <div className="stat-icon cyan">🚀</div>
+              <div className="metric-card">
+                <div className="metric-value">{activeSchedules}</div>
+                <div className="metric-label">⏰ Active Schedules</div>
               </div>
 
-              <div className="glass-card stat-card">
-                <div className="stat-info">
-                  <h3>Sync State</h3>
-                  <div className="stat-number" style={{ fontSize: '1.25rem', marginTop: '0.5rem' }}>
-                    {settings.autoSync ? 'Auto Git Sync: On' : 'Auto Git Sync: Off'}
-                  </div>
-                </div>
-                <div className="stat-icon success">🛡</div>
+              <div className="metric-card">
+                <div className="metric-value">{healthPct}%</div>
+                <div className="metric-label">💚 Cloud Health Rate</div>
+              </div>
+
+              <div className="metric-card">
+                <div className="metric-value">{savedCount}</div>
+                <div className="metric-label">🛡️ AI Duplicate Blocked</div>
               </div>
             </div>
 
@@ -1025,9 +1046,15 @@ export default function App() {
                           value={taskForm.threshold}
                           onChange={handleTaskFormChange}
                         />
-                        <small style={{ display: 'block', marginTop: '0.25rem', color: 'var(--text-dark)' }}>
-                          Higher % means alerts must be almost identical to be skipped. Lower % skips alerts that are broadly similar. (Recommended: 90%)
-                        </small>
+                        <div style={{ color: 'var(--accent-cyan)', fontSize: '0.8rem', fontWeight: 'bold', marginTop: '0.35rem' }}>
+                          ⚡ {(() => {
+                            const val = parseFloat(taskForm.threshold);
+                            if (val >= 0.95) return "Strict (Only skips near-identical alerts)";
+                            if (val >= 0.88) return "Standard (Recommended - matches similar topics)";
+                            if (val >= 0.75) return "Balanced";
+                            return "Loose (Any minor similarity skips delivery)";
+                          })()}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -1080,19 +1107,64 @@ export default function App() {
                     </tr>
                   </thead>
                   <tbody>
-                    {logs.map((log, index) => (
-                      <tr key={index}>
-                        <td>{new Date(log.timestamp).toLocaleString()}</td>
-                        <td><strong>{log.taskName}</strong></td>
-                        <td><span className="task-schedule-tag">{getScheduleLabel(log.schedule)}</span></td>
-                        <td>
-                          <span className={log.status === 'success' ? 'status-success' : 'status-error'}>
-                            {log.status.toUpperCase()}
-                          </span>
-                        </td>
-                        <td title={log.output}>{log.output}</td>
-                      </tr>
-                    ))}
+                    {logs.map((log, index) => {
+                      const logId = `${log.timestamp}-${log.taskId}`;
+                      const isExpanded = expandedLogId === logId;
+                      return (
+                        <React.Fragment key={index}>
+                          <tr className="log-row-header" onClick={() => setExpandedLogId(isExpanded ? null : logId)}>
+                            <td>{new Date(log.timestamp).toLocaleString()}</td>
+                            <td><strong>{log.taskName}</strong></td>
+                            <td><span className="task-schedule-tag">{getScheduleLabel(log.schedule)}</span></td>
+                            <td>
+                              <span className={
+                                log.status === 'success' ? 'status-success' : 
+                                log.status === 'skipped' ? 'status-warning' : 
+                                'status-error'
+                              }>
+                                {log.status.toUpperCase()}
+                              </span>
+                            </td>
+                            <td style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '350px' }}>
+                                {log.output}
+                              </span>
+                              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', cursor: 'pointer', userSelect: 'none' }}>
+                                {isExpanded ? '▲ Hide' : '▼ Inspect'}
+                              </span>
+                            </td>
+                          </tr>
+                          {isExpanded && (
+                            <tr>
+                              <td colSpan={5} style={{ padding: 0 }}>
+                                <div className="log-details-panel">
+                                  <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                                    <strong>Timestamp:</strong> <span>{new Date(log.timestamp).toString()}</span>
+                                    <strong>Task ID:</strong> <span><code>{log.taskId}</code></span>
+                                    <strong>Run Status:</strong> 
+                                    <span>
+                                      <span className={
+                                        log.status === 'success' ? 'status-success' : 
+                                        log.status === 'skipped' ? 'status-warning' : 
+                                        'status-error'
+                                      } style={{ display: 'inline-block', margin: 0 }}>
+                                        {log.status.toUpperCase()}
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div style={{ marginTop: '0.75rem' }}>
+                                    <strong>Full Log Output:</strong>
+                                    <pre className="code-block" style={{ marginTop: '0.35rem', whiteSpace: 'pre-wrap', wordBreak: 'break-all', fontSize: '0.85rem' }}>
+                                      {log.output}
+                                    </pre>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          )}
+                        </React.Fragment>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -1349,16 +1421,11 @@ export default function App() {
                         />
                         <button 
                           type="button" 
-                          className="btn btn-secondary" 
-                          onClick={() => {
-                            const copyText = document.getElementById("dispatch-url-input");
-                            copyText.select();
-                            navigator.clipboard.writeText(copyText.value);
-                            showToast('URL copied to clipboard!');
-                          }} 
-                          style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem' }}
+                          className={`btn ${copiedUrl ? 'btn-copied' : 'btn-secondary'}`}
+                          onClick={() => handleCopy('dispatch-url-input', 'url')} 
+                          style={{ padding: '0.25rem 0.75rem', fontSize: '0.75rem' }}
                         >
-                          Copy
+                          {copiedUrl ? '✓ Copied!' : 'Copy'}
                         </button>
                       </div>
                     </div>
@@ -1385,16 +1452,11 @@ export default function App() {
                         />
                         <button 
                           type="button" 
-                          className="btn btn-secondary" 
-                          onClick={() => {
-                            const copyText = document.getElementById("dispatch-body-input");
-                            copyText.select();
-                            navigator.clipboard.writeText(copyText.value);
-                            showToast('Body copied to clipboard!');
-                          }} 
-                          style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem' }}
+                          className={`btn ${copiedBody ? 'btn-copied' : 'btn-secondary'}`}
+                          onClick={() => handleCopy('dispatch-body-input', 'body')} 
+                          style={{ padding: '0.25rem 0.75rem', fontSize: '0.75rem' }}
                         >
-                          Copy
+                          {copiedBody ? '✓ Copied!' : 'Copy'}
                         </button>
                       </div>
                     </div>
