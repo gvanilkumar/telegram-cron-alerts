@@ -1,8 +1,9 @@
 {
   "task_u2hq8qti3": {
-    "lastRun": 1783784452336,
-    "lastAlertText": "*Market Impact Alert* 🚨\n\n• *Key News:* Strong US economic data has further reduced the likelihood of early Fed rate cuts, reinforcing a \"higher for longer\" interest rate environment.\n• *Nifty/Sensex Impact:* Sustained high US rates could lead to continued foreign institutional investor outflows from emerging markets, creating downward pressure on Indian equities.\n• *Sentiment:* Bearish\n• *Confidence Score:* 75%\n• *Trigger Action:* *CAUTION*",
-    "lastEmbedding": null
+    "lastRun": 1783785321330,
+    "lastAlertText": "*Market Impact Alert* 🚨\n\n• *Key News:* Donald Trump announced the end of the US-Iran interim peace deal, intensifying geopolitical tensions and driving crude oil prices higher.\n• *Nifty/Sensex Impact:* Indian markets saw a sharp sell-off, with Sensex and Nifty plunging over 2% due to global risk aversion.\n• *Sentiment:* Bearish\n• *Confidence Score:* 90%\n• *Trigger Action:* *CAUTION*",
+    "lastEmbedding": null,
+    "consecutiveFailures": 0
   },
   "task_eec29pse1": 1783757950989
 }
