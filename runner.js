@@ -245,7 +245,7 @@ async function run() {
     
     let isDue = false;
     try {
-      const parsedInterval = cronParser.parseExpression(cronExpr, { tz });
+      const parsedInterval = cronParser.CronExpressionParser.parse(cronExpr, { tz });
       const prevRunTime = parsedInterval.prev().getTime();
       isDue = !lastRun || lastRun < prevRunTime;
     } catch (cronErr) {
@@ -434,7 +434,7 @@ async function run() {
       try {
         const cronExpr = getCronExpression(task.schedule);
         const tz = process.env.TIMEZONE || 'UTC';
-        const parsedInterval = cronParser.parseExpression(cronExpr, { tz });
+        const parsedInterval = cronParser.CronExpressionParser.parse(cronExpr, { tz });
         const nextRunTime = parsedInterval.next().toDate();
         logDebug(`Task "${task.name}" is not due. Next run at: ${nextRunTime.toISOString()} (${tz})`);
       } catch (e) {

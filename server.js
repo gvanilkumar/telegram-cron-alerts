@@ -718,7 +718,7 @@ app.get('/api/cron/validate', (req, res) => {
   }
   try {
     const options = tz ? { tz } : {};
-    const interval = parser.parseExpression(expr, options);
+    const interval = parser.CronExpressionParser.parse(expr, options);
     const times = [
       interval.next().toString(),
       interval.next().toString(),
