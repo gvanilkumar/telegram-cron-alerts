@@ -4,5 +4,10 @@
     "lastAlertText": "*Market Impact Alert* 🚨\n\n• *Key News:* Recent hawkish Fed commentary suggests a prolonged period of higher interest rates, dampening global growth prospects.\n• *Nifty/Sensex Impact:* This outlook may trigger FII outflows from emerging markets, creating downward pressure on Indian indices.\n• *Sentiment:* *Bearish*\n• *Confidence Score:* 85%\n• *Trigger Action:* *CAUTION*",
     "lastEmbedding": null
   },
-  "task_eec29pse1": 1783757950989
+  "task_eec29pse1": 1783757950989,
+  "task_ex7yxx426": {
+    "lastRun": 1783768405572,
+    "lastAlertText": "🚨 Sensex plunges 200pts, Rupee falls vs Dollar.",
+    "lastEmbedding": null
+  }
 }
