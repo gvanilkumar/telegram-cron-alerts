@@ -309,7 +309,7 @@ async function run() {
             const pageContext = await scrapeWebpage(targetUrl);
             if (isFallback) {
               logDebug(`Auto-scraped Google News RSS search query for: "${task.name}"`);
-              promptText = `Context from Google News Search RSS for "${task.name}":\n---\n${pageContext}\n---\n\nUser Request: ${task.prompt}`;
+              promptText = `Context from news search:\n---\n${pageContext}\n---\n\nUser Request: ${task.prompt}`;
             } else {
               promptText = `Context from webpage (${targetUrl}):\n---\n${pageContext}\n---\n\nUser Request: ${task.prompt}`;
             }

@@ -526,7 +526,7 @@ app.post('/api/tasks/:id/run', async (req, res) => {
         const pageText = await scrapeWebpage(targetUrl);
         if (isFallback) {
           logDebug(`Manual run: Auto-scraped Google News RSS search query for: "${task.name}"`);
-          promptText = `Context from Google News Search RSS for "${task.name}":\n---\n${pageText}\n---\n\nUser Request: ${task.prompt}`;
+          promptText = `Context from news search:\n---\n${pageText}\n---\n\nUser Request: ${task.prompt}`;
         } else {
           promptText = `Context from webpage (${targetUrl}):\n---\n${pageText}\n---\n\nUser Request: ${task.prompt}`;
         }
@@ -982,7 +982,7 @@ app.post('/api/prompt/simulate', async (req, res) => {
         const pageText = await scrapeWebpage(targetUrl);
         if (isFallback) {
           logDebug(`Simulation: Auto-scraped Google News RSS search query for: "${name || 'unnamed'}"`);
-          promptText = `Context from Google News Search RSS for "${name || 'unnamed'}":\n---\n${pageText}\n---\n\nUser Request: ${prompt}`;
+          promptText = `Context from news search:\n---\n${pageText}\n---\n\nUser Request: ${prompt}`;
         } else {
           promptText = `Context from webpage (${targetUrl}):\n---\n${pageText}\n---\n\nUser Request: ${prompt}`;
         }
