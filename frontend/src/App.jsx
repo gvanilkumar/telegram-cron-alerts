@@ -21,7 +21,9 @@ export default function App() {
     name: '',
     type: 'ai',
     prompt: '',
-    schedule: '5m'
+    schedule: '5m',
+    url: '',
+    channels: ['telegram']
   });
 
   // Settings credentials form state
@@ -29,6 +31,8 @@ export default function App() {
     telegramBotToken: '',
     telegramChatId: '',
     geminiApiKey: '',
+    discordWebhookUrl: '',
+    slackWebhookUrl: '',
     autoSync: false
   });
 
@@ -83,6 +87,8 @@ export default function App() {
         telegramBotToken: '',
         telegramChatId: '',
         geminiApiKey: '',
+        discordWebhookUrl: '',
+        slackWebhookUrl: '',
         autoSync: data.autoSync
       });
     } catch (err) {
@@ -102,13 +108,15 @@ export default function App() {
       name: task.name,
       type: task.type,
       prompt: task.prompt,
-      schedule: task.schedule
+      schedule: task.schedule,
+      url: task.url || '',
+      channels: task.channels || ['telegram']
     });
   };
 
   const cancelEditTask = () => {
     setEditingTask(null);
-    setTaskForm({ name: '', type: 'ai', prompt: '', schedule: '5m' });
+    setTaskForm({ name: '', type: 'ai', prompt: '', schedule: '5m', url: '', channels: ['telegram'] });
   };
 
   const handleSaveTask = async (e) => {
@@ -189,13 +197,67 @@ export default function App() {
         const error = await res.json();
         throw new Error(error.error || 'Execution failed');
       }
-      showToast('Alert sent successfully to Telegram!');
+      showToast('Alert sent successfully to your active channels!');
       fetchLogs();
     } catch (err) {
       showToast(err.message, 'error');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleTestDiscord = async () => {
+    setLoading(true);
+    showToast('Sending test Discord alert...', 'success');
+    try {
+      const res = await fetch('/api/test-discord', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ discordWebhookUrl: settingsForm.discordWebhookUrl })
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Test failed');
+      }
+      showToast('Test message sent to Discord!');
+    } catch (err) {
+      showToast(err.message, 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleTestSlack = async () => {
+    setLoading(true);
+    showToast('Sending test Slack alert...', 'success');
+    try {
+      const res = await fetch('/api/test-slack', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slackWebhookUrl: settingsForm.slackWebhookUrl })
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Test failed');
+      }
+      showToast('Test message sent to Slack!');
+    } catch (err) {
+      showToast(err.message, 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChannelCheckboxChange = (channel) => {
+    setTaskForm(prev => {
+      const currentChannels = prev.channels || ['telegram'];
+      if (currentChannels.includes(channel)) {
+        if (currentChannels.length === 1) return prev; // Keep at least one channel
+        return { ...prev, channels: currentChannels.filter(ch => ch !== channel) };
+      } else {
+        return { ...prev, channels: [...currentChannels, channel] };
+      }
+    });
   };
 
   // Settings Handlers
@@ -468,18 +530,35 @@ export default function App() {
                             {task.active ? 'Active' : 'Inactive'}
                           </span>
                         </div>
-                        <div className="flex-gap-1 mt-1">
+                        <div className="flex-gap-1 mt-1" style={{ flexWrap: 'wrap' }}>
                           <span className="task-schedule-tag">{getScheduleLabel(task.schedule)}</span>
                           <span style={{ fontSize: '0.75rem', color: 'var(--text-dark)' }}>
                             [{task.type.toUpperCase()}]
                           </span>
+                          {(task.channels || ['telegram']).map(ch => (
+                            <span key={ch} style={{ 
+                              fontSize: '0.7rem', 
+                              padding: '0.1rem 0.35rem', 
+                              borderRadius: '4px',
+                              background: ch === 'telegram' ? 'rgba(6,182,212,0.1)' : ch === 'discord' ? 'rgba(139,92,246,0.1)' : 'rgba(16,185,129,0.1)',
+                              color: ch === 'telegram' ? 'var(--accent-cyan)' : ch === 'discord' ? 'var(--accent-purple)' : 'var(--color-success)',
+                              border: `1px solid ${ch === 'telegram' ? 'rgba(6,182,212,0.2)' : ch === 'discord' ? 'rgba(139,92,246,0.2)' : 'rgba(16,185,129,0.2)'}`
+                            }}>
+                              {ch.toUpperCase()}
+                            </span>
+                          ))}
                         </div>
+                        {task.url && (
+                          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.35rem', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', maxWidth: '250px' }}>
+                            🔗 <a href={task.url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-cyan)', textDecoration: 'none' }}>{task.url}</a>
+                          </div>
+                        )}
                       </div>
                       
                       <div className="task-actions">
                         <button 
                           className="btn btn-secondary btn-icon" 
-                          title="Run Now (Telegram test)"
+                          title="Run Now (Sends to all active channels)"
                           onClick={() => handleRunTaskNow(task.id)}
                           disabled={loading}
                         >
@@ -566,6 +645,24 @@ export default function App() {
                   </div>
                 </div>
 
+                {taskForm.type === 'ai' && (
+                  <div className="form-group">
+                    <label htmlFor="task-url">Target Webpage URL to Scrape (Optional)</label>
+                    <input 
+                      type="url" 
+                      id="task-url"
+                      name="url" 
+                      className="form-control"
+                      placeholder="e.g. https://www.moneycontrol.com/news/business/markets/"
+                      value={taskForm.url}
+                      onChange={handleTaskFormChange}
+                    />
+                    <small style={{ display: 'block', marginTop: '0.25rem', color: 'var(--text-dark)' }}>
+                      If provided, the runner will fetch this page, clean the text content, and feed it to Gemini as live context.
+                    </small>
+                  </div>
+                )}
+
                 <div className="form-group">
                   <label htmlFor="task-prompt">
                     {taskForm.type === 'ai' 
@@ -583,6 +680,39 @@ export default function App() {
                     onChange={handleTaskFormChange}
                     required
                   />
+                </div>
+
+                <div className="form-group">
+                  <label>Delivery Channels</label>
+                  <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.5rem', flexWrap: 'wrap' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer', margin: 0 }}>
+                      <input 
+                        type="checkbox" 
+                        style={{ width: '16px', height: '16px' }}
+                        checked={(taskForm.channels || ['telegram']).includes('telegram')}
+                        onChange={() => handleChannelCheckboxChange('telegram')}
+                      />
+                      <span>Telegram</span>
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer', margin: 0 }}>
+                      <input 
+                        type="checkbox" 
+                        style={{ width: '16px', height: '16px' }}
+                        checked={(taskForm.channels || ['telegram']).includes('discord')}
+                        onChange={() => handleChannelCheckboxChange('discord')}
+                      />
+                      <span>Discord Webhook</span>
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer', margin: 0 }}>
+                      <input 
+                        type="checkbox" 
+                        style={{ width: '16px', height: '16px' }}
+                        checked={(taskForm.channels || ['telegram']).includes('slack')}
+                        onChange={() => handleChannelCheckboxChange('slack')}
+                      />
+                      <span>Slack Webhook</span>
+                    </label>
+                  </div>
                 </div>
 
                 <div className="flex-gap-2 mt-4">
@@ -702,6 +832,44 @@ export default function App() {
                   </small>
                 </div>
 
+                <div className="form-group">
+                  <label htmlFor="discordWebhookUrl">Discord Webhook URL</label>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <input 
+                      type="password" 
+                      id="discordWebhookUrl"
+                      name="discordWebhookUrl" 
+                      className="form-control"
+                      placeholder={settings.masked.discordWebhookUrl || "Enter Discord Webhook URL"}
+                      value={settingsForm.discordWebhookUrl}
+                      onChange={handleSettingsChange}
+                      style={{ flexGrow: 1 }}
+                    />
+                    <button type="button" className="btn btn-secondary" onClick={handleTestDiscord} disabled={loading} style={{ padding: '0.5rem 0.75rem', fontSize: '0.8rem' }}>
+                      Test
+                    </button>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="slackWebhookUrl">Slack Webhook URL</label>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <input 
+                      type="password" 
+                      id="slackWebhookUrl"
+                      name="slackWebhookUrl" 
+                      className="form-control"
+                      placeholder={settings.masked.slackWebhookUrl || "Enter Slack Webhook URL"}
+                      value={settingsForm.slackWebhookUrl}
+                      onChange={handleSettingsChange}
+                      style={{ flexGrow: 1 }}
+                    />
+                    <button type="button" className="btn btn-secondary" onClick={handleTestSlack} disabled={loading} style={{ padding: '0.5rem 0.75rem', fontSize: '0.8rem' }}>
+                      Test
+                    </button>
+                  </div>
+                </div>
+
                 <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', margin: '1.5rem 0' }}>
                   <input 
                     type="checkbox" 
@@ -721,7 +889,7 @@ export default function App() {
                     Save Settings
                   </button>
                   <button type="button" className="btn btn-secondary" onClick={handleTestTelegram} disabled={loading}>
-                    Test Telegram Connection
+                    Test Telegram
                   </button>
                 </div>
               </form>
@@ -747,10 +915,12 @@ export default function App() {
                 <li>
                   <strong>Add secrets to your repository:</strong>
                   <p className="mt-1">Go to your GitHub repo -&gt; Settings -&gt; Secrets and variables -&gt; Actions. Add these secrets:</p>
-                  <ul style={{ paddingLeft: '1.25rem', marginTop: '0.25rem', fontSize: '0.85rem' }}>
+                  <ul style={{ paddingLeft: '1.25rem', marginTop: '0.25rem', fontSize: '0.85rem', lineHeight: '1.4' }}>
                     <li><code>TELEGRAM_BOT_TOKEN</code></li>
                     <li><code>TELEGRAM_CHAT_ID</code></li>
                     <li><code>GEMINI_API_KEY</code></li>
+                    <li><code>DISCORD_WEBHOOK_URL</code> (optional)</li>
+                    <li><code>SLACK_WEBHOOK_URL</code> (optional)</li>
                   </ul>
                 </li>
                 <li>

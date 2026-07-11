@@ -29,14 +29,41 @@ function logDebug(msg) {
   console.log(`[${new Date().toISOString()}] ${msg}`);
 }
 
+// Scrape webpage context using native fetch and cleaning HTML tags
+async function scrapeWebpage(url) {
+  logDebug(`Scraping webpage: ${url}`);
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      }
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP status ${response.status}`);
+    }
+    const html = await response.text();
+    
+    // Strip head, script, and style tags
+    let text = html.replace(/<head[^>]*>[\s\S]*?<\/head>/gi, '');
+    text = text.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
+    text = text.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
+    
+    // Strip all remaining HTML tags
+    text = text.replace(/<[^>]+>/g, ' ');
+    
+    // Normalize spaces and trim
+    text = text.replace(/\s+/g, ' ').trim();
+    
+    // Extract first 5000 characters to stay within reasonable token/context limits
+    return text.substring(0, 5000);
+  } catch (err) {
+    logDebug(`Scraping failed: ${err.message}`);
+    throw new Error(`Failed to scrape ${url}: ${err.message}`);
+  }
+}
+
 async function run() {
   logDebug('Starting Alert Runner...');
-
-  // Validate credentials
-  if (!botToken || !chatId) {
-    console.error('Error: TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID environment variables are required.');
-    process.exit(1);
-  }
 
   // Load tasks configuration
   if (!fs.existsSync(configPath)) {
@@ -96,19 +123,75 @@ async function run() {
       };
 
       try {
+        let promptText = task.prompt || '';
+        
+        // Fetch scraped webpage context if URL is provided
+        if (task.url && task.type === 'ai') {
+          try {
+            const pageContext = await scrapeWebpage(task.url);
+            promptText = `Context from webpage (${task.url}):\n---\n${pageContext}\n---\n\nUser Request: ${task.prompt}`;
+          } catch (scrapeErr) {
+            logDebug(`Proceeding without webpage content due to scrape error.`);
+            promptText = `[Note: Unable to fetch live content from ${task.url} due to error: ${scrapeErr.message}]\n\nUser Request: ${task.prompt}`;
+          }
+        }
+
         let alertMessage = '';
 
         if (task.type === 'ai') {
           if (!geminiApiKey) {
             throw new Error('GEMINI_API_KEY is not configured but task type is AI.');
           }
-          alertMessage = await executeAiPrompt(task.prompt);
+          alertMessage = await executeAiPrompt(promptText);
         } else {
           alertMessage = task.prompt || 'No message content defined.';
         }
 
-        // Send alert to Telegram
-        await sendTelegramMessage(alertMessage, task.name);
+        // Deliver alerts through selected channels
+        const channels = task.channels || ['telegram'];
+        const deliveryErrors = [];
+
+        if (channels.includes('telegram')) {
+          if (!botToken || !chatId) {
+            deliveryErrors.push('Telegram Bot Token or Chat ID is missing');
+          } else {
+            try {
+              await sendTelegramMessage(alertMessage, task.name);
+            } catch (err) {
+              deliveryErrors.push(`Telegram: ${err.message}`);
+            }
+          }
+        }
+
+        if (channels.includes('discord')) {
+          const discordUrl = process.env.DISCORD_WEBHOOK_URL;
+          if (!discordUrl) {
+            deliveryErrors.push('DISCORD_WEBHOOK_URL secret is missing');
+          } else {
+            try {
+              await sendDiscordMessage(alertMessage, task.name, discordUrl);
+            } catch (err) {
+              deliveryErrors.push(`Discord: ${err.message}`);
+            }
+          }
+        }
+
+        if (channels.includes('slack')) {
+          const slackUrl = process.env.SLACK_WEBHOOK_URL;
+          if (!slackUrl) {
+            deliveryErrors.push('SLACK_WEBHOOK_URL secret is missing');
+          } else {
+            try {
+              await sendSlackMessage(alertMessage, task.name, slackUrl);
+            } catch (err) {
+              deliveryErrors.push(`Slack: ${err.message}`);
+            }
+          }
+        }
+
+        if (deliveryErrors.length > 0) {
+          throw new Error(`Delivery failures: ${deliveryErrors.join(', ')}`);
+        }
         
         logEntry.status = 'success';
         logEntry.output = alertMessage.substring(0, 150) + (alertMessage.length > 150 ? '...' : '');
@@ -236,6 +319,49 @@ async function sendTelegramMessage(text, taskName) {
   if (!response.ok) {
     const errText = await response.text();
     throw new Error(`Telegram API returned status ${response.status}: ${errText}`);
+  }
+}
+
+async function sendDiscordMessage(text, taskName, webhookUrl) {
+  logDebug(`Sending Discord Webhook alert...`);
+  
+  const formattedText = `🔔 **Alert: ${taskName}**\n\n${text}`;
+  
+  const response = await fetch(webhookUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      content: formattedText
+    })
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`Discord Webhook returned status ${response.status}: ${errText}`);
+  }
+}
+
+async function sendSlackMessage(text, taskName, webhookUrl) {
+  logDebug(`Sending Slack Webhook alert...`);
+  
+  // Slack uses *bold* for bold and _italic_ for italic (matches Telegram!)
+  const formattedText = `🔔 *Alert: ${taskName}*\n\n${text}`;
+  
+  const response = await fetch(webhookUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      text: formattedText
+    })
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`Slack Webhook returned status ${response.status}: ${errText}`);
   }
 }
 

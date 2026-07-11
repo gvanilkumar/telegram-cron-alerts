@@ -95,6 +95,39 @@ async function gitSync() {
   }
 }
 
+// Scrape webpage context using native fetch and cleaning HTML tags
+async function scrapeWebpage(url) {
+  logDebug(`Scraping webpage: ${url}`);
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      }
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP status ${response.status}`);
+    }
+    const html = await response.text();
+    
+    // Strip head, script, and style tags
+    let text = html.replace(/<head[^>]*>[\s\S]*?<\/head>/gi, '');
+    text = text.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
+    text = text.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
+    
+    // Strip all remaining HTML tags
+    text = text.replace(/<[^>]+>/g, ' ');
+    
+    // Normalize spaces and trim
+    text = text.replace(/\s+/g, ' ').trim();
+    
+    // Limit to 5000 characters
+    return text.substring(0, 5000);
+  } catch (err) {
+    logDebug(`Scraping failed: ${err.message}`);
+    throw new Error(`Failed to scrape ${url}: ${err.message}`);
+  }
+}
+
 // --- API Endpoints ---
 
 // Get all tasks
@@ -117,6 +150,8 @@ app.post('/api/tasks', async (req, res) => {
       type: req.body.type, // 'ai' or 'static'
       prompt: req.body.prompt,
       schedule: req.body.schedule, // '5m', '15m', '1h', etc.
+      url: req.body.url || "",
+      channels: req.body.channels || ['telegram'],
       active: true,
       createdAt: new Date().toISOString(),
     };
@@ -154,6 +189,8 @@ app.put('/api/tasks/:id', async (req, res) => {
       type: req.body.type !== undefined ? req.body.type : tasks[index].type,
       prompt: req.body.prompt !== undefined ? req.body.prompt : tasks[index].prompt,
       schedule: req.body.schedule !== undefined ? req.body.schedule : tasks[index].schedule,
+      url: req.body.url !== undefined ? req.body.url : tasks[index].url,
+      channels: req.body.channels !== undefined ? req.body.channels : tasks[index].channels,
       active: req.body.active !== undefined ? req.body.active : tasks[index].active,
       updatedAt: new Date().toISOString(),
     };
@@ -226,8 +263,29 @@ app.post('/api/tasks/:id/run', async (req, res) => {
     const chatId = process.env.TELEGRAM_CHAT_ID;
     const geminiApiKey = process.env.GEMINI_API_KEY;
 
-    if (!botToken || !chatId) {
-      return res.status(400).json({ error: 'Telegram credentials are not configured in local Settings.' });
+    const channels = task.channels || ['telegram'];
+    
+    // Check missing credentials for active channels
+    if (channels.includes('telegram') && (!botToken || !chatId)) {
+      return res.status(400).json({ error: 'Telegram credentials are not configured in Settings.' });
+    }
+    if (channels.includes('discord') && !process.env.DISCORD_WEBHOOK_URL) {
+      return res.status(400).json({ error: 'Discord Webhook URL is not configured in Settings.' });
+    }
+    if (channels.includes('slack') && !process.env.SLACK_WEBHOOK_URL) {
+      return res.status(400).json({ error: 'Slack Webhook URL is not configured in Settings.' });
+    }
+
+    // Web Scraping context
+    let promptText = task.prompt || '';
+    if (task.url && task.type === 'ai') {
+      try {
+        const pageText = await scrapeWebpage(task.url);
+        promptText = `Context from webpage (${task.url}):\n---\n${pageText}\n---\n\nUser Request: ${task.prompt}`;
+      } catch (scrapeErr) {
+        logDebug(`Proceeding without webpage content due to scrape error: ${scrapeErr.message}`);
+        promptText = `[Note: Unable to fetch live content from ${task.url} due to error: ${scrapeErr.message}]\n\nUser Request: ${task.prompt}`;
+      }
     }
 
     let alertMessage = '';
@@ -244,7 +302,7 @@ app.post('/api/tasks/:id/run', async (req, res) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: `${systemInstruction}\n\nUser Request: ${task.prompt}` }] }]
+          contents: [{ parts: [{ text: `${systemInstruction}\n\nUser Request: ${promptText}` }] }]
         })
       });
 
@@ -263,36 +321,71 @@ app.post('/api/tasks/:id/run', async (req, res) => {
       throw new Error('Generated content was empty.');
     }
 
-    // Send to Telegram
-    const formattedText = `🔔 *Manual Run: ${task.name}*\n\n${alertMessage}`;
-    const tgUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-    
-    let tgRes = await fetch(tgUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: formattedText,
-        parse_mode: 'Markdown',
-      })
-    });
+    // Deliver to selected channels
+    const deliveryErrors = [];
 
-    if (!tgRes.ok) {
-      const errorData = await tgRes.json();
-      if (errorData.description && errorData.description.includes('can\'t parse')) {
-        // Plain text fallback
-        const plainText = `🔔 Manual Run: ${task.name}\n\n${alertMessage}`;
-        tgRes = await fetch(tgUrl, {
+    if (channels.includes('telegram')) {
+      try {
+        const formattedText = `🔔 *Manual Run: ${task.name}*\n\n${alertMessage}`;
+        const tgUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+        let tgRes = await fetch(tgUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: chatId, text: plainText })
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: formattedText,
+            parse_mode: 'Markdown',
+          })
         });
+        if (!tgRes.ok) {
+          const errorData = await tgRes.json();
+          if (errorData.description && errorData.description.includes('can\'t parse')) {
+            const plainText = `🔔 Manual Run: ${task.name}\n\n${alertMessage}`;
+            tgRes = await fetch(tgUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ chat_id: chatId, text: plainText })
+            });
+          }
+        }
+        if (!tgRes.ok) throw new Error(`Telegram returned status ${tgRes.status}`);
+      } catch (err) {
+        deliveryErrors.push(`Telegram: ${err.message}`);
       }
     }
 
-    if (!tgRes.ok) {
-      const errText = await tgRes.text();
-      throw new Error(`Telegram API returned status ${tgRes.status}: ${errText}`);
+    if (channels.includes('discord')) {
+      try {
+        const discordUrl = process.env.DISCORD_WEBHOOK_URL;
+        const formattedText = `🔔 **Manual Run: ${task.name}**\n\n${alertMessage}`;
+        const res = await fetch(discordUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content: formattedText })
+        });
+        if (!res.ok) throw new Error(`Discord returned status ${res.status}`);
+      } catch (err) {
+        deliveryErrors.push(`Discord: ${err.message}`);
+      }
+    }
+
+    if (channels.includes('slack')) {
+      try {
+        const slackUrl = process.env.SLACK_WEBHOOK_URL;
+        const formattedText = `🔔 *Manual Run: ${task.name}*\n\n${alertMessage}`;
+        const res = await fetch(slackUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: formattedText })
+        });
+        if (!res.ok) throw new Error(`Slack returned status ${res.status}`);
+      } catch (err) {
+        deliveryErrors.push(`Slack: ${err.message}`);
+      }
+    }
+
+    if (deliveryErrors.length > 0) {
+      throw new Error(`Delivery failures: ${deliveryErrors.join(', ')}`);
     }
 
     // Update state last run
@@ -362,17 +455,27 @@ app.get('/api/settings', (req, res) => {
     const geminiKeyMasked = process.env.GEMINI_API_KEY 
       ? process.env.GEMINI_API_KEY.substring(0, 4) + '...' + process.env.GEMINI_API_KEY.substring(process.env.GEMINI_API_KEY.length - 4)
       : '';
+    const discordUrlMasked = process.env.DISCORD_WEBHOOK_URL
+      ? process.env.DISCORD_WEBHOOK_URL.substring(0, 15) + '...' + process.env.DISCORD_WEBHOOK_URL.substring(process.env.DISCORD_WEBHOOK_URL.length - 8)
+      : '';
+    const slackUrlMasked = process.env.SLACK_WEBHOOK_URL
+      ? process.env.SLACK_WEBHOOK_URL.substring(0, 15) + '...' + process.env.SLACK_WEBHOOK_URL.substring(process.env.SLACK_WEBHOOK_URL.length - 8)
+      : '';
 
     res.json({
       credentialsConfigured: {
         telegramBotToken: !!process.env.TELEGRAM_BOT_TOKEN,
         telegramChatId: !!process.env.TELEGRAM_CHAT_ID,
-        geminiApiKey: !!process.env.GEMINI_API_KEY
+        geminiApiKey: !!process.env.GEMINI_API_KEY,
+        discordWebhookUrl: !!process.env.DISCORD_WEBHOOK_URL,
+        slackWebhookUrl: !!process.env.SLACK_WEBHOOK_URL
       },
       masked: {
         telegramBotToken: botTokenMasked,
         telegramChatId: chatIdMasked,
-        geminiApiKey: geminiKeyMasked
+        geminiApiKey: geminiKeyMasked,
+        discordWebhookUrl: discordUrlMasked,
+        slackWebhookUrl: slackUrlMasked
       },
       autoSync: settings.autoSync
     });
@@ -395,10 +498,14 @@ app.post('/api/settings', (req, res) => {
     const token = req.body.telegramBotToken || process.env.TELEGRAM_BOT_TOKEN || '';
     const chat = req.body.telegramChatId || process.env.TELEGRAM_CHAT_ID || '';
     const gemini = req.body.geminiApiKey || process.env.GEMINI_API_KEY || '';
+    const discord = req.body.discordWebhookUrl || process.env.DISCORD_WEBHOOK_URL || '';
+    const slack = req.body.slackWebhookUrl || process.env.SLACK_WEBHOOK_URL || '';
 
     envContent += `TELEGRAM_BOT_TOKEN=${token}\n`;
     envContent += `TELEGRAM_CHAT_ID=${chat}\n`;
     envContent += `GEMINI_API_KEY=${gemini}\n`;
+    envContent += `DISCORD_WEBHOOK_URL=${discord}\n`;
+    envContent += `SLACK_WEBHOOK_URL=${slack}\n`;
 
     fs.writeFileSync(envPath, envContent, 'utf8');
 
@@ -406,6 +513,8 @@ app.post('/api/settings', (req, res) => {
     process.env.TELEGRAM_BOT_TOKEN = token;
     process.env.TELEGRAM_CHAT_ID = chat;
     process.env.GEMINI_API_KEY = gemini;
+    process.env.DISCORD_WEBHOOK_URL = discord;
+    process.env.SLACK_WEBHOOK_URL = slack;
 
     res.json({ success: true, message: 'Settings saved successfully.' });
   } catch (err) {
@@ -442,6 +551,62 @@ app.post('/api/test-telegram', async (req, res) => {
     res.json({ success: true, message: 'Test message sent successfully!' });
   } catch (err) {
     res.status(500).json({ error: 'Telegram test failed: ' + err.message });
+  }
+});
+
+// Send a test Discord alert
+app.post('/api/test-discord', async (req, res) => {
+  const url = req.body.discordWebhookUrl || process.env.DISCORD_WEBHOOK_URL;
+
+  if (!url) {
+    return res.status(400).json({ error: 'Discord Webhook URL is required to send test message.' });
+  }
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        content: '🔔 **Discord Webhook Connection Success**\n\nYour Discord alert channel has been successfully configured!'
+      })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`Discord Webhook returned status ${response.status}: ${errText}`);
+    }
+
+    res.json({ success: true, message: 'Test message sent to Discord!' });
+  } catch (err) {
+    res.status(500).json({ error: 'Discord test failed: ' + err.message });
+  }
+});
+
+// Send a test Slack alert
+app.post('/api/test-slack', async (req, res) => {
+  const url = req.body.slackWebhookUrl || process.env.SLACK_WEBHOOK_URL;
+
+  if (!url) {
+    return res.status(400).json({ error: 'Slack Webhook URL is required to send test message.' });
+  }
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: '🔔 *Slack Webhook Connection Success*\n\nYour Slack alert channel has been successfully configured!'
+      })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`Slack Webhook returned status ${response.status}: ${errText}`);
+    }
+
+    res.json({ success: true, message: 'Test message sent to Slack!' });
+  } catch (err) {
+    res.status(500).json({ error: 'Slack test failed: ' + err.message });
   }
 });
 
