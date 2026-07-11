@@ -14,5 +14,20 @@
     ],
     "deduplicate": true,
     "threshold": 0.9
+  },
+  {
+    "id": "task_ex7yxx426",
+    "name": "financial news website",
+    "type": "ai",
+    "prompt": "Monitor financial news websites, such as Bloomberg, Reuters, and The Economic Times, to track the latest news impacting the Indian market. Scan the scraped page text for keywords like \"Indian market\", \"Sensex\", \"Nifty\", and \"Rupee\". Trigger an alert when news articles mention significant market fluctuations, policy changes, or economic updates. If nothing has changed, or if the conditions are not met, output 'no update' and nothing else. The alert notification should be in a brief summary format, prefixed with 🚨, and include relevant details such as the news headline and a brief description. Output the alert to Telegram or Discord. Ensure the alert is concise and informative, with a maximum of 200 characters.",
+    "schedule": "5m",
+    "url": "",
+    "channels": [
+      "telegram"
+    ],
+    "deduplicate": true,
+    "threshold": 0.9,
+    "active": true,
+    "createdAt": "2026-07-11T11:13:19.964Z"
   }
 ]
