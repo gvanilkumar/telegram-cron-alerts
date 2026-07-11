@@ -38,7 +38,8 @@ export default function App() {
     customApiEndpoint: '',
     customAiModel: '',
     timezone: '',
-    autoSync: false
+    autoSync: false,
+    aiProvider: 'auto'
   });
 
   // Live cron validation states
@@ -213,7 +214,8 @@ export default function App() {
         customApiEndpoint: data.customApiEndpoint || '',
         customAiModel: data.customAiModel || '',
         timezone: data.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
-        autoSync: data.autoSync
+        autoSync: data.autoSync,
+        aiProvider: data.aiProvider || 'auto'
       });
     } catch (err) {
       showToast(err.message, 'error');
@@ -1338,6 +1340,24 @@ export default function App() {
                   <small style={{ display: 'block', marginTop: '0.25rem', color: 'var(--text-dark)' }}>
                     Can be obtained via Telegram bots like @userinfobot.
                   </small>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="aiProvider">AI Model Provider</label>
+                  <select 
+                    id="aiProvider"
+                    name="aiProvider" 
+                    className="form-control"
+                    value={settingsForm.aiProvider}
+                    onChange={handleSettingsChange}
+                  >
+                    <option value="auto">Auto-Detect by Key Prefix (Default)</option>
+                    <option value="gemini">Google Gemini AI</option>
+                    <option value="groq">Groq Inference Engine</option>
+                    <option value="cerebras">Cerebras Fast Inference</option>
+                    <option value="openai">OpenAI (GPT Models)</option>
+                    <option value="custom">Custom OpenAI-Compatible API</option>
+                  </select>
                 </div>
 
                 <div className="form-group">
