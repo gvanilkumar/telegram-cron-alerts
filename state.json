@@ -1,9 +1,8 @@
 {
   "task_eec29pse1": 1783757950989,
   "task_ak83xn71j": {
-    "lastRun": 1783790721424,
-    "lastAlertText": "🌐 *GLOBAL ALERT: INDIAN MARKET IMPACT*\n\n🔍 *Event:* Indian shares rise to 10-week high, led by HDFC Bank after strong Q1 growth.\n👤 *Source:* Reuters\n\n📊 *Market Sentiment Impact:* Bullish\n🎯 *Primary Sectors Affected:* #Banking #Finance\n\n💡 *Transmission Mechanism:*\n• *Macro/Currency:* Strong Q1 growth may attract FII flows, supporting the INR.\n• *Micro/Sector:* HDFC Bank's strong performance may boost investor confidence in the banking sector.\n\n🎲 *Impact Confidence Score:* 8/10\n• *Rationale:* The news is based on a concrete Q1 earnings report, making it a reliable indicator of market sentiment.",
-    "lastEmbedding": null,
-    "consecutiveFailures": 11
+    "lastRun": 1783790818230,
+    "lastAlertText": "NO_IMPACT",
+    "lastEmbedding": null
   }
 }
