@@ -319,6 +319,11 @@ export default function App() {
     }
   };
 
+  const injectPromptTemplate = (templateText) => {
+    setTaskForm(prev => ({ ...prev, prompt: templateText }));
+    showToast('Template loaded! You can now customize it.', 'success');
+  };
+
   const handleChannelCheckboxChange = (channel) => {
     setTaskForm(prev => {
       const currentChannels = prev.channels || ['telegram'];
@@ -804,6 +809,80 @@ export default function App() {
                     required
                   />
                 </div>
+
+                {taskForm.type === 'ai' ? (
+                  <div style={{ marginTop: '0.5rem', marginBottom: '1.25rem' }}>
+                    <small style={{ display: 'block', fontWeight: 'bold', marginBottom: '0.35rem', color: 'var(--text-dark)' }}>
+                      💡 Quick AI Prompt Templates:
+                    </small>
+                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                      <button 
+                        type="button" 
+                        className="btn btn-secondary" 
+                        style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem', textTransform: 'none' }}
+                        onClick={() => injectPromptTemplate("Scan the page context and extract any news or updates about Tesla (TSLA). If TSLA stock price or market movement is mentioned, output a summary starting with '📈 Tesla Update:'. Keep it under 3 sentences. If there is no mention, output 'no update'.")}
+                      >
+                        📈 Stock/Crypto Monitor
+                      </button>
+                      <button 
+                        type="button" 
+                        className="btn btn-secondary" 
+                        style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem', textTransform: 'none' }}
+                        onClick={() => injectPromptTemplate("Search for any announcements of new software versions, developer tools, or SDK releases on this page. If found, list the version name and key changes as bullet points. If nothing is new, output 'no update'.")}
+                      >
+                        🚀 Tech Releases
+                      </button>
+                      <button 
+                        type="button" 
+                        className="btn btn-secondary" 
+                        style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem', textTransform: 'none' }}
+                        onClick={() => injectPromptTemplate("Extract the pricing plans and features from this page context. Write a clear notification listing the plan names, monthly prices, and any key feature changes. Be extremely concise. If nothing changed, output 'no update'.")}
+                      >
+                        💰 Competitor Pricing
+                      </button>
+                      <button 
+                        type="button" 
+                        className="btn btn-secondary" 
+                        style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem', textTransform: 'none' }}
+                        onClick={() => injectPromptTemplate("Analyze this page for job listings matching 'React', 'Node.js', or 'Python'. For each match, output: Job Title, Company, and Location in bullet points. If no matching roles are found, output 'no update'.")}
+                      >
+                        💼 Job Board Scan
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{ marginTop: '0.5rem', marginBottom: '1.25rem' }}>
+                    <small style={{ display: 'block', fontWeight: 'bold', marginBottom: '0.35rem', color: 'var(--text-dark)' }}>
+                      💡 Quick Message Presets:
+                    </small>
+                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                      <button 
+                        type="button" 
+                        className="btn btn-secondary" 
+                        style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem', textTransform: 'none' }}
+                        onClick={() => injectPromptTemplate("⏰ Hydration Check! Stand up, stretch, and drink a glass of water.")}
+                      >
+                        💧 Hydration Reminder
+                      </button>
+                      <button 
+                        type="button" 
+                        className="btn btn-secondary" 
+                        style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem', textTransform: 'none' }}
+                        onClick={() => injectPromptTemplate("🚀 Crypto Alert: BTC has breached the daily resistance level! Check TradingView charts.")}
+                      >
+                        🪙 Price Alert
+                      </button>
+                      <button 
+                        type="button" 
+                        className="btn btn-secondary" 
+                        style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem', textTransform: 'none' }}
+                        onClick={() => injectPromptTemplate("👥 Team Standup starting in 10 minutes. Prepare your tasks log.")}
+                      >
+                        👥 Meeting Notice
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 <div className="form-group">
                   <label>Delivery Channels</label>
