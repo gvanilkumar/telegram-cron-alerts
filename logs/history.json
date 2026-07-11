@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-07-11T03:51:16.919Z",
+    "taskId": "task_d3m2zz2kc",
+    "taskName": "MoneyControl Updates",
+    "schedule": "5m",
+    "status": "success",
+    "output": "[Manual Run] **MoneyControl News**\n===============\n\n* **Indian Indices**: Top Gainers, Losers, and Most Active Stocks\n* **Global Markets**: US Markets, F&O, and Cu..."
+  },
+  {
     "timestamp": "2026-07-11T03:49:35.333Z",
     "taskId": "task_eec29pse1",
     "taskName": "Water remainder static",
