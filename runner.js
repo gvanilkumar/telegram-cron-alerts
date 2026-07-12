@@ -266,7 +266,8 @@ async function run() {
             lastRun: now,
             lastAlertText: alertMessage,
             lastEmbedding: newVector,
-            consecutiveFailures: 0
+            consecutiveFailures: 0,
+            lastError: null
           };
           stateChanged = true;
         }
@@ -280,7 +281,8 @@ async function run() {
           lastRun: now,
           lastAlertText: prevText,
           lastEmbedding: prevVector,
-          consecutiveFailures: failures
+          consecutiveFailures: failures,
+          lastError: err.message
         };
         stateChanged = true;
 
