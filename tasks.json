@@ -27,8 +27,8 @@
     ],
     "deduplicate": true,
     "threshold": 0.9,
-    "active": true,
+    "active": false,
     "createdAt": "2026-07-12T04:26:25.799Z",
-    "updatedAt": "2026-07-12T06:24:41.137Z"
+    "updatedAt": "2026-07-12T07:07:12.735Z"
   }
 ]
