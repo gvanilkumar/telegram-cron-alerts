@@ -1,0 +1,11 @@
+[
+  {
+    "timestamp": "2026-07-12T06:20:48.039Z",
+    "taskId": "task_ak83xn71j",
+    "taskName": "Indian Market - Update",
+    "schedule": "5m",
+    "status": "error",
+    "output": "Error: AI API failed: Status 401: {\"error\":{\"message\":\"Invalid API Key\",\"type\":\"invalid_request_error\",\"code\":\"invalid_api_key\"}}\n",
+    "model": "N/A"
+  }
+]
