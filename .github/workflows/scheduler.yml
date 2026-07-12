@@ -55,7 +55,7 @@ jobs:
           # Only commit and push if state.json has actual updates
           if ! git diff --cached --quiet; then
             # Stage the logs history as well so they sync together
-            git add logs/
+            git add -f logs/
             git commit -m "Runner: Sync state and logs [skip ci]"
             # Pull and rebase from remote first in case new tasks were configured during execution
             git pull --rebase origin main
