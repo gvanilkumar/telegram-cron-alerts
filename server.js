@@ -207,9 +207,11 @@ app.delete('/api/tasks/:id', async (req, res) => {
 
 // 5. Run a task manually (immediate test execution)
 app.post('/api/tasks/:id/run', async (req, res) => {
+  let task;
+  let activeModelUsed = 'N/A';
   try {
     const tasks = stateManager.readTasks();
-    const task = tasks.find(t => t.id === req.params.id);
+    task = tasks.find(t => t.id === req.params.id);
     
     if (!task) {
       return res.status(404).json({ error: 'Task not found' });
@@ -270,7 +272,6 @@ app.post('/api/tasks/:id/run', async (req, res) => {
     }
 
     let alertMessage = '';
-    let activeModelUsed = 'N/A';
     if (task.type === 'ai') {
       if (!geminiApiKey) {
         return res.status(400).json({ error: 'AI API Key is not configured in Settings.' });
@@ -449,6 +450,22 @@ app.post('/api/tasks/:id/run', async (req, res) => {
 
     res.json({ success: true, message: 'Task executed successfully.', sync: syncStatus });
   } catch (err) {
+    if (task) {
+      try {
+        const failedLogEntry = {
+          timestamp: new Date().toISOString(),
+          taskId: task.id,
+          taskName: task.name,
+          schedule: task.schedule,
+          status: 'error',
+          output: `Error: ${err.message}`,
+          model: activeModelUsed
+        };
+        stateManager.writeHistoryLog(failedLogEntry);
+      } catch (logErr) {
+        logger.error('Failed to write failure log entry', logErr);
+      }
+    }
     res.status(500).json({ error: 'Execution failed: ' + err.message });
   }
 });
