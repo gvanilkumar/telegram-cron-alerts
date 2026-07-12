@@ -1,6 +1,6 @@
 {
   "autoSync": true,
   "aiProvider": "groq",
-  "groqModel": "groq/compound",
+  "groqModel": "meta-llama/llama-4-scout-17b-16e-instruct",
   "googleSheetLoggingEnabled": true
 }
