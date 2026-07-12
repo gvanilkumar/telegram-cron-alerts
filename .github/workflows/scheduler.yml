@@ -41,22 +41,17 @@ jobs:
           TIMEZONE: ${{ secrets.TIMEZONE }}
         run: node runner.js
 
-      - name: Commit and Push state & logs
+      - name: Commit and Push state
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Create logs directory if it doesn't exist to avoid git add errors
-          mkdir -p logs
           
           # Stage state.json to detect actual alert updates (success or error)
           git add state.json
           
           # Only commit and push if state.json has actual updates
           if ! git diff --cached --quiet; then
-            # Stage the logs history as well so they sync together
-            git add -f logs/
-            git commit -m "Runner: Sync state and logs [skip ci]"
+            git commit -m "Runner: Sync state [skip ci]"
             # Pull and rebase from remote first in case new tasks were configured during execution
             git pull --rebase origin main
             git push origin HEAD:${{ github.ref }}
