@@ -14,5 +14,20 @@
     "active": true,
     "createdAt": "2026-07-11T15:57:56.515Z",
     "updatedAt": "2026-07-12T04:22:17.814Z"
+  },
+  {
+    "id": "task_lfe72iyrm",
+    "name": "Motivating Quote of the day",
+    "type": "ai",
+    "prompt": "Share me a motivating quote",
+    "schedule": "daily",
+    "url": "",
+    "channels": [
+      "telegram"
+    ],
+    "deduplicate": true,
+    "threshold": 0.9,
+    "active": true,
+    "createdAt": "2026-07-12T04:26:25.799Z"
   }
 ]
