@@ -1,6 +1,6 @@
 {
   "autoSync": true,
-  "aiProvider": "groq",
+  "aiProvider": "auto",
   "groqModel": "groq/compound-mini",
   "googleSheetLoggingEnabled": true
 }
