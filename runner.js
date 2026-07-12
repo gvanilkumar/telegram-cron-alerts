@@ -84,6 +84,7 @@ async function run() {
         schedule: task.schedule,
         status: 'pending',
         output: '',
+        model: 'N/A'
       };
 
       let prevText = null;
@@ -137,30 +138,42 @@ async function run() {
             throw new Error('AI API Key (GEMINI_API_KEY environment variable) is not configured.');
           }
           
+          let activeModel = 'N/A';
           if (provider === 'custom' && config.customApiEndpoint) {
-            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, config.customApiEndpoint, groqModel || config.customAiModel || 'gpt-4o-mini');
+            activeModel = groqModel || config.customAiModel || 'gpt-4o-mini';
+            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, config.customApiEndpoint, activeModel);
           } else if (provider === 'groq') {
-            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', groqModel || 'groq/compound');
+            activeModel = groqModel || 'groq/compound';
+            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', activeModel);
           } else if (provider === 'cerebras') {
-            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'gpt-oss-120b');
+            activeModel = 'gpt-oss-120b';
+            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', activeModel);
           } else if (provider === 'openai') {
-            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.openai.com/v1/chat/completions', groqModel || 'gpt-4o-mini');
+            activeModel = groqModel || 'gpt-4o-mini';
+            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.openai.com/v1/chat/completions', activeModel);
           } else if (provider === 'gemini') {
+            activeModel = 'gemini-2.5-flash';
             alertMessage = await executeAiPrompt(promptText, config.geminiApiKey);
           } else {
             // Prefix fallback auto-detection
             if (config.customApiEndpoint) {
-              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, config.customApiEndpoint, groqModel || config.customAiModel || 'gpt-4o-mini');
+              activeModel = groqModel || config.customAiModel || 'gpt-4o-mini';
+              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, config.customApiEndpoint, activeModel);
             } else if (config.geminiApiKey.startsWith('gsk_')) {
-              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', groqModel || 'groq/compound');
+              activeModel = groqModel || 'groq/compound';
+              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', activeModel);
             } else if (config.geminiApiKey.startsWith('cbs-') || config.geminiApiKey.startsWith('csk-')) {
-              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'gpt-oss-120b');
+              activeModel = 'gpt-oss-120b';
+              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', activeModel);
             } else if (config.geminiApiKey.startsWith('sk-')) {
-              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.openai.com/v1/chat/completions', groqModel || 'gpt-4o-mini');
+              activeModel = groqModel || 'gpt-4o-mini';
+              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.openai.com/v1/chat/completions', activeModel);
             } else {
+              activeModel = 'gemini-2.5-flash';
               alertMessage = await executeAiPrompt(promptText, config.geminiApiKey);
             }
           }
+          logEntry.model = activeModel;
         } else {
           alertMessage = task.prompt || 'No message content defined.';
         }

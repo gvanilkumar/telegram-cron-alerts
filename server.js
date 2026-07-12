@@ -270,6 +270,7 @@ app.post('/api/tasks/:id/run', async (req, res) => {
     }
 
     let alertMessage = '';
+    let activeModelUsed = 'N/A';
     if (task.type === 'ai') {
       if (!geminiApiKey) {
         return res.status(400).json({ error: 'AI API Key is not configured in Settings.' });
@@ -277,25 +278,35 @@ app.post('/api/tasks/:id/run', async (req, res) => {
 
       const selectedModel = config.settings.groqModel;
       if (provider === 'custom' && config.customApiEndpoint) {
-        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, config.customApiEndpoint, selectedModel || config.customAiModel || 'gpt-4o-mini');
+        activeModelUsed = selectedModel || config.customAiModel || 'gpt-4o-mini';
+        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, config.customApiEndpoint, activeModelUsed);
       } else if (provider === 'groq') {
-        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', selectedModel || 'groq/compound');
+        activeModelUsed = selectedModel || 'groq/compound';
+        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', activeModelUsed);
       } else if (provider === 'cerebras') {
-        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'gpt-oss-120b');
+        activeModelUsed = 'gpt-oss-120b';
+        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', activeModelUsed);
       } else if (provider === 'openai') {
-        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.openai.com/v1/chat/completions', selectedModel || 'gpt-4o-mini');
+        activeModelUsed = selectedModel || 'gpt-4o-mini';
+        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.openai.com/v1/chat/completions', activeModelUsed);
       } else if (provider === 'gemini') {
+        activeModelUsed = 'gemini-2.5-flash';
         alertMessage = await executeAiPrompt(promptText, geminiApiKey);
       } else {
         if (config.customApiEndpoint) {
-          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, config.customApiEndpoint, selectedModel || config.customAiModel || 'gpt-4o-mini');
+          activeModelUsed = selectedModel || config.customAiModel || 'gpt-4o-mini';
+          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, config.customApiEndpoint, activeModelUsed);
         } else if (geminiApiKey.startsWith('gsk_')) {
-          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', selectedModel || 'groq/compound');
+          activeModelUsed = selectedModel || 'groq/compound';
+          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', activeModelUsed);
         } else if (geminiApiKey.startsWith('cbs-') || geminiApiKey.startsWith('csk-')) {
-          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'gpt-oss-120b');
+          activeModelUsed = 'gpt-oss-120b';
+          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', activeModelUsed);
         } else if (geminiApiKey.startsWith('sk-')) {
-          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.openai.com/v1/chat/completions', selectedModel || 'gpt-4o-mini');
+          activeModelUsed = selectedModel || 'gpt-4o-mini';
+          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.openai.com/v1/chat/completions', activeModelUsed);
         } else {
+          activeModelUsed = 'gemini-2.5-flash';
           alertMessage = await executeAiPrompt(promptText, geminiApiKey);
         }
       }
@@ -353,7 +364,8 @@ app.post('/api/tasks/:id/run', async (req, res) => {
         taskName: task.name,
         schedule: task.schedule,
         status: 'skipped',
-        output: `[Manual Run Skipped] Similarity (${Math.round(similarityScore * 100)}%) is above threshold.`
+        output: `[Manual Run Skipped] Similarity (${Math.round(similarityScore * 100)}%) is above threshold.`,
+        model: activeModelUsed
       };
       stateManager.writeHistoryLog(logEntry);
 
@@ -423,6 +435,7 @@ app.post('/api/tasks/:id/run', async (req, res) => {
       schedule: task.schedule,
       status: 'success',
       output: '[Manual Run] ' + alertMessage.substring(0, 150) + (alertMessage.length > 150 ? '...' : ''),
+      model: activeModelUsed
     };
     stateManager.writeHistoryLog(logEntry);
 

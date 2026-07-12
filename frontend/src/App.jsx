@@ -1371,6 +1371,7 @@ export default function App() {
                                   <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: '0.5rem', marginBottom: '0.75rem' }}>
                                     <strong>Timestamp:</strong> <span>{new Date(log.timestamp).toString()}</span>
                                     <strong>Task ID:</strong> <span><code>{log.taskId}</code></span>
+                                    <strong>AI Model Used:</strong> <span><code>{log.model || 'N/A'}</code></span>
                                     <strong>Run Status:</strong> 
                                     <span>
                                       <span className={
