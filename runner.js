@@ -138,25 +138,25 @@ async function run() {
           }
           
           if (provider === 'custom' && config.customApiEndpoint) {
-            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
+            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, config.customApiEndpoint, groqModel || config.customAiModel || 'gpt-4o-mini');
           } else if (provider === 'groq') {
-            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', groqModel);
+            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', groqModel || 'groq/compound');
           } else if (provider === 'cerebras') {
             alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'gpt-oss-120b');
           } else if (provider === 'openai') {
-            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.openai.com/v1/chat/completions', 'gpt-4o-mini');
+            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.openai.com/v1/chat/completions', groqModel || 'gpt-4o-mini');
           } else if (provider === 'gemini') {
             alertMessage = await executeAiPrompt(promptText, config.geminiApiKey);
           } else {
             // Prefix fallback auto-detection
             if (config.customApiEndpoint) {
-              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, config.customApiEndpoint, config.customAiModel || 'gpt-4o-mini');
+              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, config.customApiEndpoint, groqModel || config.customAiModel || 'gpt-4o-mini');
             } else if (config.geminiApiKey.startsWith('gsk_')) {
-              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', groqModel);
+              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', groqModel || 'groq/compound');
             } else if (config.geminiApiKey.startsWith('cbs-') || config.geminiApiKey.startsWith('csk-')) {
               alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', 'gpt-oss-120b');
             } else if (config.geminiApiKey.startsWith('sk-')) {
-              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.openai.com/v1/chat/completions', 'gpt-4o-mini');
+              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.openai.com/v1/chat/completions', groqModel || 'gpt-4o-mini');
             } else {
               alertMessage = await executeAiPrompt(promptText, config.geminiApiKey);
             }
@@ -307,149 +307,4 @@ if (require.main === module) {
   });
 }
 
-<<<<<<< Updated upstream
 module.exports = { run };
-=======
-async function executeOpenAiCompatiblePrompt(prompt, apiKey, url, model) {
-  logDebug(`Calling OpenAI-compatible API at ${url} (model: ${model})...`);
-  const systemInstruction = `You are a helpful automation assistant. Return a concise, clear alert or summary according to the user request. Make it look beautiful on a phone screen. Use Markdown formatting when appropriate (bold, bullet points, emoji). Keep the response under 1500 characters.`;
-
-  let endpoint = url;
-  if (!endpoint.endsWith('/chat/completions') && !endpoint.endsWith('/chat/completions/')) {
-    endpoint = endpoint.replace(/\/$/, '') + '/chat/completions';
-  }
-
-  const response = await fetchWithRetry(endpoint, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`
-    },
-    body: JSON.stringify({
-      model: model,
-      messages: [
-        { role: 'system', content: systemInstruction },
-        { role: 'user', content: prompt }
-      ],
-      temperature: 0.7
-    })
-  });
-
-  if (!response.ok) {
-    const errText = await response.text();
-    throw new Error(`AI API returned status ${response.status}: ${errText}`);
-  }
-
-  const data = await response.json();
-  const generatedText = data.choices?.[0]?.message?.content;
-
-  if (!generatedText) {
-    throw new Error('AI API returned empty response structure.');
-  }
-
-  return generatedText.trim();
-}
-
-function convertMarkdownToHtml(markdownText) {
-  if (!markdownText) return '';
-  // Convert [text](url) to <a href="$2">$1</a>
-  let html = markdownText.replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, '<a href="$2">$1</a>');
-  // Convert **bold** to <b>bold</b>
-  html = html.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
-  return html;
-}
-
-async function sendTelegramMessage(text, taskName) {
-  logDebug(`Sending Telegram alert...`);
-  
-  const htmlContent = convertMarkdownToHtml(text);
-  const formattedText = `🔔 <b>Alert: ${taskName}</b>\n\n${htmlContent}`;
-  
-  const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-  
-  // Send message using robust HTML parsing
-  let response = await fetchWithRetry(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: formattedText,
-      parse_mode: 'HTML',
-    })
-  });
-
-  // Fallback to plain text if HTML parsing has any unexpected tags
-  if (!response.ok) {
-    const errorData = await response.json();
-    logDebug(`HTML parsing failed for Telegram message (${errorData.description}). Retrying in plain text.`);
-    
-    const plainText = `🔔 Alert: ${taskName}\n\n${text}`;
-    response = await fetchWithRetry(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: plainText,
-      })
-    });
-  }
-
-  if (!response.ok) {
-    const errText = await response.text();
-    throw new Error(`Telegram API returned status ${response.status}: ${errText}`);
-  }
-}
-
-async function sendDiscordMessage(text, taskName, webhookUrl) {
-  logDebug(`Sending Discord Webhook alert...`);
-  
-  const formattedText = `🔔 **Alert: ${taskName}**\n\n${text}`;
-  
-  const response = await fetchWithRetry(webhookUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      content: formattedText
-    })
-  });
-
-  if (!response.ok) {
-    const errText = await response.text();
-    throw new Error(`Discord Webhook returned status ${response.status}: ${errText}`);
-  }
-}
-
-async function sendSlackMessage(text, taskName, webhookUrl) {
-  logDebug(`Sending Slack Webhook alert...`);
-  
-  // Slack uses *bold* for bold and _italic_ for italic (matches Telegram!)
-  const formattedText = `🔔 *Alert: ${taskName}*\n\n${text}`;
-  
-  const response = await fetchWithRetry(webhookUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      text: formattedText
-    })
-  });
-
-  if (!response.ok) {
-    const errText = await response.text();
-    throw new Error(`Slack Webhook returned status ${response.status}: ${errText}`);
-  }
-}
-
-// Run the script
-run().catch(err => {
-  console.error('Fatal Runner Error:', err);
-  process.exit(1);
-});
->>>>>>> Stashed changes
