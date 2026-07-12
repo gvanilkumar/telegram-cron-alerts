@@ -1,19 +1,19 @@
 # AuraVigil Features & Internal Mechanisms
 
-This document explains the core features of AuraVigil and how they work under the hood.
+If you're curious about what happens behind the scenes, this guide breaks down how AuraVigil handles scraping, filters duplicates with AI, and synchronizes files without a database.
 
 ---
 
 ## 1. Web Scraping & Context Extraction
 
-AuraVigil tasks can extract live content from the web before processing it with an AI model.
+AuraVigil tasks can extract live content from the web before analyzing it with an AI model.
 
-### Automatic Content Scraper
-When a task has a target URL configured (e.g., `https://news.ycombinator.com`), the runner executes a zero-dependency scraper ([lib/scraper.js](file:///C:/Users/anilg/.gemini/antigravity/scratch/telegram-cron-alerts/lib/scraper.js)):
-1. Performs a fetch request to download the raw HTML.
-2. Removes non-content tags: `<script>`, `<style>`, `<svg>`, `<nav>`, and `<footer>`.
-3. Strips remaining HTML tag syntax to compile clean text.
-4. Passes this text to the AI model as context:
+### Automatic Scraper
+When a task has a target URL configured (like `https://news.ycombinator.com`), the runner runs our zero-dependency web scraper ([lib/scraper.js](file:///C:/Users/anilg/.gemini/antigravity/scratch/telegram-cron-alerts/lib/scraper.js)):
+1. Downloads the raw HTML from the target page.
+2. Strips out script and style tags (`<script>`, `<style>`, `<svg>`, `<nav>`, `<footer>`) to avoid wasting LLM token limits on code design.
+3. Cleans up the remaining tags to compile a clean text string of raw page content.
+4. Passes the text to the AI model alongside your prompt:
    ```text
    Context from webpage (https://example.com):
    ---
@@ -23,32 +23,32 @@ When a task has a target URL configured (e.g., `https://news.ycombinator.com`), 
    ```
 
 ### Google News RSS Fallback
-If you create an AI task but **do not specify a URL**, AuraVigil automatically generates a Google News RSS search query based on the task name:
+If you configure an AI monitor but **do not provide a URL**, AuraVigil doesn't crash. Instead, it creates a search query on Google News using your task name:
 * **Task Name:** `Tesla Stock News`
 * **Auto-generated URL:** `https://news.google.com/rss/search?q=Tesla+Stock+News&hl=en-US&gl=US&ceid=US:en`
-* It scrapes the resulting XML feeds of news headlines and uses them as context.
+* It scrapes the headlines list from the XML feed and sends them to the model as context.
 
-### Built-in Search Bypass (Groq/Compound)
-If the **Groq provider** is selected with its default compound model (`groq/compound`), AuraVigil skips the local scraper. The compound model has a native, built-in search tool that queries the web directly for the task name/prompt.
+### Built-in Search (Groq/Compound Bypass)
+If you select the **Groq provider** and use the default model `groq/compound`, AuraVigil skips local scraping. This model has its own built-in web search tool, so it queries the web directly for your prompt.
 
 ---
 
 ## 2. Neural Semantic Deduplication
 
-To prevent sending repeat notifications for the same news (e.g., sending the same warning 20 times because a price remains low), AuraVigil employs semantic deduplication.
+To save you from getting spammed with identical notifications (for example, warning you 20 times that a stock price remains low), AuraVigil filters out duplicate alerts before delivery.
 
-### How It Works:
-1. **Embedding Generation:** After the AI model generates a new alert message, AuraVigil requests a text embedding (a 1536-dimensional numerical vector representing the meaning of the text) using the selected provider's embedding model.
+### How it works:
+1. **Embedding Generation:** When the AI generates a new alert message, AuraVigil asks the selected AI provider to create a text embedding (a 1536-dimensional vector representing the semantic meaning of the message).
 2. **Cosine Similarity Check:**
    It calculates the similarity between the new vector (\(A\)) and the previous alert's vector (\(B\)) stored in `state.json`:
    \[
    \text{Similarity} = \frac{A \cdot B}{\|A\| \|B\|}
    \]
-3. **Threshold Check:** If the similarity score is greater than or equal to the task's configured threshold (default `0.90` or `90%`), the alert is **skipped** as duplicate.
-4. **State Persistence:** The task's `state.json` entry is updated with the last run timestamp, but the text and embedding vector remain unchanged so subsequent runs are still compared to the original alert.
+3. **Threshold Check:** If the similarity score is greater than or equal to your task's threshold (defaults to `0.90` or `90%`), the alert is **skipped**.
+4. **State Update:** The task's last run time is updated, but the text and embedding vector remain unchanged. Subsequent runs will still be compared to the original alert until a new, unique alert breaks through.
 
 ### Local Fallback Similarity:
-If no embedding model key is available (or the network API call fails), the system falls back to a **character frequency overlap similarity algorithm** ([lib/ai.js](file:///C:/Users/anilg/.gemini/antigravity/scratch/telegram-cron-alerts/lib/ai.js)):
+If you aren't using an AI embedding model, or the network API call fails, the system switches to a **character frequency overlap similarity algorithm** ([lib/ai.js](file:///C:/Users/anilg/.gemini/antigravity/scratch/telegram-cron-alerts/lib/ai.js)):
 * It counts individual character frequency signatures of both strings and calculates the cosine distance between those frequency maps.
 * While less accurate than neural embeddings, it prevents exact or near-exact text duplicates.
 
@@ -56,7 +56,7 @@ If no embedding model key is available (or the network API call fails), the syst
 
 ## 3. Scheduling & Git Synchronization Engine
 
-To avoid keeping a database online, AuraVigil uses your Git repository as its persistent database. Tasks are executed in the cloud using GitHub Actions, but instead of relying on GitHub's native cron scheduling (which suffers from long queues and delays), the workflow is triggered precisely on-time via external webhook dispatch requests (e.g. from Cron-Job.org).
+To avoid the cost and complexity of hosting an active database online, AuraVigil uses your Git repository as its database.
 
 ```mermaid
 graph TD
@@ -80,17 +80,17 @@ graph TD
 ```
 
 ### Auto-Sync (UI to Git)
-When you save a new task or change settings on the UI, the backend server automatically runs Git commands ([lib/git.js](file:///C:/Users/anilg/.gemini/antigravity/scratch/telegram-cron-alerts/lib/git.js)):
+When you save a task or edit credentials on the dashboard, the local server handles git commands automatically ([lib/git.js](file:///C:/Users/anilg/.gemini/antigravity/scratch/telegram-cron-alerts/lib/git.js)):
 1. Stages config files: `tasks.json`, `settings.json`, and `state.json`.
 2. Commits changes with a local action message.
-3. Performs a `git pull --rebase` to merge any updates from the cloud.
-4. Pushes the new commit to your GitHub remote.
+3. Pulls latest changes from GitHub using a safe rebase (`git pull --rebase`).
+4. Pushes the new commit to your remote repo.
 
-### State Persistence (Actions to Git)
-When the cloud runner finishes execution, it updates `state.json` with the new alert text and vector embeddings. It then stages `state.json` and runs a check:
-* **If state changed:** It commits and pushes the updated `state.json` back to your repo.
-* **If no state changed:** It skips the commit to prevent polluting your repository history.
-* All commits from Actions include `[skip ci]` in the commit message to prevent triggering infinite build loops.
+### Cloud Runner State Persistence
+When the cloud runner finishes executing tasks, it saves the new embedding vectors and alerts to `state.json`. 
+* **If the state updated:** It commits and pushes `state.json` back to your repo.
+* **If nothing updated:** It skips committing to avoid polluting your Git history.
+* All cloud commits include `[skip ci]` in the message to prevent triggering infinite loop runs.
 
 ---
 
