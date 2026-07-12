@@ -1,5 +1,5 @@
 {
   "autoSync": true,
   "aiProvider": "groq",
-  "groqModel": "groq/compound"
+  "groqModel": "groq/compound-mini"
 }
