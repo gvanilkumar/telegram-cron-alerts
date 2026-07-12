@@ -454,8 +454,18 @@ app.post('/api/tasks/:id/run', async (req, res) => {
 });
 
 // 6. Fetch execution logs
-app.get('/api/logs', (req, res) => {
+app.get('/api/logs', async (req, res) => {
   try {
+    if (config.settings.googleSheetLoggingEnabled && config.googleSheetId && config.googleServiceAccountKey) {
+      try {
+        const { fetchSheetLogs } = require('./lib/sheets');
+        const sheetLogs = await fetchSheetLogs(config.googleSheetId, config.googleServiceAccountKey);
+        return res.json(sheetLogs);
+      } catch (sheetErr) {
+        logger.error('Failed to fetch logs from Google Sheets, falling back to local history.json', sheetErr);
+      }
+    }
+
     if (fs.existsSync(stateManager.logsPath)) {
       const data = JSON.parse(fs.readFileSync(stateManager.logsPath, 'utf8'));
       res.json(data);
@@ -513,6 +523,9 @@ app.get('/api/settings', async (req, res) => {
     const slackUrlMasked = config.slackWebhookUrl
       ? config.slackWebhookUrl.substring(0, 15) + '...' + config.slackWebhookUrl.substring(config.slackWebhookUrl.length - 8)
       : '';
+    const googleServiceAccountKeyMasked = config.googleServiceAccountKey
+      ? '(saved)'
+      : '';
 
     res.json({
       credentialsConfigured: {
@@ -520,21 +533,25 @@ app.get('/api/settings', async (req, res) => {
         telegramChatId: !!config.telegramChatId,
         geminiApiKey: !!config.geminiApiKey,
         discordWebhookUrl: !!config.discordWebhookUrl,
-        slackWebhookUrl: !!config.slackWebhookUrl
+        slackWebhookUrl: !!config.slackWebhookUrl,
+        googleServiceAccountKey: !!config.googleServiceAccountKey
       },
       masked: {
         telegramBotToken: botTokenMasked,
         telegramChatId: chatIdMasked,
         geminiApiKey: geminiKeyMasked,
         discordWebhookUrl: discordUrlMasked,
-        slackWebhookUrl: slackUrlMasked
+        slackWebhookUrl: slackUrlMasked,
+        googleServiceAccountKey: googleServiceAccountKeyMasked
       },
       customApiEndpoint: config.customApiEndpoint,
       customAiModel: config.customAiModel,
+      googleSheetId: config.googleSheetId,
       timezone: process.env.TIMEZONE || 'UTC',
       autoSync: settings.autoSync,
       aiProvider: settings.aiProvider || 'auto',
       groqModel: settings.groqModel || 'groq/compound',
+      googleSheetLoggingEnabled: !!settings.googleSheetLoggingEnabled,
       githubRepoPath: (await getGitRepoPath()) || ''
     });
   } catch (err) {
@@ -549,7 +566,8 @@ app.post('/api/settings', (req, res) => {
     const settings = {
       autoSync: !!req.body.autoSync,
       aiProvider: req.body.aiProvider || 'auto',
-      groqModel: req.body.groqModel || 'groq/compound'
+      groqModel: req.body.groqModel || 'groq/compound',
+      googleSheetLoggingEnabled: !!req.body.googleSheetLoggingEnabled
     };
     const tmpSettingsPath = config.settingsPath + '.tmp';
     fs.writeFileSync(tmpSettingsPath, JSON.stringify(settings, null, 2), 'utf8');
@@ -566,6 +584,8 @@ app.post('/api/settings', (req, res) => {
     const customApiEndpoint = (req.body.customApiEndpoint !== undefined ? req.body.customApiEndpoint : config.customApiEndpoint).trim();
     const customAiModel = (req.body.customAiModel !== undefined ? req.body.customAiModel : config.customAiModel).trim();
     const timezone = (req.body.timezone !== undefined ? req.body.timezone : (process.env.TIMEZONE || 'UTC')).trim();
+    const googleServiceAccountKey = getCleanCredential(req.body.googleServiceAccountKey, config.googleServiceAccountKey);
+    const googleSheetId = (req.body.googleSheetId !== undefined ? req.body.googleSheetId : config.googleSheetId).trim();
 
     envContent += `TELEGRAM_BOT_TOKEN=${token}\n`;
     envContent += `TELEGRAM_CHAT_ID=${chat}\n`;
@@ -575,6 +595,8 @@ app.post('/api/settings', (req, res) => {
     envContent += `CUSTOM_API_ENDPOINT=${customApiEndpoint}\n`;
     envContent += `CUSTOM_AI_MODEL=${customAiModel}\n`;
     envContent += `TIMEZONE=${timezone}\n`;
+    envContent += `GOOGLE_SERVICE_ACCOUNT_KEY=${googleServiceAccountKey}\n`;
+    envContent += `GOOGLE_SHEET_ID=${googleSheetId}\n`;
 
     const tmpEnvPath = config.envPath + '.tmp';
     fs.writeFileSync(tmpEnvPath, envContent, 'utf8');
@@ -589,6 +611,8 @@ app.post('/api/settings', (req, res) => {
     process.env.CUSTOM_API_ENDPOINT = customApiEndpoint;
     process.env.CUSTOM_AI_MODEL = customAiModel;
     process.env.TIMEZONE = timezone;
+    process.env.GOOGLE_SERVICE_ACCOUNT_KEY = googleServiceAccountKey;
+    process.env.GOOGLE_SHEET_ID = googleSheetId;
 
     config.telegramBotToken = token;
     config.telegramChatId = chat;
@@ -597,6 +621,8 @@ app.post('/api/settings', (req, res) => {
     config.slackWebhookUrl = slack;
     config.customApiEndpoint = customApiEndpoint;
     config.customAiModel = customAiModel;
+    config.googleServiceAccountKey = googleServiceAccountKey;
+    config.googleSheetId = googleSheetId;
 
     res.json({ success: true, message: 'Settings saved successfully.' });
   } catch (err) {

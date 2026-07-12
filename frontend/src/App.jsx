@@ -137,7 +137,10 @@ export default function App() {
     timezone: '',
     autoSync: false,
     aiProvider: 'auto',
-    groqModel: 'groq/compound'
+    groqModel: 'groq/compound',
+    googleSheetLoggingEnabled: false,
+    googleSheetId: '',
+    googleServiceAccountKey: ''
   });
 
   // Live cron validation states
@@ -314,7 +317,10 @@ export default function App() {
         timezone: data.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
         autoSync: data.autoSync,
         aiProvider: data.aiProvider || 'auto',
-        groqModel: data.groqModel || 'groq/compound'
+        groqModel: data.groqModel || 'groq/compound',
+        googleSheetLoggingEnabled: !!data.googleSheetLoggingEnabled,
+        googleSheetId: data.googleSheetId || '',
+        googleServiceAccountKey: ''
       });
     } catch (err) {
       showToast(err.message, 'error');
@@ -1594,6 +1600,65 @@ export default function App() {
                     Your alerts and scheduling calculations will respect this timezone. (Auto-detected: <code>{Intl.DateTimeFormat().resolvedOptions().timeZone}</code>)
                   </small>
                 </div>
+
+                <div style={{ margin: '2rem 0 1rem 0', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1.5rem' }}>
+                  <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', color: 'var(--text-bright)' }}>Google Sheets Logging (Optional)</h3>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--text-dark)', marginBottom: '1rem' }}>
+                    Store execution logs inside a Google Sheet instead of Git. If disabled or unconfigured, logging falls back to local history files ignored by Git.
+                  </p>
+                </div>
+
+                <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.2rem' }}>
+                  <input 
+                    type="checkbox" 
+                    id="googleSheetLoggingEnabled" 
+                    name="googleSheetLoggingEnabled"
+                    style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                    checked={settingsForm.googleSheetLoggingEnabled}
+                    onChange={handleSettingsChange}
+                  />
+                  <label htmlFor="googleSheetLoggingEnabled" style={{ margin: 0, cursor: 'pointer' }}>
+                    Enable Google Sheet Logging
+                  </label>
+                </div>
+
+                {settingsForm.googleSheetLoggingEnabled && (
+                  <>
+                    <div className="form-group">
+                      <label htmlFor="googleSheetId">Google Sheet ID</label>
+                      <input 
+                        type="text" 
+                        id="googleSheetId"
+                        name="googleSheetId" 
+                        className="form-control"
+                        placeholder="e.g. 1a2b3c4d5e6f7g8h9i0j..."
+                        value={settingsForm.googleSheetId}
+                        onChange={handleSettingsChange}
+                      />
+                      <small style={{ display: 'block', marginTop: '0.25rem', color: 'var(--text-dark)' }}>
+                        Copy this from your sheet URL: <code>https://docs.google.com/spreadsheets/d/<b>YOUR_SHEET_ID</b>/edit</code>
+                      </small>
+                    </div>
+
+                    <div className="form-group">
+                      <label htmlFor="googleServiceAccountKey">Google Service Account JSON Key</label>
+                      <textarea 
+                        id="googleServiceAccountKey"
+                        name="googleServiceAccountKey" 
+                        className="form-control"
+                        rows="4"
+                        placeholder={settings.credentialsConfigured?.googleServiceAccountKey ? "(saved) Enter new JSON key to overwrite" : "Paste the entire Service Account JSON key content here"}
+                        value={settingsForm.googleServiceAccountKey}
+                        onChange={handleSettingsChange}
+                        style={{ fontFamily: 'monospace', fontSize: '0.85rem' }}
+                      />
+                      <small style={{ display: 'block', marginTop: '0.25rem', color: 'var(--text-dark)' }}>
+                        Paste the full contents of the downloaded <code>credentials.json</code> file. Make sure to share the sheet with the Service Account email.
+                      </small>
+                    </div>
+                  </>
+                )}
+
 
                 <div className="flex-gap-2">
                   <button type="submit" className="btn btn-primary" style={{ flexGrow: 1 }} disabled={loading}>
