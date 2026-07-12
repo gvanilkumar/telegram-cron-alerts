@@ -54,18 +54,29 @@ If no embedding model key is available (or the network API call fails), the syst
 
 ---
 
-## 3. Git Synchronization Engine
+## 3. Scheduling & Git Synchronization Engine
 
-To avoid keeping a database online, AuraVigil uses your Git repository as its persistent state database.
+To avoid keeping a database online, AuraVigil uses your Git repository as its persistent database. Tasks are executed in the cloud using GitHub Actions, but instead of relying on GitHub's native cron scheduling (which suffers from long queues and delays), the workflow is triggered precisely on-time via external webhook dispatch requests (e.g. from Cron-Job.org).
 
 ```mermaid
 graph TD
-    UI[Local UI Dashboard] -->|Save Settings/Tasks| Local[Local File System]
-    Local -->|gitSync| GitHub[GitHub Remote Repository]
-    GitHub -->|Workflow Trigger| Runner[Actions Runner runner.js]
-    Runner -->|Execute Tasks| Exec[Check Schedules]
-    Exec -->|Generate Alerts & State| WriteState[Update state.json]
-    WriteState -->|git push| GitHub
+    subgraph Trigger
+        Cron[Cron-Job.org / Precision Trigger] -->|workflow_dispatch API| GitHub[GitHub Remote Repository]
+    end
+
+    subgraph Local Environment
+        UI[Local UI Dashboard] -->|Save Settings/Tasks| Local[Local File System]
+        Local -->|gitSync| GitHub
+    end
+
+    subgraph GitHub Cloud
+        GitHub -->|Workflow Dispatch| Runner[Actions Runner runner.js]
+        Runner -->|Check Schedules| Exec[Evaluate cron-parser]
+        Exec -->|Due| Alert[Scrape -> LLM -> Deduplicate -> Alert]
+        Exec -->|Not Due| Skip[Exit without run]
+        Alert -->|Update state.json| WriteState[Stage state.json]
+        WriteState -->|git push| GitHub
+    end
 ```
 
 ### Auto-Sync (UI to Git)

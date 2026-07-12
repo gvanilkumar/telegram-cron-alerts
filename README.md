@@ -10,14 +10,18 @@ It features a sleek React/Vite-based **local configuration dashboard** and runs 
 ## 🗺️ System Architecture
 
 ```mermaid
-graph LR
+graph TD
+    subgraph Trigger
+        Cron[Cron-Job.org / Precision Trigger] -->|POST workflow_dispatch API| GitHub[GitHub Remote Repository]
+    end
+
     subgraph Local Environment
         UI[Local UI Dashboard] <-->|Read/Write| Configs[settings.json / tasks.json / .env]
-        Server[Express Server] <-->|git sync| GitHub[GitHub Repo]
+        Server[Express Server] <-->|git sync| GitHub
     end
 
     subgraph GitHub Cloud
-        GitHub -->|Scheduled Action| Runner[runner.js Action]
+        GitHub -->|Workflow Run| Runner[runner.js Action Runner]
         Runner -->|1. Web Scrape| Target[Target Site / Google News]
         Runner -->|2. Analyze Context| LLM[Gemini / Groq / OpenAI]
         Runner -->|3. Neural Similarity| State[state.json Embeddings]
@@ -35,8 +39,9 @@ graph LR
 * 🧠 **Neural Semantic Deduplication:** Uses vector embeddings (Gemini/OpenAI/Cerebras) and Cosine Similarity to compare new alert content against previous ones. If a new alert is wording-wise different but contextually identical, it is filtered out to prevent spamming your chats.
 * 🤖 **Broad AI Model Integration:** Native support for Google Gemini, Groq, Cerebras, OpenAI, and any custom OpenAI-compatible API endpoint (e.g., Local Ollama/LM Studio).
 * 🌐 **Automatic Web Scraping & RSS feeds:** Automatically fetches page text, strips design clutter (script/style/nav tags), and feeds it to the AI. If no URL is provided, it automatically searches Google News RSS for your task topic.
+* ⚡ **Precision Cloud Scheduling:** Uses external web triggers (e.g. Cron-Job.org) via GitHub Actions dispatches to bypass all native cron delays and execute runs exactly on time.
 * 📊 **Google Sheets Cloud Integration:** Execution history, skipped runs, and errors are written directly to Google Sheets using a secure, zero-dependency JWT service account assertion, keeping Git commit histories completely clean.
-* ⚡ **Zero Infrastructure Cost:** Runs completely free in the cloud utilizing GitHub Actions' serverless task runner.
+* 💸 **Zero Infrastructure Cost:** Runs completely free in the cloud utilizing GitHub Actions' serverless task runner.
 
 ---
 
@@ -48,6 +53,7 @@ To get up and running, please read our dedicated documentation guides:
    - Complete step-by-step credentials walkthrough (Telegram, Discord, Slack).
    - Google Service Account setup & Google Sheets integration.
    - GitHub Secrets config & workflow write permission settings.
+   - Precision scheduling webhook setup (Cron-Job.org).
 2. **[docs/FEATURES.md (Features & Internals Deep Dive)](file:///C:/Users/anilg/.gemini/antigravity/scratch/telegram-cron-alerts/docs/features.md)**
    - How the content scraper parses target HTML documents.
    - Inside the Cosine Similarity and local character frequency fallback algorithms.
@@ -86,10 +92,10 @@ GOOGLE_SERVICE_ACCOUNT_KEY=eyJhY2NvdW50...   # Base64 encoded Service Account JS
 
 Before setting up AuraVigil in production, make sure you are aware of the following design limitations:
 
-1. **GitHub Actions Schedule Delays:**
-   GitHub Actions workflow schedules (cron triggers) are executed as best-effort tasks on shared runners. The workflow scheduler is guaranteed to run, but is frequently delayed by **5 to 15 minutes** behind the target schedule depending on GitHub's active queue size.
-2. **Minimum 5-Minute Resolution:**
-   The repository serverless workflow is configured to run every 5 minutes (`*/5 * * * *`). You cannot configure a task schedule that executes more frequently than once every 5 minutes.
+1. **GitHub Actions Native Cron Delays:**
+   If you rely solely on GitHub Actions' native scheduled triggers (`schedule` cron in the workflow yaml), runs are executed as low-priority tasks. Execution is often delayed by **15 to 45 minutes** behind the target schedule. *Note: This is completely bypassed using the recommended Precision Scheduling (Cron-Job.org) dispatch setup.*
+2. **Native 5-Minute Resolution Limit:**
+   GitHub Actions' native scheduler does not support schedules more frequent than once every 5 minutes. *Note: Using Cron-Job.org allows you to trigger runs at any interval you specify.*
 3. **Static Page Scraping Only:**
    The zero-dependency content scraper retrieves raw HTML documents. It **cannot execute client-side JavaScript**. Single Page Applications (SPAs) built entirely with client-rendered frameworks (React/Vue/Angular) will return empty structures or skeleton frames instead of loaded text.
 4. **Google Sheets API Rate Limits:**

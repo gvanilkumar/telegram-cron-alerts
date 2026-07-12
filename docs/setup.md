@@ -133,9 +133,9 @@ To offload task execution logs from Git commits and store them in the cloud, you
 
 ---
 
-## 6. GitHub Actions Cloud Deployment
+## 6. Cloud Deployment & Precision Scheduling
 
-To execute alerts continuously in the cloud for free, deploy AuraVigil as a GitHub Actions runner.
+AuraVigil uses GitHub Actions to run tasks in the cloud for free. However, because GitHub's native scheduled cron jobs are frequently throttled or delayed (often by 15-45 minutes), it is highly recommended to use an external scheduling trigger (like **Cron-Job.org**) to call the GitHub API. This ensures your alerts run exactly on time.
 
 ### Step 1: Configure Repository Permissions
 GitHub Actions must be allowed to write changes (like task execution status and embedding data in `state.json`) back to your repository.
@@ -166,9 +166,29 @@ Your API credentials must not be committed to Git. Instead, save them as GitHub 
 > [!TIP]
 > If you configured Google Sheets logging using the local dashboard, you can open your local `.env` file and directly copy the `GOOGLE_SERVICE_ACCOUNT_KEY` (which is already encoded in Base64) to your GitHub repository secrets.
 
-### Step 3: Trigger the First Run
+### Step 3: Trigger the First Run Manually
 1. Go to the **Actions** tab of your repository on GitHub.
 2. Click on the **Telegram Cron Alerts** workflow in the left sidebar.
 3. Click the **Run workflow** dropdown, select the `main` branch, and click the green **Run workflow** button.
-4. Verify the logs to confirm the scheduler is running successfully.
-5. The workflow is scheduled to run automatically every **5 minutes** (the maximum execution frequency allowed by GitHub Actions scheduler).
+4. Verify the logs to confirm the runner is executing successfully.
+
+### Step 4: Setup Precision Scheduling (External Cron Trigger)
+To bypass GitHub Actions schedule delays and run tasks exactly on time:
+1. **Create a GitHub Personal Access Token (PAT):**
+   - Go to your GitHub account settings -> Developer Settings -> Personal access tokens -> Tokens (classic).
+   - Generate a new token with **`repo`** and **`workflow`** scopes. Copy and save the token.
+2. **Create a free account on [Cron-Job.org](https://cron-job.org/).**
+3. **Configure a new Cron Job:**
+   - **Title:** `AuraVigil Trigger`
+   - **Address (URL):** `https://api.github.com/repos/YOUR_USERNAME/YOUR_REPOSITORY/actions/workflows/scheduler.yml/dispatches`
+     *(Replace `YOUR_USERNAME` and `YOUR_REPOSITORY` with your actual repository owner and name. The exact URL is pre-filled for you in your local dashboard Settings tab).*
+   - **Request Method:** `POST`
+   - **Request Headers:**
+     - `Authorization: Bearer YOUR_GITHUB_PAT`
+     - `Accept: application/vnd.github.v3+json`
+     - `User-Agent: Cron-Job-Trigger`
+   - **Request Body (JSON):**
+     - `{"ref": "main"}`
+   - **Schedule:** Choose your desired schedule frequency (e.g. every 5 minutes, 15 minutes, or hourly).
+4. Save the cron job. Cron-Job.org will now hit the GitHub API on schedule, which triggers GitHub Actions to run `runner.js` immediately with zero queue delays.
+
