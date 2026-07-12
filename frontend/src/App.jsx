@@ -700,7 +700,7 @@ export default function App() {
               AuraVigil
             </h1>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', letterSpacing: '0.2px', margin: 0 }}>
-              Serverless Web Sentinels & AI Alert Scheduler
+              Watch. Analyze. Alert.
             </p>
           </div>
         </div>
