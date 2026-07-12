@@ -67,9 +67,13 @@ async function run() {
     
     let isDue = false;
     try {
-      const parsedInterval = cronParser.CronExpressionParser.parse(cronExpr, { tz });
-      const prevRunTime = parsedInterval.prev().getTime();
-      isDue = !lastRun || lastRun < prevRunTime;
+      if (!lastRun) {
+        isDue = true;
+      } else {
+        const nextInterval = cronParser.CronExpressionParser.parse(cronExpr, { currentDate: new Date(lastRun), tz });
+        const nextRunTime = nextInterval.next().getTime();
+        isDue = nextRunTime <= now;
+      }
     } catch (cronErr) {
       logger.warn(`Task "${task.name}" has invalid cron schedule "${task.schedule}" / "${cronExpr}": ${cronErr.message}. Skipping.`);
       return;
