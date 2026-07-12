@@ -36,6 +36,9 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           CUSTOM_API_ENDPOINT: ${{ secrets.CUSTOM_API_ENDPOINT }}
           CUSTOM_AI_MODEL: ${{ secrets.CUSTOM_AI_MODEL }}
+          GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          TIMEZONE: ${{ secrets.TIMEZONE }}
         run: node runner.js
 
       - name: Commit and Push state & logs
