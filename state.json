@@ -1,14 +1,14 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1783839052625,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Global Leaders (US & Iran)\n• *Announcement:* A peace deal between the United States and Iran has reportedly been reached, contributing to extended gains in Indian equity markets.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* LOW (20% — Specific terms of the peace deal and direct official statements are not detailed in the provided news snippets, requiring inference from the headline's reported market reaction.)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None immediately apparent.\n• *Strategic Tailwinds:* OGCs (downstream), Chemicals, Aviation, Infrastructure (due to potential for lower oil prices and improved global stability).\n• *Expected FII Sentiment:* Net Inflows\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Monitor the detailed outcomes of the US-Iran peace deal for its direct economic implications, especially regarding global oil supply and pricing, and its subsequent effect on India's import bill and specific sector performance.",
+    "lastRun": 1783839675405,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* US President Donald Trump and Iranian officials\n• *Announcement:* US President Donald Trump has declared the US-Iran peace deal \"over\" following renewed exchanges of fire and escalating tensions between the two nations. Iran also accuses the US of violating the agreement.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH (90% — Direct statements from US President and confirmed military actions indicate a collapse of the peace agreement.)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* Aviation, Chemicals, Paints, Metals/Auto (due to potential for higher crude oil prices and increased input costs); OGCs (downstream)\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Investors should exercise caution and reconsider exposure to crude oil-sensitive sectors, as renewed geopolitical tensions could lead to increased oil prices and negatively impact India's import bill and inflation.",
     "lastEmbedding": null,
     "consecutiveFailures": 0
   },
   "task_lfe72iyrm": {
-    "lastRun": 1783839052625,
+    "lastRun": 1783839675405,
     "lastAlertText": "Here's your motivating quote for the day:\n\n### \"You're gonna spend the rest of your life getting up one more time than you fall.\" - John Wayne",
     "lastEmbedding": null,
-    "consecutiveFailures": 0
+    "consecutiveFailures": 1
   }
 }
