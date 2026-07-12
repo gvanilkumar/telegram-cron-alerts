@@ -584,7 +584,13 @@ app.post('/api/settings', (req, res) => {
     const customApiEndpoint = (req.body.customApiEndpoint !== undefined ? req.body.customApiEndpoint : config.customApiEndpoint).trim();
     const customAiModel = (req.body.customAiModel !== undefined ? req.body.customAiModel : config.customAiModel).trim();
     const timezone = (req.body.timezone !== undefined ? req.body.timezone : (process.env.TIMEZONE || 'UTC')).trim();
-    const googleServiceAccountKey = getCleanCredential(req.body.googleServiceAccountKey, config.googleServiceAccountKey);
+    const rawGoogleKey = getCleanCredential(req.body.googleServiceAccountKey, config.googleServiceAccountKey);
+    let googleServiceAccountKeyEnv = rawGoogleKey;
+    if (rawGoogleKey && rawGoogleKey.trim().startsWith('{')) {
+      try {
+        googleServiceAccountKeyEnv = Buffer.from(rawGoogleKey.trim()).toString('base64');
+      } catch (_) {}
+    }
     const googleSheetId = (req.body.googleSheetId !== undefined ? req.body.googleSheetId : config.googleSheetId).trim();
 
     envContent += `TELEGRAM_BOT_TOKEN=${token}\n`;
@@ -595,7 +601,7 @@ app.post('/api/settings', (req, res) => {
     envContent += `CUSTOM_API_ENDPOINT=${customApiEndpoint}\n`;
     envContent += `CUSTOM_AI_MODEL=${customAiModel}\n`;
     envContent += `TIMEZONE=${timezone}\n`;
-    envContent += `GOOGLE_SERVICE_ACCOUNT_KEY=${googleServiceAccountKey}\n`;
+    envContent += `GOOGLE_SERVICE_ACCOUNT_KEY=${googleServiceAccountKeyEnv}\n`;
     envContent += `GOOGLE_SHEET_ID=${googleSheetId}\n`;
 
     const tmpEnvPath = config.envPath + '.tmp';
@@ -611,7 +617,7 @@ app.post('/api/settings', (req, res) => {
     process.env.CUSTOM_API_ENDPOINT = customApiEndpoint;
     process.env.CUSTOM_AI_MODEL = customAiModel;
     process.env.TIMEZONE = timezone;
-    process.env.GOOGLE_SERVICE_ACCOUNT_KEY = googleServiceAccountKey;
+    process.env.GOOGLE_SERVICE_ACCOUNT_KEY = googleServiceAccountKeyEnv;
     process.env.GOOGLE_SHEET_ID = googleSheetId;
 
     config.telegramBotToken = token;
@@ -621,7 +627,7 @@ app.post('/api/settings', (req, res) => {
     config.slackWebhookUrl = slack;
     config.customApiEndpoint = customApiEndpoint;
     config.customAiModel = customAiModel;
-    config.googleServiceAccountKey = googleServiceAccountKey;
+    config.googleServiceAccountKey = rawGoogleKey;
     config.googleSheetId = googleSheetId;
 
     res.json({ success: true, message: 'Settings saved successfully.' });
