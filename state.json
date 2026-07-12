@@ -1,8 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1783847549809,
+    "lastRun": 1783848054374,
     "lastAlertText": "no update",
-    "lastEmbedding": null
+    "lastEmbedding": null,
+    "consecutiveFailures": 1,
+    "lastError": "AI API failed: Status 401: {\"error\":{\"message\":\"Invalid API Key\",\"type\":\"invalid_request_error\",\"code\":\"invalid_api_key\"}}\n"
   },
   "task_lfe72iyrm": {
     "lastRun": 1783839922446,
