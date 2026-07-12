@@ -20,7 +20,7 @@
     "name": "Motivating Quote of the day",
     "type": "ai",
     "prompt": "Share me a motivating quote",
-    "schedule": "daily",
+    "schedule": "5m",
     "url": "",
     "channels": [
       "telegram"
@@ -28,6 +28,7 @@
     "deduplicate": true,
     "threshold": 0.9,
     "active": true,
-    "createdAt": "2026-07-12T04:26:25.799Z"
+    "createdAt": "2026-07-12T04:26:25.799Z",
+    "updatedAt": "2026-07-12T06:24:41.137Z"
   }
 ]
