@@ -219,7 +219,11 @@ async function run() {
           alertMessage = task.prompt || 'No message content defined.';
         }
 
-        // Check for explicit "no update" model signal
+        // Deduplication & No-Update check
+        let shouldSkip = false;
+        let similarityScore = 0;
+        let newVector = null;
+
         const cleanedAlert = alertMessage.trim().toLowerCase().replace(/[^a-z0-9_\s]/g, '');
         const isNoUpdateSignal = task.type === 'ai' && (
           cleanedAlert === 'no update' || 
