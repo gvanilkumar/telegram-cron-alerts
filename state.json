@@ -1,9 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1785700229394,
+    "lastRun": 1785700524394,
     "lastAlertText": "no update",
     "lastEmbedding": null,
-    "consecutiveFailures": 3,
+    "consecutiveFailures": 4,
     "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
