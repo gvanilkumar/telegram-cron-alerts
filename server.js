@@ -300,7 +300,21 @@ app.post('/api/tasks/:id/run', async (req, res) => {
 
     const state = stateManager.readState();
 
-    if (task.deduplicate && task.type === 'ai') {
+    // Check for explicit "no update" model signal
+    const cleanedAlert = alertMessage.trim().toLowerCase().replace(/[^a-z0-9_\s]/g, '');
+    const isNoUpdateSignal = task.type === 'ai' && (
+      cleanedAlert === 'no update' || 
+      cleanedAlert === 'noupdate' || 
+      cleanedAlert === 'no_update' || 
+      (cleanedAlert.startsWith('no update') && cleanedAlert.length < 30) ||
+      (cleanedAlert.includes('no relevant update') && cleanedAlert.length < 50)
+    );
+
+    let skipReason = '';
+    if (isNoUpdateSignal) {
+      shouldSkip = true;
+      skipReason = `Model indicated no relevant update (${alertMessage.trim()}).`;
+    } else if (task.deduplicate && task.type === 'ai') {
       const taskState = state[task.id];
       if (taskState && typeof taskState === 'object') {
         prevText = taskState.lastAlertText;
@@ -320,12 +334,13 @@ app.post('/api/tasks/:id/run', async (req, res) => {
         const threshold = task.threshold !== undefined ? task.threshold : 0.90;
         if (similarityScore >= threshold) {
           shouldSkip = true;
+          skipReason = `Similarity (${Math.round(similarityScore * 100)}%) is above threshold.`;
         }
       }
     }
 
     if (shouldSkip) {
-      logger.info(`Skipping alert delivery for manual run task "${task.name}". Similarity is above threshold.`);
+      logger.info(`Skipping alert delivery for manual run task "${task.name}". ${skipReason}`);
       
       state[task.id] = {
         lastRun: Date.now(),
@@ -341,7 +356,7 @@ app.post('/api/tasks/:id/run', async (req, res) => {
         taskName: task.name,
         schedule: task.schedule,
         status: 'skipped',
-        output: `[Manual Run Skipped] Similarity (${Math.round(similarityScore * 100)}%) is above threshold.`,
+        output: `[Manual Run Skipped] ${skipReason}`,
         model: activeModelUsed
       };
       await stateManager.writeHistoryLog(logEntry);
@@ -356,7 +371,7 @@ app.post('/api/tasks/:id/run', async (req, res) => {
 
       return res.json({ 
         success: true, 
-        message: `Alert skipped (similarity ${Math.round(similarityScore * 100)}% is above threshold).`, 
+        message: `Alert skipped (${skipReason}).`, 
         sync: syncStatus 
       });
     }

@@ -155,12 +155,30 @@ async function run() {
           alertMessage = task.prompt || 'No message content defined.';
         }
 
-        // Deduplication
-        let shouldSkip = false;
-        let similarityScore = 0;
-        let newVector = null;
+        // Check for explicit "no update" model signal
+        const cleanedAlert = alertMessage.trim().toLowerCase().replace(/[^a-z0-9_\s]/g, '');
+        const isNoUpdateSignal = task.type === 'ai' && (
+          cleanedAlert === 'no update' || 
+          cleanedAlert === 'noupdate' || 
+          cleanedAlert === 'no_update' || 
+          (cleanedAlert.startsWith('no update') && cleanedAlert.length < 30) ||
+          (cleanedAlert.includes('no relevant update') && cleanedAlert.length < 50)
+        );
 
-        if (task.deduplicate && task.type === 'ai' && prevText) {
+        if (isNoUpdateSignal) {
+          shouldSkip = true;
+          logger.info(`Skipping alert delivery for task "${task.name}". Model output indicated no relevant update.`);
+          logEntry.status = 'skipped';
+          logEntry.output = `[Skipped] Model indicated no relevant update (${alertMessage.trim()}).`;
+          
+          state[task.id] = {
+            lastRun: now,
+            lastAlertText: prevText,
+            lastEmbedding: prevVector,
+            consecutiveFailures: 0
+          };
+          stateChanged = true;
+        } else if (task.deduplicate && task.type === 'ai' && prevText) {
           newVector = await getEmbedding(alertMessage, config.geminiApiKey, provider);
           if (newVector && prevVector && Array.isArray(newVector) && Array.isArray(prevVector)) {
             similarityScore = calculateCosineSimilarity(newVector, prevVector);
@@ -173,21 +191,22 @@ async function run() {
           const threshold = task.threshold !== undefined ? task.threshold : 0.90;
           if (similarityScore >= threshold) {
             shouldSkip = true;
+            logger.info(`Skipping alert delivery for task "${task.name}". Similarity is above threshold.`);
+            logEntry.status = 'skipped';
+            logEntry.output = `[Skipped] Similarity (${Math.round(similarityScore * 100)}%) is above threshold.`;
+            
+            state[task.id] = {
+              lastRun: now,
+              lastAlertText: prevText,
+              lastEmbedding: prevVector,
+              consecutiveFailures: 0
+            };
+            stateChanged = true;
           }
         }
 
         if (shouldSkip) {
-          logger.info(`Skipping alert delivery for task "${task.name}". Similarity is above threshold.`);
-          logEntry.status = 'skipped';
-          logEntry.output = `[Skipped] Similarity (${Math.round(similarityScore * 100)}%) is above threshold.`;
-          
-          state[task.id] = {
-            lastRun: now,
-            lastAlertText: prevText,
-            lastEmbedding: prevVector,
-            consecutiveFailures: 0
-          };
-          stateChanged = true;
+          // Already handled state update and logEntry output above
         } else {
           const channels = task.channels || ['telegram'];
           const deliveryErrors = [];
