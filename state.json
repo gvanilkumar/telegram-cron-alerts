@@ -1,10 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1785660921085,
+    "lastRun": 1785661258150,
     "lastAlertText": "no update",
     "lastEmbedding": null,
-    "consecutiveFailures": 0,
-    "lastError": null
+    "consecutiveFailures": 0
   },
   "task_lfe72iyrm": {
     "lastRun": 1783839922446,
