@@ -1,9 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1785709850935,
+    "lastRun": 1785710129517,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Japan's foreign ministry\n• *Announcement:* Japan's foreign ministry has established a new unit to actively assist Japanese companies in entering the Indian market, signaling a strategic focus on bolstering bilateral business ties\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(75\\% \\- Official creation of a new unit by a foreign ministry is a concrete step towards policy implementation\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* EMS, Metals/Auto \\(Auto Components\\), Infrastructure, Chemicals\n• *Expected FII Sentiment:* Net Inflows \\(This initiative reinforces India's appeal for foreign direct investment, aligning with the China\\+1 diversification strategy and potential supply chain shifts\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should consider increasing exposure to Indian manufacturing\\-related sectors such as EMS and Auto Components, and evaluate opportunities in Infrastructure and Specialty Chemicals poised to benefit from increased Japanese corporate engagement\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 17,
+    "consecutiveFailures": 18,
     "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
