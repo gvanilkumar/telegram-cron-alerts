@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1785711032334,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* World Gold Council \\(WGC\\)\n• *Announcement:* The World Gold Council states that India's increase in gold import tariffs earlier this year has led to a rise in unofficial gold inflows and is hurting organized trade\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Official statement from a transnational organization reporting on market impact of enacted policy\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* Metals/Auto\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Domestic tariff increase on gold has fueled the grey market and negatively impacted organized trade, indicating regulatory challenges and potentially eroding investor confidence in formal market structures\\. This environment suggests risk\\-off sentiment\\. \\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should monitor further policy developments regarding commodity tariffs and assess potential spillover effects on broader market sentiment and regulatory compliance in related sectors\\.",
+    "lastRun": 1785711328446,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Indian Government\n• *Announcement:* The Indian government raised import tariffs on gold earlier this year\\, leading to increased unofficial gold inflows and negatively impacting organized trade\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Enacted tariff order by the Indian government affecting market dynamics\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Domestic tariff increases\\, especially those creating market inefficiencies\\, can contribute to a risk\\-off macro environment\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Monitor broader market sentiment for signs of capital flight\\, but direct sector\\-specific adjustments based on this gold tariff are not immediately required for the defined sectors\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 2,
-    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
