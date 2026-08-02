@@ -46,15 +46,36 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Stage state.json to detect actual alert updates (success or error)
+          # Stage state.json to detect actual alert updates
           git add state.json
           
-          # Only commit and push if state.json has actual updates
           if ! git diff --cached --quiet; then
             git commit -m "Runner: Sync state [skip ci]"
-            # Pull and rebase from remote first in case new tasks were configured during execution
-            git pull --rebase origin main
-            git push origin HEAD:${{ github.ref }}
+            
+            MAX_RETRIES=5
+            COUNT=0
+            SUCCESS=0
+            
+            while [ $COUNT -lt $MAX_RETRIES ]; do
+              git stash --include-untracked || true
+              if git pull --rebase -X ours origin main; then
+                git stash pop || true
+                if git push origin HEAD:${{ github.ref }}; then
+                  SUCCESS=1
+                  break
+                fi
+              fi
+              git rebase --abort || true
+              git stash pop || true
+              COUNT=$((COUNT+1))
+              echo "Git push race condition detected. Retrying ($COUNT/$MAX_RETRIES)..."
+              sleep 2
+            done
+            
+            if [ $SUCCESS -eq 0 ]; then
+              echo "Failed to push state updates after $MAX_RETRIES retries."
+              exit 1
+            fi
           else
             echo "No alert state changes. Skipping Git commit to prevent history bloat."
           fi

@@ -17,6 +17,7 @@ const { runCmd, gitSync } = require('./lib/git');
 const {
   executeAiPrompt,
   executeOpenAiCompatiblePrompt,
+  dispatchAiPrompt,
   getEmbedding,
   calculateCosineSimilarity,
   calculateLocalSimilarity
@@ -277,40 +278,15 @@ app.post('/api/tasks/:id/run', async (req, res) => {
         return res.status(400).json({ error: 'AI API Key is not configured in Settings.' });
       }
 
-      const selectedModel = config.settings.groqModel;
-      if (provider === 'custom' && config.customApiEndpoint) {
-        activeModelUsed = selectedModel || config.customAiModel || 'gpt-4o-mini';
-        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, config.customApiEndpoint, activeModelUsed);
-      } else if (provider === 'groq') {
-        activeModelUsed = selectedModel || 'groq/compound';
-        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', activeModelUsed);
-      } else if (provider === 'cerebras') {
-        activeModelUsed = 'gpt-oss-120b';
-        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', activeModelUsed);
-      } else if (provider === 'openai') {
-        activeModelUsed = selectedModel || 'gpt-4o-mini';
-        alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.openai.com/v1/chat/completions', activeModelUsed);
-      } else if (provider === 'gemini') {
-        activeModelUsed = 'gemini-2.5-flash';
-        alertMessage = await executeAiPrompt(promptText, geminiApiKey);
-      } else {
-        if (config.customApiEndpoint) {
-          activeModelUsed = selectedModel || config.customAiModel || 'gpt-4o-mini';
-          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, config.customApiEndpoint, activeModelUsed);
-        } else if (geminiApiKey.startsWith('gsk_')) {
-          activeModelUsed = selectedModel || 'groq/compound';
-          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', activeModelUsed);
-        } else if (geminiApiKey.startsWith('cbs-') || geminiApiKey.startsWith('csk-')) {
-          activeModelUsed = 'gpt-oss-120b';
-          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', activeModelUsed);
-        } else if (geminiApiKey.startsWith('sk-')) {
-          activeModelUsed = selectedModel || 'gpt-4o-mini';
-          alertMessage = await executeOpenAiCompatiblePrompt(promptText, geminiApiKey, 'https://api.openai.com/v1/chat/completions', activeModelUsed);
-        } else {
-          activeModelUsed = 'gemini-2.5-flash';
-          alertMessage = await executeAiPrompt(promptText, geminiApiKey);
-        }
-      }
+      const result = await dispatchAiPrompt(
+        promptText,
+        geminiApiKey,
+        provider,
+        config.settings.groqModel,
+        config.customApiEndpoint
+      );
+      alertMessage = result.text;
+      activeModelUsed = result.model;
     } else {
       alertMessage = task.prompt;
     }
@@ -368,7 +344,7 @@ app.post('/api/tasks/:id/run', async (req, res) => {
         output: `[Manual Run Skipped] Similarity (${Math.round(similarityScore * 100)}%) is above threshold.`,
         model: activeModelUsed
       };
-      stateManager.writeHistoryLog(logEntry);
+      await stateManager.writeHistoryLog(logEntry);
 
       // Trigger sync
       let syncStatus = { synced: false, message: 'Auto-sync not triggered' };
@@ -438,7 +414,7 @@ app.post('/api/tasks/:id/run', async (req, res) => {
       output: '[Manual Run] ' + alertMessage.substring(0, 150) + (alertMessage.length > 150 ? '...' : ''),
       model: activeModelUsed
     };
-    stateManager.writeHistoryLog(logEntry);
+    await stateManager.writeHistoryLog(logEntry);
 
     // Trigger sync
     let syncStatus = { synced: false, message: 'Auto-sync not triggered' };
@@ -461,7 +437,7 @@ app.post('/api/tasks/:id/run', async (req, res) => {
           output: `Error: ${err.message}`,
           model: activeModelUsed
         };
-        stateManager.writeHistoryLog(failedLogEntry);
+        await stateManager.writeHistoryLog(failedLogEntry);
       } catch (logErr) {
         logger.error('Failed to write failure log entry', logErr);
       }

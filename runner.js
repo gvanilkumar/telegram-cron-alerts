@@ -8,8 +8,7 @@ const logger = require('./lib/logger');
 const stateManager = require('./lib/state');
 const { scrapeWebpage } = require('./lib/scraper');
 const {
-  executeAiPrompt,
-  executeOpenAiCompatiblePrompt,
+  dispatchAiPrompt,
   getEmbedding,
   calculateCosineSimilarity,
   calculateLocalSimilarity
@@ -63,7 +62,7 @@ async function run() {
     const lastRun = (taskState && typeof taskState === 'object') ? taskState.lastRun : (taskState || 0);
     
     const cronExpr = getCronExpression(task.schedule);
-    const tz = process.env.TIMEZONE || 'UTC';
+    const tz = process.env.TIMEZONE || config.settings.timezone || 'UTC';
     
     let isDue = false;
     try {
@@ -72,7 +71,9 @@ async function run() {
       } else {
         const nextInterval = cronParser.CronExpressionParser.parse(cronExpr, { currentDate: new Date(lastRun), tz });
         const nextRunTime = nextInterval.next().getTime();
-        isDue = nextRunTime <= now;
+        // 45s tolerance window to prevent early trigger skipping due to clock skew or early webhooks
+        const toleranceMs = 45000;
+        isDue = (nextRunTime <= (now + toleranceMs));
       }
     } catch (cronErr) {
       logger.warn(`Task "${task.name}" has invalid cron schedule "${task.schedule}" / "${cronExpr}": ${cronErr.message}. Skipping.`);
@@ -131,7 +132,6 @@ async function run() {
           }
         } else if (task.type === 'ai' && isCompound) {
           logger.debug(`Skipping scrape for groq/compound — model has built-in web search.`);
-          // Hint the model to search the web if a URL or task name is available
           const hint = task.url ? ` Search this page for context: ${task.url}` : (task.name ? ` Search the web for: ${task.name}` : '');
           promptText = `${task.prompt}${hint}`;
         }
@@ -142,42 +142,15 @@ async function run() {
             throw new Error('AI API Key (GEMINI_API_KEY environment variable) is not configured.');
           }
           
-          let activeModel = 'N/A';
-          if (provider === 'custom' && config.customApiEndpoint) {
-            activeModel = groqModel || config.customAiModel || 'gpt-4o-mini';
-            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, config.customApiEndpoint, activeModel);
-          } else if (provider === 'groq') {
-            activeModel = groqModel || 'groq/compound';
-            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', activeModel);
-          } else if (provider === 'cerebras') {
-            activeModel = 'gpt-oss-120b';
-            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', activeModel);
-          } else if (provider === 'openai') {
-            activeModel = groqModel || 'gpt-4o-mini';
-            alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.openai.com/v1/chat/completions', activeModel);
-          } else if (provider === 'gemini') {
-            activeModel = 'gemini-2.5-flash';
-            alertMessage = await executeAiPrompt(promptText, config.geminiApiKey);
-          } else {
-            // Prefix fallback auto-detection
-            if (config.customApiEndpoint) {
-              activeModel = groqModel || config.customAiModel || 'gpt-4o-mini';
-              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, config.customApiEndpoint, activeModel);
-            } else if (config.geminiApiKey.startsWith('gsk_')) {
-              activeModel = groqModel || 'groq/compound';
-              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.groq.com/openai/v1/chat/completions', activeModel);
-            } else if (config.geminiApiKey.startsWith('cbs-') || config.geminiApiKey.startsWith('csk-')) {
-              activeModel = 'gpt-oss-120b';
-              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.cerebras.ai/v1/chat/completions', activeModel);
-            } else if (config.geminiApiKey.startsWith('sk-')) {
-              activeModel = groqModel || 'gpt-4o-mini';
-              alertMessage = await executeOpenAiCompatiblePrompt(promptText, config.geminiApiKey, 'https://api.openai.com/v1/chat/completions', activeModel);
-            } else {
-              activeModel = 'gemini-2.5-flash';
-              alertMessage = await executeAiPrompt(promptText, config.geminiApiKey);
-            }
-          }
-          logEntry.model = activeModel;
+          const result = await dispatchAiPrompt(
+            promptText,
+            config.geminiApiKey,
+            provider,
+            groqModel,
+            config.customApiEndpoint
+          );
+          alertMessage = result.text;
+          logEntry.model = result.model;
         } else {
           alertMessage = task.prompt || 'No message content defined.';
         }
@@ -216,10 +189,6 @@ async function run() {
           };
           stateChanged = true;
         } else {
-          if (task.deduplicate && task.type === 'ai' && !newVector) {
-            newVector = await getEmbedding(alertMessage, config.geminiApiKey);
-          }
-
           const channels = task.channels || ['telegram'];
           const deliveryErrors = [];
 
@@ -296,7 +265,7 @@ async function run() {
     } else {
       try {
         const cronExpr = getCronExpression(task.schedule);
-        const tz = process.env.TIMEZONE || 'UTC';
+        const tz = process.env.TIMEZONE || config.settings.timezone || 'UTC';
         const parsedInterval = cronParser.CronExpressionParser.parse(cronExpr, { tz });
         const nextRunTime = parsedInterval.next().toDate();
         logger.debug(`Task "${task.name}" is not due. Next run at: ${nextRunTime.toISOString()} (${tz})`);
@@ -312,8 +281,8 @@ async function run() {
     logger.debug('Saved updated state.json');
   }
 
-  // Log execution runs
-  executionLogs.forEach(log => stateManager.writeHistoryLog(log));
+  // Log execution runs and wait for Google Sheets appends to finish
+  await Promise.all(executionLogs.map(log => stateManager.writeHistoryLog(log)));
 
   logger.info('Alert Runner Finished.');
 }
