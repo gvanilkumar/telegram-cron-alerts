@@ -968,9 +968,69 @@ if (fs.existsSync(frontendDistPath)) {
   });
 }
 
+/**
+ * Telegram Bot Command Listener for /status, /health, /tasks commands.
+ */
+function startTelegramCommandListener() {
+  const botToken = config.telegramBotToken;
+  if (!botToken) return null;
+
+  let offset = 0;
+  logger.info('Telegram Bot Command Listener active. Send /status to your bot in Telegram for instant status reports.');
+
+  const intervalId = setInterval(async () => {
+    try {
+      const response = await fetch(`https://api.telegram.org/bot${botToken}/getUpdates?offset=${offset}&timeout=2`, {
+        signal: AbortSignal.timeout(5000)
+      });
+      if (!response.ok) return;
+
+      const data = await response.json();
+      if (!data.ok || !data.result || data.result.length === 0) return;
+
+      for (const update of data.result) {
+        offset = update.update_id + 1;
+        const msg = update.message;
+        if (!msg || !msg.text) continue;
+
+        const text = msg.text.trim().toLowerCase();
+        const chatId = msg.chat.id;
+
+        if (text === '/status' || text === '/health' || text === 'status' || text === '/tasks' || text === '/ping') {
+          const tasks = stateManager.readTasks();
+          const state = stateManager.readState();
+          const activeTasks = tasks.filter(t => t.active);
+          
+          const taskSummaries = activeTasks.map(t => {
+            const st = state[t.id];
+            const lastRunTime = (st && st.lastRun) ? st.lastRun : 0;
+            const lastRunStr = lastRunTime ? `${Math.round((Date.now() - lastRunTime) / 60000)}m ago` : 'Never';
+            const statusIcon = (st && st.consecutiveFailures > 0) ? `🔴 (${st.consecutiveFailures} errors)` : '🟢 OK';
+            return `• <b>${t.name}</b> (${t.schedule}): ${statusIcon}\n  <i>Last check: ${lastRunStr}</i>`;
+          }).join('\n\n');
+
+          const statusCard = `📊 <b>AuraVigil System Status</b>\n` +
+            `━━━━━━━━━━━━━━━━━━━━━━\n` +
+            `🟢 <b>Status:</b> Operational\n` +
+            `📁 <b>Active Tasks:</b> ${activeTasks.length}\n` +
+            `🤖 <b>AI Provider:</b> ${config.settings.aiProvider || 'auto'}\n` +
+            `📊 <b>Google Sheets:</b> ${config.settings.googleSheetLoggingEnabled ? 'Connected' : 'Disabled'}\n` +
+            `━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+            `<b>Task Breakdown:</b>\n\n${taskSummaries || 'No active tasks'}`;
+
+          await sendTelegramMessage(statusCard, 'Status Report', botToken, chatId);
+        }
+      }
+    } catch (_) {}
+  }, 5000);
+
+  return intervalId;
+}
+
 // Start HTTP server listener
 const server = app.listen(PORT, () => {
   logger.info(`Local Configuration UI Server started on http://localhost:${PORT}`);
+  startTelegramCommandListener();
 });
 
 // Graceful process termination handlers
