@@ -1,6 +1,6 @@
 {
   "autoSync": true,
   "aiProvider": "auto",
-  "groqModel": "groq/compound-mini",
+  "groqModel": "llama-3.3-70b-versatile",
   "googleSheetLoggingEnabled": true
 }
