@@ -178,14 +178,14 @@ async function run() {
           let isFallback = false;
           if (!targetUrl) {
             const searchQuery = task.name || 'financial news';
-            targetUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=en-US&gl=US&ceid=US:en`;
+            targetUrl = `https://www.bing.com/news/search?q=${encodeURIComponent(searchQuery)}&format=rss`;
             isFallback = true;
           }
           
           try {
             const pageContext = await scrapeWebpage(targetUrl);
             if (isFallback) {
-              logger.debug(`Auto-scraped Google News RSS search query for: "${task.name}"`);
+              logger.debug(`Auto-scraped Bing News RSS search query for: "${task.name}"`);
               promptText = `Context from news search:\n---\n${pageContext}\n---\n\nUser Request: ${task.prompt}`;
             } else {
               promptText = `Context from webpage (${targetUrl}):\n---\n${pageContext}\n---\n\nUser Request: ${task.prompt}`;

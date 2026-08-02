@@ -249,14 +249,14 @@ app.post('/api/tasks/:id/run', async (req, res) => {
         let isFallback = false;
         if (!targetUrl) {
           const searchQuery = task.name || 'financial news';
-          targetUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=en-US&gl=US&ceid=US:en`;
+          targetUrl = `https://www.bing.com/news/search?q=${encodeURIComponent(searchQuery)}&format=rss`;
           isFallback = true;
         }
         
         try {
           const pageText = await scrapeWebpage(targetUrl);
           if (isFallback) {
-            logger.debug(`Manual run: Auto-scraped Google News RSS search query for: "${task.name}"`);
+            logger.debug(`Manual run: Auto-scraped Bing News RSS search query for: "${task.name}"`);
             promptText = `Context from news search:\n---\n${pageText}\n---\n\nUser Request: ${task.prompt}`;
           } else {
             promptText = `Context from webpage (${targetUrl}):\n---\n${pageText}\n---\n\nUser Request: ${task.prompt}`;
