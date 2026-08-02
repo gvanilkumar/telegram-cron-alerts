@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1785710429014,
+    "lastRun": 1785710739456,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* World Gold Council \\(WGC\\)\n• *Announcement:* The World Gold Council states that India's increase in gold import tariffs earlier this year has led to a rise in unofficial gold inflows and is hurting organized trade\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Official statement from a transnational organization reporting on market impact of enacted policy\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* Metals/Auto\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Domestic tariff increase on gold has fueled the grey market and negatively impacted organized trade, indicating regulatory challenges and potentially eroding investor confidence in formal market structures\\. This environment suggests risk\\-off sentiment\\. \\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should monitor further policy developments regarding commodity tariffs and assess potential spillover effects on broader market sentiment and regulatory compliance in related sectors\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0,
-    "lastError": null
+    "consecutiveFailures": 1,
+    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
