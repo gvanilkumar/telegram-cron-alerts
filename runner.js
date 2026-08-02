@@ -100,6 +100,44 @@ async function processTelegramCommands() {
 }
 
 /**
+ * Evaluates whether a task is due based on schedule, lastRun, and tolerance window.
+ * @param {any} task 
+ * @param {number} lastRun 
+ * @param {number} now 
+ * @param {string} tz 
+ * @returns {boolean}
+ */
+function isTaskDue(task, lastRun, now, tz) {
+  if (!lastRun) return true;
+
+  const presetsMs = {
+    '5m': 5 * 60 * 1000,
+    '15m': 15 * 60 * 1000,
+    '1h': 60 * 60 * 1000,
+    '5h': 5 * 60 * 60 * 1000,
+    'daily': 24 * 60 * 60 * 1000,
+    'weekly': 7 * 24 * 60 * 60 * 1000,
+    'monthly': 30 * 24 * 60 * 60 * 1000,
+  };
+
+  const presetMs = presetsMs[task.schedule];
+  if (presetMs) {
+    // 45s tolerance window
+    return (now - lastRun) >= (presetMs - 45000);
+  }
+
+  try {
+    const cronExpr = getCronExpression(task.schedule);
+    const nextInterval = cronParser.CronExpressionParser.parse(cronExpr, { currentDate: new Date(lastRun), tz });
+    const nextRunTime = nextInterval.next().getTime();
+    return nextRunTime <= (now + 45000);
+  } catch (err) {
+    logger.warn(`Task "${task.name}" has invalid schedule "${task.schedule}": ${err.message}`);
+    return false;
+  }
+}
+
+/**
  * Main execution orchestration routine.
  */
 async function run() {
@@ -124,25 +162,9 @@ async function run() {
 
     const taskState = state[task.id];
     const lastRun = (taskState && typeof taskState === 'object') ? taskState.lastRun : (taskState || 0);
-    
-    const cronExpr = getCronExpression(task.schedule);
     const tz = process.env.TIMEZONE || config.settings.timezone || 'UTC';
     
-    let isDue = false;
-    try {
-      if (!lastRun) {
-        isDue = true;
-      } else {
-        const nextInterval = cronParser.CronExpressionParser.parse(cronExpr, { currentDate: new Date(lastRun), tz });
-        const nextRunTime = nextInterval.next().getTime();
-        // 45s tolerance window to prevent early trigger skipping due to clock skew or early webhooks
-        const toleranceMs = 45000;
-        isDue = (nextRunTime <= (now + toleranceMs));
-      }
-    } catch (cronErr) {
-      logger.warn(`Task "${task.name}" has invalid cron schedule "${task.schedule}" / "${cronExpr}": ${cronErr.message}. Skipping.`);
-      return;
-    }
+    const isDue = isTaskDue(task, lastRun, now, tz);
 
     if (isDue) {
       logger.info(`Executing Task: "${task.name}" (${task.schedule})`);
