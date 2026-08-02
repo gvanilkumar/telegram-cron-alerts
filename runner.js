@@ -39,10 +39,74 @@ function getCronExpression(schedule) {
 }
 
 /**
+ * Check for pending Telegram bot commands (/status, /health, /tasks)
+ */
+async function processTelegramCommands() {
+  const botToken = config.telegramBotToken;
+  if (!botToken) return;
+
+  try {
+    const response = await fetch(`https://api.telegram.org/bot${botToken}/getUpdates?timeout=2`, {
+      signal: AbortSignal.timeout(5000)
+    });
+    if (!response.ok) return;
+
+    const data = await response.json();
+    if (!data.ok || !data.result || data.result.length === 0) return;
+
+    let maxOffset = 0;
+    const tasks = stateManager.readTasks();
+    const state = stateManager.readState();
+    const activeTasks = tasks.filter(t => t.active);
+
+    for (const update of data.result) {
+      if (update.update_id >= maxOffset) maxOffset = update.update_id + 1;
+      const msg = update.message;
+      if (!msg || !msg.text) continue;
+
+      const text = msg.text.trim().toLowerCase();
+      const chatId = msg.chat.id;
+
+      if (text === '/status' || text === '/health' || text === 'status' || text === '/tasks' || text === '/ping') {
+        const taskSummaries = activeTasks.map(t => {
+          const st = state[t.id];
+          const lastRunTime = (st && st.lastRun) ? st.lastRun : 0;
+          const lastRunStr = lastRunTime ? `${Math.round((Date.now() - lastRunTime) / 60000)}m ago` : 'Never';
+          const statusIcon = (st && st.consecutiveFailures > 0) ? `🔴 (${st.consecutiveFailures} errors)` : '🟢 OK';
+          return `• <b>${t.name}</b> (${t.schedule}): ${statusIcon}\n  <i>Last check: ${lastRunStr}</i>`;
+        }).join('\n\n');
+
+        const statusCard = `📊 <b>AuraVigil System Status</b>\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `🟢 <b>Status:</b> Operational\n` +
+          `📁 <b>Active Tasks:</b> ${activeTasks.length}\n` +
+          `🤖 <b>AI Provider:</b> ${config.settings.aiProvider || 'auto'}\n` +
+          `📊 <b>Google Sheets:</b> ${config.settings.googleSheetLoggingEnabled ? 'Connected' : 'Disabled'}\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+          `<b>Task Breakdown:</b>\n\n${taskSummaries || 'No active tasks'}`;
+
+        await sendTelegramMessage(statusCard, 'Status Report', botToken, chatId);
+      }
+    }
+
+    if (maxOffset > 0) {
+      await fetch(`https://api.telegram.org/bot${botToken}/getUpdates?offset=${maxOffset}`, {
+        signal: AbortSignal.timeout(5000)
+      }).catch(() => {});
+    }
+  } catch (err) {
+    logger.debug(`Telegram command processing skipped: ${err.message}`);
+  }
+}
+
+/**
  * Main execution orchestration routine.
  */
 async function run() {
   logger.info('Starting Alert Runner...');
+
+  // Process incoming Telegram bot commands (/status, /health)
+  await processTelegramCommands();
 
   const tasks = stateManager.readTasks();
   if (tasks.length === 0) {
