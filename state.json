@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1785741333865,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Donald Trump\n• *Announcement:* US President Donald Trump announced upcoming talks, which led to significant gains in Indian stock markets with the Sensex and Nifty rising approximately one percent\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(70\\% \\- Direct announcement from a global leader indicating future diplomatic engagement, though specific outcomes are yet to be determined\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Inflows \\(Reduced geopolitical uncertainty and optimism for potentially improved bilateral relations post\\-announcement\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Given the broad market rally, fund managers could consider maintaining existing allocations while closely monitoring developments from the announced talks for further directional cues\\.",
+    "lastRun": 1785741641777,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* US President Donald Trump\n• *Announcement:* US President Donald Trump announced upcoming talks, leading to a significant surge in Indian stock markets\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(70\\% \\- Verified official announcement of talks by a global leader\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* IT, Pharma, Textiles, Metals/Auto, EMS, Chemicals\n• *Expected FII Sentiment:* Net Inflows \\(Reduced geopolitical uncertainty and potential for improved trade relations are expected to drive foreign investment\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Consider increasing exposure to large\\-cap Indian equities, especially export\\-oriented sectors expecting benefits from improved global trade dialogue\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
