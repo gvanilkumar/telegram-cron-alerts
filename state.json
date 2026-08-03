@@ -1,9 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1785737430102,
+    "lastRun": 1785737732645,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Donald Trump\n• *Announcement:* US President Donald Trump announced upcoming talks, which positively impacted Indian stock markets\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(50\\% \\- Official announcement of talks by a global leader, but specific details and outcomes are pending\\)\\.\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* IT, Pharma, Textiles, Metals/Auto, EMS, Chemicals\n• *Expected FII Sentiment:* Net Inflows \\(Reduction in global trade uncertainty and positive diplomatic signaling generally encourage foreign investment in emerging markets like India\\)\\.\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Overweight broad market indices or diversified portfolios, as global diplomatic efforts appear to reduce immediate macro headwinds\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 3,
+    "consecutiveFailures": 4,
     "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
