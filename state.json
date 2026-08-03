@@ -1,9 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1785728740612,
+    "lastRun": 1785729038218,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Indian Government\n• *Announcement:* The Indian government significantly raised import tariffs on gold from 6% to 15% on May 13, 2026, aiming to curb demand, reduce the trade deficit, and support the rupee. This move has reportedly boosted unofficial gold inflows and negatively impacted organized trade, according to the World Gold Council.\n• *Market Stance:* 🟡 NEUTRAL\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Enacted tariff, explicitly stated by the Indian government and confirmed by the World Gold Council\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(The increase in gold import tariffs, despite being specific to a commodity, can be perceived as a move towards less liberalized trade policies, potentially dampening overall foreign investor confidence in India\\'s market openness\\. \\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Consider maintaining a defensive posture in broad market exposures, monitoring for broader policy shifts beyond gold tariffs\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 18,
+    "consecutiveFailures": 19,
     "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
