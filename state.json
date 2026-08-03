@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1785740127069,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* US President Donald Trump\n• *Announcement:* US President Donald Trump announced upcoming talks. This announcement was followed by significant gains in Indian stock markets.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(60\\% \\- Official announcement of bilateral talks without specific details on outcomes\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Inflows \\(Positive sentiment from global leader's announcement driving broad market rally\\. Lack of specific negative policy details\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Maintain broad market exposure, monitoring for specific details on the announced talks that could impact individual sectors.",
+    "lastRun": 1785740465730,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* US President Donald Trump\n• *Announcement:* US President Donald Trump announced upcoming talks, which spurred a rally in Indian stock markets\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(70\\% \\- Official announcement of bilateral discussions, though specific outcomes are not yet defined\\\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Inflows \\(Announcement of talks with the US President signals potential for positive bilateral developments, reducing risk aversion and attracting capital\\\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Maintain broad market exposure, monitoring developments from the announced US\\-India talks for sector\\-specific opportunities\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
