@@ -1,10 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1785837328266,
+    "lastRun": 1785837669024,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Indian Government\n• *Announcement:* The Indian government plans to raise up to $3\\.3 billion by selling a stake in the country's largest life insurer at a 10% discount\\.\n• *Market Stance:* 🟡 NEUTRAL\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit government plan to divest announced in news\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Infrastructure\n• *Expected FII Sentiment:* Net Inflows \\(Large government divestment successfully raising significant capital can signal commitment to economic reforms and attract global capital looking for opportunities in a growing economy like India\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Monitor government capital expenditure plans; consider increasing exposure to quality large\\-cap Indian equities, particularly within Infrastructure if new spending is announced\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 4,
-    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
+    "consecutiveFailures": 0
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
