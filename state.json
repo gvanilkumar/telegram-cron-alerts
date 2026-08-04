@@ -1,9 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1785857730574,
+    "lastRun": 1785858036463,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Indian Government\n• *Announcement:* The Indian government plans to raise up to $3\\.3 billion by selling a 6\\.5% stake in Life Insurance Corporation \\(LIC\\), its largest life insurer, at a 10% discount from the previous day's closing price\\. This divestment aims to meet minimum public shareholding norms ahead of schedule\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90% \\- Explicit government announcement of a stake sale with specific percentage, floor price, and target amount\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Inflows \\(The significant, discounted divestment of a major public sector entity such as LIC is likely to attract foreign institutional investment seeking value and participation in India's financial sector\\. This move signals the government's commitment to unlocking capital and improving market liquidity\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should consider increasing allocation to financially robust large\\-cap public sector enterprises, especially those with clear divestment or reform catalysts\\. Evaluate potential for broader market liquidity improvements\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 5,
+    "consecutiveFailures": 6,
     "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
