@@ -1,10 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1785828653094,
+    "lastRun": 1785828935459,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Indian Government\n• *Announcement:* The Indian government plans to raise up to $3\\.3 billion by selling a stake in the country's largest life insurer at a 10% discount\\.\n• *Market Stance:* 🟡 NEUTRAL\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit government plan to divest announced in news\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Infrastructure\n• *Expected FII Sentiment:* Net Inflows \\(Large government divestment successfully raising significant capital can signal commitment to economic reforms and attract global capital looking for opportunities in a growing economy like India\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Monitor government capital expenditure plans; consider increasing exposure to quality large\\-cap Indian equities, particularly within Infrastructure if new spending is announced\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+    "consecutiveFailures": 0
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
