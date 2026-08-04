@@ -1,9 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1785846926965,
+    "lastRun": 1785847236785,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Indian Government\n• *Announcement:* The Indian government has launched an offer for sale \\(OFS\\) to divest up to a 6\\.5\\% stake in Life Insurance Corporation \\(LIC\\), aiming to raise approximately $3\\.3 billion\\. The shares are being offered at a floor price of ₹382 per share, which is a 10\\% discount to Monday's closing price\\. This sale helps LIC meet minimum public shareholding norms ahead of schedule\\.\n• *Market Stance:* 🟡 NEUTRAL\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit government announcement of an offer for sale with specific pricing and shareholding objectives\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Inflows \\(The discounted offering and the government's aim to raise substantial capital could attract value\\-seeking foreign institutional investors, contributing to increased capital allocation to India and bolstering the government's disinvestment program\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Monitor the progress of the LIC divestment for potential short\\-term trading opportunities in the financial sector, and assess the broader implications of increased government divestment on fiscal health and future public sector offerings\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 2,
+    "consecutiveFailures": 3,
     "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
