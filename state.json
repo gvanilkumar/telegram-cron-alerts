@@ -1,9 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1785818739473,
+    "lastRun": 1785819031510,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Supreme Court of India & Central Electricity Regulatory Commission \\(CERC\\)\n• *Announcement:* The Supreme Court declined an interim stay on CERC's proposed power market coupling framework, allowing the regulator to proceed with drafting and implementing new rules for a unified price discovery system\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Supreme Court's refusal of an interim stay and CERC's mandate to proceed are explicit official actions\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* Infrastructure \\(Power Exchanges\\)\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Regulatory uncertainty and the potential erosion of dominant market share for existing power exchanges could lead to short\\-term investor caution\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should review their exposure to power exchange operators, especially given the upcoming structural changes in price discovery, and monitor CERC's final regulations\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 2,
+    "consecutiveFailures": 3,
     "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
