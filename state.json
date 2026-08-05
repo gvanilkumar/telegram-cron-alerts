@@ -1,9 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1785921638067,
+    "lastRun": 1785921928223,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Morgan Stanley\n• *Announcement:* Morgan Stanley projects the Indian Sensex could reach 100,000 by June 2027 in its bull case, assigning a 25% probability, indicating a bet on India's overall market outperformance\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(70\\% \\- This is an analyst forecast from a major investment bank with assigned probabilities, not a finalized policy or filing\\. \\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* IT, Pharma, Textiles, Metals/Auto, EMS, Chemicals, Infrastructure, OGCs, Paints, Aviation\n• *Expected FII Sentiment:* Net Inflows \\(Positive outlook from a global investment bank on India's market outperformance is likely to attract foreign institutional investment and aligns with the China\\+1 shift narrative\\. \\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Consider increasing exposure to Indian equities across diversified sectors, focusing on companies with strong fundamentals expected to benefit from long\\-term market outperformance\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
+    "consecutiveFailures": 2,
     "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
