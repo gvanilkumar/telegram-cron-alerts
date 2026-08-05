@@ -1,9 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1785910536558,
+    "lastRun": 1785910839208,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India \\(Government\\)\n• *Announcement:* India's gold tariff hike is reportedly boosting the grey market and harming organized trade, as stated by the World Gold Council\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit statement on an enacted tariff and its reported consequences by a credible body\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Domestic tariff increases\\, even on specific commodities like gold\\, can signal a less open trade environment and potentially increase risk perception for foreign investors\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Monitor broader trade policy developments for signs of increasing protectionism\\, and consider defensive portfolio adjustments if such trends accelerate\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 18,
+    "consecutiveFailures": 19,
     "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
