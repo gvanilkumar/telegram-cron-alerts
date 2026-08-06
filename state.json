@@ -1,9 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1785994522802,
+    "lastRun": 1785994835464,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Manipal Health Enterprises\n• *Announcement:* India's largest multispecialty hospital network, Manipal Health Enterprises, made a strong market debut on Wednesday, valuing the company at approximately $9\\.03 billion\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Corporate announcement of market debut and valuation\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Pharma \\(The strong performance of a major hospital chain reflects broader investor confidence and growth in the Indian healthcare ecosystem, which includes the pharmaceutical industry\\.\\)\n• *Expected FII Sentiment:* Net Inflows \\(A strong market debut in the healthcare sector signals robust investor interest and confidence in India's domestic growth story, potentially drawing further foreign investment into Indian equities\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should consider increasing exposure to the Indian healthcare sector, including both hospital chains and related pharmaceutical companies, prioritizing those with strong growth prospects and resilient business models\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 9,
+    "consecutiveFailures": 10,
     "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
