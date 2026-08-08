@@ -1,9 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1786223435769,
+    "lastRun": 1786223731525,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Audi India\n• *Announcement:* Audi India has confirmed the launch of new Q3, A5, and Q9 models in the Indian market\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(95\\% \\- Explicit corporate announcement by a major transnational corporation\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto\n• *Expected FII Sentiment:* Net Inflows \\(Increased investment and consumer demand in the auto sector could attract FIIs\\. This also aligns with the 'China\\+1' shift where companies are looking to expand manufacturing/sales in India\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Consider overweighting auto ancillary stocks with strong ties to premium car manufacturers, anticipating increased demand for components and related services\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 6,
+    "consecutiveFailures": 7,
     "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
