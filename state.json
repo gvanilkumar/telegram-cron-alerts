@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1786317925452,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Maruti Suzuki India\n• *Announcement:* India's largest carmaker, Maruti Suzuki India, projects the domestic passenger vehicle market to grow to 6\\.1\\-6\\.3 million units by fiscal year 2030\\-31\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit corporate forecast from a major auto manufacturer\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto\n• *Expected FII Sentiment:* Net Inflows \\(Strong domestic demand forecast for a key manufacturing sector, indicating robust economic activity\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Overweight Indian auto component stocks and other ancillaries poised to benefit from long\\-term passenger vehicle market expansion\\.",
+    "lastRun": 1786318248942,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Maruti Suzuki India\n• *Announcement:* India's largest carmaker\\, Maruti Suzuki India\\, projects the domestic passenger vehicle market to expand to 6\\.1\\-6\\.3 million units by fiscal year 2030\\-31\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Direct projection from India's largest carmaker\\, reported by a reputable news agency\\)\\\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto\n• *Expected FII Sentiment:* Net Inflows \\(Robust domestic consumption outlook for a key manufacturing sector\\, indicating underlying economic strength in India\\)\\\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Consider increasing exposure to auto\\-related stocks and auto component manufacturers\\, anticipating long\\-term domestic growth in the passenger vehicle segment\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 5,
-    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
