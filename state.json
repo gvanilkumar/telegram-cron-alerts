@@ -1,9 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1786309522342,
+    "lastRun": 1786309835927,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Maruti Suzuki India \\(Subsidiary of Suzuki Motor Corporation\\)\n• *Announcement:* India's largest carmaker\\, Maruti Suzuki India\\, projects the domestic passenger vehicle market to expand to 6\\.1\\-6\\.3 million units by fiscal year 2030\\-31.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(60\\% \\- A direct corporate outlook reported by India's largest automaker\\, but not an explicit regulatory filing\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto \\(Auto Components\\)\n• *Expected FII Sentiment:* Net Inflows \\(Positive long\\-term growth forecast for a key domestic sector indicates robust internal demand and potential for future earnings growth for related companies\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should consider overweighting exposure to the Metals/Auto sector\\, specifically companies poised to benefit from long\\-term passenger vehicle market expansion\\. Focus on auto component manufacturers and related ancillary industries\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 13,
+    "consecutiveFailures": 14,
     "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
