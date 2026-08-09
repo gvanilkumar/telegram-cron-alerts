@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1786269031365,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Audi India\n• *Announcement:* Audi India has confirmed the launch of new Q3, A5, and Q9 models in the Indian market\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(95\\% \\- Explicit corporate announcement by a major transnational corporation\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto\n• *Expected FII Sentiment:* Net Inflows \\(Increased investment and consumer demand in the auto sector could attract FIIs\\. This also aligns with the 'China\\+1' shift where companies are looking to expand manufacturing/sales in India\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Consider overweighting auto ancillary stocks with strong ties to premium car manufacturers, anticipating increased demand for components and related services\\.",
+    "lastRun": 1786269324917,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Maruti Suzuki India\n• *Announcement:* India's largest carmaker\\, Maruti Suzuki India\\, projects the domestic passenger vehicle market to grow to 6\\.1\\-6\\.3 million units by fiscal year 2030\\-31\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit company projection\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto\n• *Expected FII Sentiment:* Net Inflows \\(Positive long\\-term outlook for a major domestic sector could attract long\\-term FII interest\\. The growth projection indicates robust domestic demand and manufacturing prospects in India\\. China\\+1 shift acceleration could also indirectly benefit by reinforcing India's manufacturing appeal\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Consider overweighting Auto and Auto Ancillary stocks with a long\\-term horizon\\, focusing on companies positioned to capitalize on projected market growth\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
