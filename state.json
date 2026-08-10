@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1786352463643,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Maruti Suzuki India\n• *Announcement:* Maruti Suzuki India expects the country’s passenger vehicle market to reach 6\\.1\\-6\\.3 million units annually by fiscal 2030\\-31\\, driven by recovering demand for small cars\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(70\\% \\- Corporate projection from a leading auto manufacturer in India\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto\n• *Expected FII Sentiment:* Net Inflows \\(Strong domestic auto market growth outlook signals robust consumer demand and economic expansion\\, attracting capital\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Consider increasing exposure to auto manufacturers and auto component suppliers\\, focusing on companies well\\-positioned to capitalize on projected market expansion\\.",
+    "lastRun": 1786352725827,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Maruti Suzuki India\n• *Announcement:* India's largest carmaker, Maruti Suzuki India, forecasts the domestic passenger vehicle market to expand to 6\\.1\\-6\\.3 million units by fiscal year 2030\\-31\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Corporate forecast from India's largest carmaker\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto\n• *Expected FII Sentiment:* Net Inflows \\(Signals strong long\\-term domestic consumption growth potential, attracting FIIs interested in India's consumption story\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Overweight long\\-term positions in domestic\\-focused auto manufacturers and related ancillary industries, considering India's robust consumption outlook\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 3,
-    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
