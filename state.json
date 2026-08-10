@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1786351232654,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Maruti Suzuki India\n• *Announcement:* Maruti Suzuki India forecasts the domestic passenger vehicle market to reach 6\\.1\\-6\\.3 million units annually by fiscal year 2030\\-31, driven by recovering demand for small cars and sustained growth in SUVs\\. The company also plans to invest 350 billion rupees to boost annual production capacity to 3\\.65 million vehicles by FY31 and launch seven new SUV models\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- This is a direct corporate announcement and forecast from a major transnational corporation, Maruti Suzuki India, based on its annual report\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto \\(specifically Auto Components\\)\n• *Expected FII Sentiment:* Net Inflows \\(The positive long\\-term outlook for India's auto sector, with significant expansion plans and recovering demand, suggests increased investment attractiveness\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should consider increasing their overweight positions in auto and auto component manufacturers, given the robust growth projections and company\\-specific expansion plans\\.",
+    "lastRun": 1786351534317,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Maruti Suzuki India\n• *Announcement:* Maruti Suzuki India expects the country’s passenger vehicle market to reach 6\\.1\\-6\\.3 million units annually by fiscal 2030\\-31\\, driven by recovering demand for small cars\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(70\\% \\- Corporate projection from a leading auto manufacturer in India\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto\n• *Expected FII Sentiment:* Net Inflows \\(Strong domestic auto market growth outlook signals robust consumer demand and economic expansion\\, attracting capital\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Consider increasing exposure to auto manufacturers and auto component suppliers\\, focusing on companies well\\-positioned to capitalize on projected market expansion\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 2,
-    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
