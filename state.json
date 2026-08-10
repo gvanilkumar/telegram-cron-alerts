@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1786348867765,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Maruti Suzuki India\n• *Announcement:* India's largest carmaker, Maruti Suzuki India, projects the domestic passenger vehicle market to expand to 6\\.1\\-6\\.3 million units annually by fiscal year 2030\\-31, driven by recovering small car demand and sustained market growth\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- This is an explicit corporate projection from India’s largest carmaker\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto \\(Auto Components\\)\n• *Expected FII Sentiment:* Net Inflows \\(Strong domestic auto market growth signals robust economic activity and consumer demand, attracting foreign investment\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Consider overweighting positions in Indian auto original equipment manufacturers \\(OEMs\\) and auto component suppliers, anticipating sustained domestic demand and production growth\\.",
+    "lastRun": 1786349124745,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Maruti Suzuki India\n• *Announcement:* India's largest carmaker, Maruti Suzuki India, projects the domestic passenger vehicle market to grow to 6\\.1-6\\.3 million units annually by fiscal year 2030-31\\. This growth is expected to be driven by recovering demand for small cars and continued expansion in the SUV segment\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit market forecast by India\\'s largest automaker, Maruti Suzuki India, detailed in its annual report and public statements\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto \\(specifically Auto Components, Steel, Aluminum\\), Infrastructure \\(due to increased manufacturing and logistics activity\\)\n• *Expected FII Sentiment:* Net Inflows \\(Strong domestic demand outlook in a key manufacturing sector signals economic resilience and potential for broader industrial growth, attracting foreign investment\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should consider increasing exposure to Indian auto and auto component manufacturers, as well as select metal and infrastructure plays, given the robust long-term growth projections in the passenger vehicle market\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
