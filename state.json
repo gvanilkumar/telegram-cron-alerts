@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1786376186799,
+    "lastRun": 1786379241593,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Maruti Suzuki India Chairman R\\.C\\. Bhargava\n• *Announcement:* Maruti Suzuki India projects the Indian passenger vehicle market to reach 6\\.1\\-6\\.3 million units annually by fiscal 2030\\-31, driven by a revival in demand for small cars and sustained growth in SUVs\\. The company plans to invest approximately 350 billion rupees \\(\\$4 billion\\) to raise annual production capacity to 3\\.65 million vehicles by FY31\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- This is an explicit forecast and investment plan by a major corporation within its official annual report\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto \\(Auto Components, Passenger Car Manufacturing\\)\n• *Expected FII Sentiment:* Net Inflows \\(Anticipated higher demand and growth prospects in the Indian automotive sector, supported by significant corporate investment and capacity expansion, could attract foreign investment\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Overweight exposure to auto component manufacturers and select auto OEMs with strong domestic market presence, anticipating long\\-term demand growth and increased production capacity\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0,
-    "lastError": null
+    "consecutiveFailures": 1,
+    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
