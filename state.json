@@ -1,9 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1786453132302,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Indian Smartphone Market Report, featuring Apple\n• *Announcement:* India\\'s smartphone market experienced an 11\\.1 pct decline in Q2 2026 due to increased memory component costs and softened demand, especially in entry\\-level devices\\. The iPhone 17, however, remained the most shipped unit in the country\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Specific percentage decline and market leader reported in news context\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* EMS\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Weakened consumer demand and increased component costs indicate a risk\\-off environment for the EMS sector in India\\)\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should re\\-evaluate holdings in Indian EMS companies, especially those exposed to the entry\\-level segment, and closely track global memory component pricing\\.",
+    "lastRun": 1786458052820,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Anthropic\n• *Announcement:* AI company Anthropic is localizing Claude pricing for India, affirming it as its largest market outside the US\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit corporate announcement regarding market strategy\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* IT \\(Indian Tech Services, ER\\&D\\)\n• *Expected FII Sentiment:* Net Inflows \\(This move reinforces India's growing importance as a major market and tech hub, potentially attracting further investment in the IT sector\\. \\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should consider overweighting Indian IT services companies, particularly those focused on AI integration and cloud solutions, given increased demand from global AI players\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
