@@ -1,9 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1786443998775,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Maruti Suzuki India\n• *Announcement:* Maruti Suzuki India projects the country’s passenger vehicle market to reach 6\\.1\\-6\\.3 million units annually by fiscal year 2030\\-31, driven by recovering small car demand and continued growth in SUVs\\. The company plans to invest approximately 350 billion rupees to increase its annual production capacity to 3\\.65 million vehicles by FY31\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit corporate forecast and investment plans from a major automaker\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto\n• *Expected FII Sentiment:* Net Inflows \\(Positive long\\-term growth outlook for the auto sector signals robust domestic consumption and manufacturing potential\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers could consider increasing exposure to auto component manufacturers and other ancillary industries benefiting from the projected expansion in India's passenger vehicle market\\.",
+    "lastRun": 1786446789182,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Indian Smartphone Market Report, featuring Apple\n• *Announcement:* India\\'s smartphone market experienced an 11\\.1 pct decline in Q2 2026 due to increased memory component costs and softened demand, especially in entry\\-level devices\\. The iPhone 17, however, remained the most shipped unit in the country\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Specific percentage decline and market leader reported in news context\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* EMS\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Weakened consumer demand and increased component costs indicate a risk\\-off environment for the EMS sector in India\\)\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should re\\-evaluate holdings in Indian EMS companies, especially those exposed to the entry\\-level segment, and closely track global memory component pricing\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
