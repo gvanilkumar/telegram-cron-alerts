@@ -1,10 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1786665101902,
+    "lastRun": 1786668382967,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Indian Government Official\n• *Announcement:* India will shift its trade strategy, prioritizing Preferential Trade Agreements \\(PTAs\\) over Free Trade Agreements \\(FTAs\\) with developing economies such as South Africa and Mercosur, adopting a calibrated approach\\.\n• *Market Stance:* 🟡 NEUTRAL\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Official statement on India\\'s trade policy direction\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Shift to less comprehensive trade agreements might temper FII optimism for broad export\\-driven growth\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should monitor the specific terms of upcoming PTAs for targeted sector impacts, and potentially prioritize domestic\\-consumption focused equities over broad export plays in the short term\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+    "consecutiveFailures": 0
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
