@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1786916359579,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* ORIX Corporation president & group CEO Hidetake Takahashi\n• *Announcement:* ORIX Corporation, a major transnational corporation, considers India a key global growth market and intends to significantly expand its vehicle fleet in the country soon\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit corporate announcement regarding expansion plans in India\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto, Infrastructure\n• *Expected FII Sentiment:* Net Inflows \\(The commitment from a major transnational corporation like ORIX, focused on expanding its presence due to India's economic growth, signals a positive investment climate and could attract further foreign institutional investment\\. This reinforces the 'China\\+1 shift acceleration' narrative, leading to Net Inflows\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should consider increasing exposure to Auto component manufacturers and infrastructure\\-related stocks, anticipating increased demand from corporate fleet expansion and broader economic growth\\.",
+    "lastRun": 1786917274248,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* ORIX Corporation President & Group CEO Hidetake Takahashi\n• *Announcement:* ORIX Corporation identifies India as a key global growth market and plans significant expansion of its vehicle fleet there, driven by India's economic growth\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit corporate announcement of expansion plans\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto, Infrastructure\n• *Expected FII Sentiment:* Net Inflows \\(Positive foreign corporate investment signals continued 'China\\+1' shift and supply chain interest in India, attracting capital flows\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Overweight exposure to auto components and logistics companies, favoring firms poised to benefit from increased vehicle fleet demand and economic expansion\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
