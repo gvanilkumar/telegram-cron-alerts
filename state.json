@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1786923093172,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* ORIX Corporation President & Group CEO Hidetake Takahashi\n• *Announcement:* ORIX Corporation identifies India as a key global growth market and plans significant expansion of its vehicle fleet there, driven by India's economic growth\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit corporate announcement of expansion plans\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto, Infrastructure\n• *Expected FII Sentiment:* Net Inflows \\(Positive foreign corporate investment signals continued 'China\\+1' shift and supply chain interest in India, attracting capital flows\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Overweight exposure to auto components and logistics companies, favoring firms poised to benefit from increased vehicle fleet demand and economic expansion\\.",
+    "lastRun": 1786924143274,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* ORIX Corporation President & Group CEO Hidetake Takahashi\n• *Announcement:* ORIX Corporation identifies India as a key global growth market and plans to significantly expand its vehicle fleet in the country soon, driven by India's economic growth\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit corporate announcement by CEO regarding expansion plans\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Auto/Metals, Infrastructure\n• *Expected FII Sentiment:* Net Inflows \\(Increased foreign direct investment and positive sentiment from a major transnational corporation signal potential for greater capital inflows into Indian equities\\, supporting the China\\+1 diversification trend\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Consider increasing exposure to Indian auto component manufacturers and logistics providers within the infrastructure sector, anticipating higher demand and investment\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
