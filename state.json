@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1786989862708,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* US and Indian Governments \\(Trade Negotiations\\)\n• *Announcement:* Imminent 100% tariffs are threatening trade between the US and India, prompting Indian suppliers to strategize pivoting away from the US market\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(60% \\- Ongoing trade negotiations indicate a serious risk of tariffs, though not yet finalized\\)\\.\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* Textiles, Metals/Auto, Chemicals, EMS\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Increased trade tensions and potential tariffs on exports are likely to deter foreign investment in affected sectors, strengthening USD/INR pressure\\)\\.\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should consider reducing exposure to export\\-oriented sectors heavily reliant on the US market and pivot towards domestically focused industries\\.",
+    "lastRun": 1786992804829,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* ORIX Corporation President & Group CEO Hidetake Takahashi\n• *Announcement:* ORIX Corporation identifies India as a key global growth market and plans a significant expansion of its vehicle fleet in the country\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit corporate announcement regarding expansion plans\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto, Infrastructure\n• *Expected FII Sentiment:* Net Inflows \\(Corporate expansion plans signal growing confidence in India\\'s economic trajectory\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Consider increasing exposure to select Auto and Infrastructure companies positioned to benefit from increased corporate investment and logistics growth\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
