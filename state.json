@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787007444547,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* ORIX Corporation President & Group CEO Hidetake Takahashi\n• *Announcement:* ORIX Corporation has designated India as a key global growth market and plans to significantly expand its vehicle fleet operations within the country\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit company statement from CEO\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Infrastructure, Auto\n• *Expected FII Sentiment:* Net Inflows \\(ORIX's expansion signals strong foreign direct investment interest and confidence in India's economic growth\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should consider increasing exposure to companies within the Infrastructure \\(Logistics\\) and Auto sectors that could benefit from increased corporate fleet demand and related services\\.",
+    "lastRun": 1787008897739,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* ORIX Corporation President & Group CEO Hidetake Takahashi\n• *Announcement:* ORIX Corporation identifies India as a key global growth market and plans significant expansion of its vehicle fleet in the country due to India\\'s economic growth\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit company statement regarding future investment plans\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto, Infrastructure, EMS\n• *Expected FII Sentiment:* Net Inflows \\(Foreign direct investment and positive sentiment from a major global corporation reinforce confidence in India\\'s growth narrative, attracting further capital\\. China\\+1 shift acceleration and supply chain relocation to India contribute to this outlook\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Overweight sectors poised to benefit from increased foreign direct investment and domestic economic expansion, such as Auto Components and Logistics infrastructure\\. Maintain exposure to companies aligned with India\\'s long\\-term growth story\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
