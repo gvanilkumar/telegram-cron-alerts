@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1786994358793,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* ORIX Corporation President & Group CEO Hidetake Takahashi\n• *Announcement:* ORIX Corporation identifies India as a key global growth market and plans a significant expansion of its vehicle fleet in the country\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit corporate announcement regarding expansion plans\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto, Infrastructure\n• *Expected FII Sentiment:* Net Inflows \\(Corporate expansion plans signal growing confidence in India\\'s economic trajectory\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Consider increasing exposure to select Auto and Infrastructure companies positioned to benefit from increased corporate investment and logistics growth\\.",
+    "lastRun": 1786995976239,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* United States \\(USTR / Trump Administration policies\\)\n• *Announcement:* Trade negotiations between the United States and India are highly contentious, with Indian suppliers actively planning to diversify away from the US market due to a looming threat of 100\\% tariffs\\. The US has also accused India of aiding China in tariff evasion\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(75\\% \\- Official reports indicate ongoing bilateral trade tensions and the explicit prospect of 100\\% tariffs due to various factors including India's trade with Russia and alleged tariff evasion, though not yet a finalized order\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* Textiles, Auto Components, EMS, Chemicals \\(export\\-oriented\\), Pharma, IT Services\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Escalating trade tensions and potential tariffs on key Indian exports to the US create a risk\\-off sentiment, leading to potential capital withdrawals\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should consider trimming exposure to Indian sectors with high export reliance on the US market, focusing instead on domestic demand\\-driven equities\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
