@@ -1,10 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787022742811,
+    "lastRun": 1787025451617,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* ORIX Corporation president & group CEO Hidetake Takahashi\n• *Announcement:* ORIX Corporation has designated India as a primary global growth market for its services and intends to significantly expand its vehicle fleet within the country soon.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit corporate announcement detailing expansion plans in India\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Auto, Infrastructure\n• *Expected FII Sentiment:* Net Inflows \\(Increased foreign direct investment from a major corporation indicates growing confidence in India\\'s economic trajectory\\, likely attracting broader FII flows\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should consider overweighting Indian equities in the Auto and Infrastructure sectors, anticipating positive sentiment and increased demand driven by foreign corporate expansion.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
+    "consecutiveFailures": 0
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
