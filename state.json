@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787076156724,
+    "lastRun": 1787079041019,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* US Trade Policy\n• *Announcement:* Indian suppliers are preparing to re\\-orient their export strategies away from the US market due to the imminent threat of 100\\% tariffs\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(50\\% \\- Headline explicitly states \"100\\% Tariffs Looming\" indicating a high probability of official action impacting Indian suppliers\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* Textiles, Metals/Auto, EMS, Chemicals\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Increased trade friction with a major export market like the US is likely to dampen investor sentiment and trigger capital flight from Indian equities heavily reliant on US demand\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should consider reducing exposure to Indian export\\-oriented sectors with high US market dependence, specifically Textiles, Metals/Auto, EMS, and Chemicals, seeking domestic\\-focused opportunities or diversifying international market exposure\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0,
-    "lastError": null
+    "consecutiveFailures": 1,
+    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
