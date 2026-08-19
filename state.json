@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787182939624,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Bank of America (BofA)\n• *Announcement:* BofA's August 2026 survey reveals India has replaced Indonesia as Asia's least\\-preferred stock market for global fund managers, attributing this to the absence of clear AI strategies\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Verified survey results from a major financial institution\\)\\.\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* All sectors \\(due to broad negative FII sentiment\\), potentially IT \\(given the AI strategy comment\\)\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Global fund managers’ diminished preference for India signals a risk\\-off environment leading to capital exits\\)\\.\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should review their overall exposure to Indian equities, potentially trimming allocations and closely monitoring the development and communication of AI strategies by Indian corporations and the government\\.",
+    "lastRun": 1787183898203,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Bank of America \\(BofA\\)\n• *Announcement:* BofA's August 2026 survey reveals India has replaced Indonesia as Asia's least\\-preferred stock market among global fund managers\\. This sentiment is driven by concerns over valuations, growth, limited AI exposure, and slow reforms\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit survey results from a major bank, with supporting details on rationale and respondents\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* All Indian sectors are vulnerable due to broad negative sentiment, particularly those without clear AI exposure or with high valuations\\.\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Global fund managers are reducing preference for Indian equities, indicating potential capital withdrawal\\. This could lead to a strengthening USD/INR pressure and a risk\\-off environment for Indian assets\\. FIIs have been net sellers in 2026, exceeding 2025 outflows\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should consider defensive positioning, potentially reducing exposure to high\\-beta stocks and increasing allocations to more resilient, domestic\\-focused sectors if the trend of declining global preference continues\\. Investors should also monitor for any policy changes addressing AI exposure or reforms\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
