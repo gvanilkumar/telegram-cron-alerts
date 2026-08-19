@@ -1,9 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787168755861,
+    "lastRun": 1787169689009,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* US Senate \\/ President Donald Trump \\/ USTR\n• *Announcement:* The US Senate has passed a bill granting the President the authority to impose tariffs of up to 100\\% on Indian goods, primarily in response to India's continued purchases of Russian oil\\. Indian suppliers are actively planning to diversify away from the US market in anticipation\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(75\\% \\- The US Senate has passed legislation empowering the President to impose these tariffs, indicating a substantial and credible threat, though implementation is discretionary\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* Textiles, Apparel, Leather, Footwear, Plastic, Rubber, Organic Chemicals, Home Décor, Artisanal Products, certain Machinery\\.\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(The significant threat of escalating tariffs, coupled with existing tariffs and active USTR investigations into Indian sectors, creates a high\\-risk environment for export\\-oriented businesses and discourages foreign investment in Indian equities\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should urgently reassess exposure to export\\-reliant Indian sectors, particularly those listed for potential tariffs, and consider diversifying portfolios towards domestic consumption themes or sectors less exposed to US trade policy shifts\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
+    "consecutiveFailures": 2,
     "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
