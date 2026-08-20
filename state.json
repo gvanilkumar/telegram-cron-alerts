@@ -1,10 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787269141894,
+    "lastRun": 1787270242125,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Temasek \\(Singapore State Investor\\)\n• *Announcement:* Singaporean state investor Temasek has reported significant success with its Indian investments, with four portfolio companies, including logistics firm Shiprocket, dairy producer Milky Mist, Molbio Diagnostics, and Manipal Health, surging over 25\\-40\\% after recent IPOs\\. Temasek views India as its best\\-performing market over the past decade, having invested nearly $9 billion in the last three years and being a net buyer of Indian equities\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(95\\% \\- Verified news reports from multiple sources detailing specific company performances and Temasek's official statements regarding its India strategy\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Infrastructure\n• *Expected FII Sentiment:* Net Inflows \\(Successful IPOs and strong performance of foreign\\-backed companies, particularly in key growth sectors like logistics, will attract further foreign direct and portfolio investment into India, underscoring its long\\-term structural growth story\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should consider overweighting Indian equities, specifically looking for opportunities in the Infrastructure sector and companies with strong foreign institutional backing, given Temasek's demonstrated success and continued commitment to the market\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
+    "consecutiveFailures": 0
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
