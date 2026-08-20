@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787209845393,
+    "lastRun": 1787212505460,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Market Dynamics impacting Major Smartphone OEMs \\(Apple, Samsung\\)\n• *Announcement:* Rising memory chip costs are making Chinese smartphones expensive in India, causing a market share shift towards Apple and Samsung due to their improved value proposition\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(70\\% \\- Verified reporting on current market dynamics and cost pressures impacting supply chains\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* EMS \\(if heavily reliant on Chinese smartphone brands\\)\n• *Strategic Tailwinds:* EMS \\(firms manufacturing for Apple/Samsung in India\\)\n• *Expected FII Sentiment:* Net Inflows \\(Shift in market share towards global premium brands \\(Apple\\, Samsung\\) in the world's second\\-largest smartphone market indicates potential for increased domestic manufacturing and supply chain investment in India\\. This aligns with global supply chain diversification trends\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Consider increasing exposure to Indian EMS players with strong partnerships with global premium smartphone brands\\. Monitor supply chain resilience for local manufacturing growth\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0,
-    "lastError": null
+    "consecutiveFailures": 1,
+    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
