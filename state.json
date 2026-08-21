@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787341224773,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Starlink's India Market Entry \\\\(as reported by news media\\\\)\n• *Announcement:* Major transnational corporation Starlink continues to encounter substantial regulatory obstacles and competition from domestic players like Jio, impeding its full entry into the Indian market\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\\\(65\\% \\\\- Verified reporting from a reputable business news source detailing persistent market entry challenges for a major global corporation\\\\.\\\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* Infrastructure \\\\(specifically foreign direct investment into telecom and digital services\\\\), IT \\\\(for new foreign entrants in regulated digital infrastructure sub\\-sectors\\\\)\\.\n• *Strategic Tailwinds:* Infrastructure \\\\(domestic telecom providers like Jio, benefiting from reduced foreign competition in satellite internet services\\\\)\\.\n• *Expected FII Sentiment:* Net Outflows \\\\(Concerns about regulatory unpredictability and market access challenges for major foreign corporations could lead to broader FII caution regarding new investments in India's regulated sectors\\\\.\\\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should consider an overweight position in established domestic infrastructure and telecom companies that benefit from the existing regulatory landscape, while carefully evaluating risks for foreign investment opportunities in highly regulated sectors\\.",
+    "lastRun": 1787342156650,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* United States\n• *Announcement:* The US is contemplating 100\\% tariffs on Indian goods, leading Indian suppliers to plan pivoting away from the US market\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(75\\% \\- News reports indicate \"looming\" tariffs and \"fraught\" trade negotiations between the two nations\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* Textiles, Pharma, Metals/Auto, Chemicals, EMS\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Trade tensions with the US and potential tariffs reduce export competitiveness and increase risk for foreign investors\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should evaluate exposure to Indian export\\-oriented sectors, particularly those reliant on the US market, and consider defensive positioning\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
