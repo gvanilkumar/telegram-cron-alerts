@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787351946067,
+    "lastRun": 1787353108168,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India\\'s market regulator \\(SEBI\\) and JPMorgan Chase & Co\\. entity, Copthall Mauritius Investment\n• *Announcement:* India\\'s market regulator, SEBI, has barred a JPMorgan Chase & Co\\.\\-owned entity, Copthall Mauritius Investment, from the securities market until further orders, alleging prima facie manipulative trading patterns in a newly introduced closing auction session\\. SEBI has also ordered the impounding of approximately 37 million rupees in alleged unlawful gains\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit interim regulatory order issued by SEBI against a major global financial institution, widely reported by news outlets\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(The swift and stern regulatory action against a prominent global financial entity for alleged market manipulation could heighten concerns among foreign institutional investors regarding regulatory risk and compliance in India\\. This may lead to a cautious approach and potential capital withdrawal by FIIs, particularly in the short\\-term, contributing to a risk\\-off macro environment and potential pressure on the USD\\/INR exchange rate\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should consider a defensive posture, potentially trimming exposure to broad market equities reliant on foreign capital inflows and increasing cash positions to navigate potential short\\-term volatility driven by FII sentiment\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0,
-    "lastError": null
+    "consecutiveFailures": 1,
+    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
