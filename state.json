@@ -1,9 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787416348495,
+    "lastRun": 1787417624434,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India's Market Regulator \\(SEBI\\)\n• *Announcement:* India's market regulator, SEBI, has barred Copthall Mauritius Investment, a JPMorgan Chase & Co\\.\\-owned entity, from the securities market until further orders due to alleged manipulative trading in the new closing auction system. SEBI also impounded ₹3\\.7 crore in alleged unlawful gains.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Official interim order from India's market regulator, SEBI\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Increased regulatory scrutiny on a major FII entity may deter short\\-term foreign portfolio investment, raising concerns about the ease of doing business and regulatory environment for market participants\\. This could also lead to risk\\-off sentiment due to concerns about potential broader regulatory actions\\. \\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should closely monitor regulatory developments and potential ripple effects on FII participation, considering a defensive posture for portfolios sensitive to foreign capital flows\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 2,
+    "consecutiveFailures": 3,
     "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
