@@ -1,9 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787410957761,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India's market regulator \\(SEBI\\)\n• *Announcement:* India's market regulator has barred Copthall Mauritius Investment, an entity owned by JPMorgan Chase & Co\\., from the country's securities market until further notice due to undisclosed reasons\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Regulatory action officially announced in news\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Increased regulatory scrutiny and perceived risk for foreign institutional investors in the Indian securities market could prompt a cautious approach, potentially leading to capital withdrawals from broader equities\\. \\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should adopt a defensive stance, possibly reducing exposure to highly FII\\-dependent large\\-cap equities and considering reallocation towards more domestically\\-driven sectors or those less reliant on foreign capital inflows until regulatory clarity improves\\.",
+    "lastRun": 1787412582228,
+    "lastAlertText": "🚨 \\*GLOBAL POLICY TRIGGERS ALERT\\*\n• \\*Source/Speaker:\\* India's market regulator\n• \\*Announcement:\\* India's market regulator has barred a JPMorgan Chase \\& Co\\. \\-owned entity, Copthall Mauritius Investment, from the country's securities market until further notice\\.\n• \\*Market Stance:\\* 🔴 BEARISH\n\n📊 \\*CONFIDENCE LEVEL:\\* HIGH \\(90\\% \\- Regulatory action against a major transnational corporation entity is explicitly reported by a credible news source\\.\\)\n\n🎯 \\*INDIAN MARKET IMPACT:\\*\n• \\*Vulnerable Sectors:\\* None\n• \\*Strategic Tailwinds:\\* None\n• \\*Expected FII Sentiment:\\* Net Outflows \\(Increased regulatory scrutiny on a foreign entity may lead to caution among FIIs\\, potentially impacting capital allocation to Indian equities\\.\\)\n\n💡 \\*TACTICAL ACTIONABLE OUTCOME:\\* Fund managers should monitor further regulatory developments impacting foreign institutional investors and potentially review exposure to segments reliant on sustained FII inflows\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
