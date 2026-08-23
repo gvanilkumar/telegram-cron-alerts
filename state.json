@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787511728102,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India's market regulator\n• *Announcement:* India's market regulator has barred two firms for trade manipulation and a JPMorgan entity from the country's securities market, indicating active regulatory enforcement\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90% \\- Explicit regulatory bans by India's securities regulator\\)\\.\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Increased regulatory scrutiny for foreign entities and market integrity concerns could deter short\\-term foreign investment\\)\\.\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should monitor further regulatory developments closely and consider a cautious stance on Indian equities, particularly those with exposure to financial market intermediaries, until clarity emerges\\.",
+    "lastRun": 1787513313390,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* US Government \\(Implied\\)\n• *Announcement:* Potential 100\\% tariffs are looming, prompting Indian suppliers to consider pivoting away from the US market\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(60\\% \\- Reporting indicates \"looming\" tariffs, suggesting a strong possibility but not yet finalized policy\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* Textiles\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Heightened trade tensions and potential tariff imposition on Indian exports to a major market would likely deter FIIs from India's export\\-oriented equities, increasing risk\\-off sentiment\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should review and potentially reduce exposure to textile exporters and other manufacturing sectors with high reliance on US demand, considering diversification strategies\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 8,
-    "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
