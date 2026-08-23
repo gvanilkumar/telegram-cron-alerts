@@ -1,9 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787481860562,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India's market regulator / JPMorgan Chase & Co\\.\n• *Announcement:* India's market regulator has barred a JPMorgan Chase & Co\\.\\-owned entity, Copthall Mauritius Investment, from the country's securities market\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- India's market regulator has explicitly finalized the bar against a JPMorgan entity\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None directly; however, general market sentiment for foreign investment may dampen\\.\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Increased regulatory scrutiny for a major foreign investor could raise perceived risk, prompting FII capital withdrawal\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should consider reducing exposure to sectors heavily dependent on foreign capital and monitor further regulatory shifts\\. Prioritize domestic-demand driven assets\\.",
+    "lastRun": 1787482831207,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India's Market Regulator \\(SEBI\\) against JPMorgan Chase & Co\\.\n• *Announcement:* India\\'s market regulator has barred JPMorgan Chase & Co\\.\\-owned entity\\, Copthall Mauritius Investment\\, from the country\\'s securities market until further orders due to alleged manipulative trading practices in the newly introduced Closing Auction Session\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- This is an explicit regulatory enforcement action against a major transnational corporation\\, reported by multiple credible news agencies\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(This specific regulatory action against a major foreign investment entity could trigger caution among Foreign Institutional Investors \\(FIIs\\) regarding India\\'s regulatory environment\\, potentially leading to slowed inflows or minor outflows from similar entities\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should closely monitor regulatory developments and assess their portfolio\\'s exposure to entities with similar investment structures or potential compliance risks in India\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
