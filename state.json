@@ -1,9 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787453574152,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India's Market Regulator\n• *Announcement:* India's market regulator has barred JPMorgan Chase \\& Co\\.\\-owned entity, Copthall Mauritius Investment, from participating in the country's securities market until further notice\\.\n• *Market Stance:* 🟡 NEUTRAL\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Official regulatory action by India's market regulator\\)\\.\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Regulatory action against a major foreign entity could trigger caution among FIIs regarding market stability and regulatory environment\\)\\.\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should monitor further regulatory developments and assess the broader implications for foreign investment appetite in India\\.",
+    "lastRun": 1787456351674,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India's market regulator\n• *Announcement:* India's market regulator has barred Copthall Mauritius Investment, an entity owned by JPMorgan Chase & Co\\., from the country's securities market until further notice\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit regulatory action by India's market regulator\\)\\.\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Increased regulatory scrutiny and action against a foreign institutional investor's entity in the Indian securities market might deter new foreign portfolio investments and could lead to existing investors re\\-evaluating their positions, potentially causing capital flight from the Indian equity market\\. Such regulatory actions often signal a less favorable environment for foreign capital\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should consider a defensive posture, potentially trimming exposure to broad market indices and sectors heavily reliant on FII flows, while focusing on domestic demand\\-driven themes if available\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
