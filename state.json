@@ -1,9 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787504787066,
+    "lastRun": 1787506282093,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India's market regulator\n• *Announcement:* India's market regulator has barred two firms for trade manipulation and a JPMorgan entity from the country's securities market, indicating active regulatory enforcement\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90% \\- Explicit regulatory bans by India's securities regulator\\)\\.\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Increased regulatory scrutiny for foreign entities and market integrity concerns could deter short\\-term foreign investment\\)\\.\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should monitor further regulatory developments closely and consider a cautious stance on Indian equities, particularly those with exposure to financial market intermediaries, until clarity emerges\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 3,
+    "consecutiveFailures": 4,
     "lastError": "Google Gemini API Quota Exceeded (429: Out of Tokens). Please set GROQ_API_KEY (gsk_...) or OPENAI_API_KEY in GitHub Secrets / .env, or switch your Provider in Settings."
   },
   "task_lfe72iyrm": {
