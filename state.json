@@ -1,9 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787590118827,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India's Market Regulator \\(SEBI\\)\n• *Announcement:* India's market regulator has barred JPMorgan Chase & Co\\.\\-owned entity, Copthall Mauritius Investment, from the country's securities market until further notice\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit regulatory action by India's market regulator\\)\\.\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Increased regulatory scrutiny on a major foreign institutional investor could deter other foreign investments and create short\\-term uncertainty\\)\\.\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should closely monitor future regulatory developments and consider a cautious stance on new foreign investment inflows into India\\.",
+    "lastRun": 1787591884805,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India's market regulator, JPMorgan Chase & Co\\.\n• *Announcement:* India's market regulator has barred a JPMorgan Chase & Co\\.\\-owned entity, Copthall Mauritius Investment, from the country's securities market until further notice\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Official regulatory action by India's market regulator against a specific entity\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* IT, EMS, Metals/Auto, Infrastructure\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(The barring of a JPMorgan entity by India's market regulator signals increased regulatory scrutiny and potential for similar actions, creating a risk\\-off sentiment for foreign investors and strengthening USD/INR pressure\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should consider reducing exposure to high\\-beta segments and sectors highly reliant on foreign investment, increasing defensive positions in sectors with stable domestic demand\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
