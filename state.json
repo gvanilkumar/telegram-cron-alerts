@@ -1,9 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787679355365,
+    "lastRun": 1787680849257,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* US Government / Donald Trump\n• *Announcement:* The US is poised to impose significant tariffs, including a 100\\% tariff on branded and patented pharmaceutical imports effective October 1, 2025, aimed at shifting production to the US\\. Further, the US Senate has authorized tariffs up to 100\\% on countries, including India, for continued purchases of Russian oil\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(85\\% \\- The pharmaceutical tariff is a specific announced policy, and the Russian oil tariff bill has passed the US Senate, signaling strong legislative intent and advanced policy stages\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* Pharma \\(Generics, APIs\\), OGCs \\(due to Russian oil purchases\\), Textiles, Metals/Auto \\(Auto Components\\), Chemicals \\(Specialty\\)\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Escalating US trade protectionism against key Indian exports and energy policies, coupled with existing tariffs and investigations, creates significant uncertainty and risk\\-off sentiment for FIIs\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should actively de\\-risk portfolios by reducing exposure to US\\-dependent Pharma and other export\\-oriented sectors vulnerable to escalating US tariffs\\. Consider reallocating to domestic\\-focused industries or those with diversified international trade partnerships\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0
+    "consecutiveFailures": 1,
+    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
