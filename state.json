@@ -1,9 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1787623429977,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India's Market Regulator \\(SEBI\\)\n• *Announcement:* India's market regulator has barred Copthall Mauritius Investment, a JPMorgan Chase \\& Co\\.\\-owned entity, from the country's securities market until further notice\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(95\\% \\- Official regulatory action taken against a major transnational corporation's entity\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Heightened regulatory scrutiny on foreign entities can induce short\\-term FII caution and increase perceived risk for portfolio allocations to India\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should monitor the broader implications of regulatory enforcement actions on foreign investor confidence and reassess exposure to financial instruments sensitive to FII sentiment\\.",
+    "lastRun": 1787627299429,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India's market regulator and JPMorgan Chase \\& Co\\.\n• *Announcement:* India's market regulator has barred JPMorgan Chase \\& Co\\.\\'s entity, Copthall Mauritius Investment, from participating in the country's securities market until further notice\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Official regulatory action against a major transnational corporation\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(A regulatory barring of a JPMorgan entity could signal increased regulatory scrutiny or risk for foreign investment vehicles, leading to FII caution and potential outflows, especially from Mauritius\\-routed investments\\)\\.\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should assess their exposure to foreign portfolio investor \\(FPI\\) routed investments, particularly those with complex ownership structures, and monitor regulatory developments closely\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
