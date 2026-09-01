@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1788256891847,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Maruti Suzuki Chairman RC Bhargava\n• *Announcement:* Maruti Suzuki Chairman RC Bhargava attributes GST reforms to economic growth and projects the Indian car market to reach 6\\.3 million units by 2031\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit projection from a major corporate chairman\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto\n• *Expected FII Sentiment:* Net Inflows \\(Positive long\\-term growth outlook for a key manufacturing sector is likely to attract foreign investment\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Overweight Indian auto and auto component manufacturers, focusing on firms positioned to capitalize on sustained domestic demand growth\\.",
+    "lastRun": 1788273831460,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Philips\n• *Announcement:* Philips, a major transnational corporation, is entering the Indian 5G smartphone market, introducing new phones with a 64MP camera and 120Hz display.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit corporate announcement by a major transnational corporation\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* EMS, IT\n• *Expected FII Sentiment:* Net Inflows \\(This move by Philips signals increased foreign investment and activity within India's electronics and technology sectors, aligning with broader trends of supply chain diversification and localization\\. \\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should consider overweighting Indian EMS companies and select IT firms poised to benefit from the expansion of domestic smartphone manufacturing and associated services.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
