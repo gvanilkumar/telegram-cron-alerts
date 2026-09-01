@@ -1,10 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1788209650021,
+    "lastRun": 1788221533239,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Indian Government\n• *Announcement:* India is actively pursuing market access for its pharmaceutical and agricultural products in Argentina, following bilateral trade surpassing \\$6\\.5 billion\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(70\\% \\- Official policy proposal/bilateral talks from a global leader, indicating clear intent but not yet a finalized agreement\\)\\.\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Pharma, Chemicals\n• *Expected FII Sentiment:* Net Inflows \\(Expanding international market access for key Indian export sectors like pharma and agriculture signals growth opportunities and strengthens trade ties\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Consider overweighting Indian pharmaceutical and agrochemical sectors, particularly those with export potential to Latin American markets, anticipating future trade agreements\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+    "consecutiveFailures": 0
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
