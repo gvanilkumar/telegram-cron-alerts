@@ -1,10 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1788742658301,
+    "lastRun": 1788759808658,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Capri Global Capital \\(via Reuters\\)\n• *Announcement:* India's Capri Global Capital has initiated its debut foreign currency debt issuance in dollars, marking a significant corporate move to secure international funding after domestic banks had paused lending\\.\n• *Market Stance:* 🟡 NEUTRAL\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Official corporate action reported by a reputable news agency\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Inflows \\(Increased access to international capital markets for Indian corporates\\, potentially easing domestic credit constraints\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Monitor further corporate debt issuances from Indian entities in international markets as a proxy for improving global liquidity conditions impacting India\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0,
-    "lastError": null
+    "consecutiveFailures": 0
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
