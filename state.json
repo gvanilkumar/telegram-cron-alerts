@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1788860103378,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* VinFast, Kia\n• *Announcement:* VinFast is entering India\\'s e\\-scooter market, actively seeking dealer partners by September 15, 2026\\. Simultaneously, Kia has launched its 3\\-row SUV Sorento, marking its entry into India\\'s hybrid passenger vehicle segment\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(95\\% \\- Explicit corporate announcements of market entry and product launches by major transnational corporations\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto \\(specifically Auto Components, passenger vehicles, and EV/Hybrid segments\\), EMS\n• *Expected FII Sentiment:* Net Inflows \\(Increased foreign investment and diversification into India\\'s growing automotive and EV market, reinforcing a \\'China\\+1\\' shift narrative in manufacturing and sales\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Overweight exposure to Indian auto and auto component manufacturers with strong EV/hybrid plays\\. Look for opportunities in ancillary EMS providers supporting the automotive sector\\.",
+    "lastRun": 1788875366197,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* VinFast\n• *Announcement:* VinFast, a major transnational corporation, has announced its intention to enter the Electric Two\\-Wheeler \\(E2W\\) market in India and is actively seeking dealer partners, with applications open until September 15, 2026\\. This follows their earlier entry into India's electric car market.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit corporate announcement from a major transnational corporation with confirmed dates and actions\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto\n• *Expected FII Sentiment:* Net Inflows \\(This move by VinFast signals foreign investment into India's growing EV market, aligning with themes of supply chain relocation and accelerating the China\\+1 shift in the auto sector\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should consider overweighting auto components and EV\\-related manufacturing stocks within the Metals/Auto sector due to increased foreign investment and market expansion\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
