@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1789139118654,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* LatConnect 60, India's market regulator, Adani Ports\n• *Announcement:* Australian Earth observation company LatConnect 60 expanded its India presence with strategic agreements involving NSIL and GeoSyze\\. Separately, India's market regulator settled disclosure violation charges against Adani Ports' CEO and CFO\\.\n• *Market Stance:* 🟡 NEUTRAL\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Based on explicit corporate agreements and official regulatory settlements\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* IT \\(ER&D, Tech Services\\), Infrastructure \\(Logistics, Ports\\)\n• *Expected FII Sentiment:* Net Inflows \\(Positive developments in tech and infrastructure, signaling stability and growth opportunities, support China\\+1 narratives\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Maintain exposure to IT services with an ER&D focus and infrastructure stocks, as regulatory clarity and strategic partnerships enhance market confidence\\.",
+    "lastRun": 1789151093001,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* VinFast\n• *Announcement:* Vietnamese carmaker VinFast is reportedly planning to build Electric Vehicles tailored specifically for the Indian market\\, shifting its strategy from manufacturing global models and initiating discussions with local suppliers and gaining approval for plant expansion\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(75\\% \\- The corporate announcement is strongly corroborated by multiple reports citing discussions with Indian suppliers and official investment approval for plant expansion\\, although not yet a finalized public company filing\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto\n• *Expected FII Sentiment:* Net Inflows \\(This indicates a major transnational corporation\\'s increased investment and manufacturing focus in India\\, aligning with supply chain relocation trends and boosting domestic production\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should consider increasing exposure to Auto Components and EV\\-related manufacturing entities within the Metals/Auto sector\\, anticipating positive sentiment and increased demand\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Gemini API failed: Status 500: {\n  \"error\": {\n    \"code\": 500,\n    \"message\": \"An internal error has occurred. Please retry or report in https://developers.generativeai.google/guide/troubleshooting\",\n    \"status\": \"INTERNAL\"\n  }\n}\n"
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
