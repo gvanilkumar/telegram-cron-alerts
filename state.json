@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1789744283587,
+    "lastRun": 1789756058683,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Reuters reporting on Tata Group\n• *Announcement:* India's Tata Group companies collectively lost \\$4 billion in market value on Friday due to heightened uncertainty stemming from a public dispute over the potential listing and leadership of its holding company, Tata Sons\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(85\\% \\- Verified news reports of significant market value loss for a major conglomerate due to internal corporate governance issues\\)\\.\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* Metals/Auto, IT \\(Indian Tech Services\\), Chemicals \\(Specialty\\), Infrastructure \\(Logistics, Ports, Power\\)\\.\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Corporate governance uncertainty within a major Indian conglomerate increases risk perception, potentially leading to capital withdrawal from affected group entities and broader market caution\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should re\\-evaluate and consider trimming exposure to Tata Group companies across various sectors until clarity on the holding company rift and leadership succession emerges to mitigate downside risk\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0,
-    "lastError": null
+    "consecutiveFailures": 1,
+    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
