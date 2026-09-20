@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1789884574726,
+    "lastRun": 1789903055329,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Tata Group\n• *Announcement:* Shares of India's Tata Group companies shed \\$4 billion in market value on Friday, as investors reacted to heightened uncertainty over a holding company rift\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Market reaction provides clear\\, quantifiable evidence of impact from internal corporate uncertainty\\)\\.\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* IT, Metals/Auto, Chemicals, Infrastructure\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Uncertainty impacting a major Indian conglomerate suggests increased risk perception\\, potentially leading to capital withdrawal\\)\\.\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Trim exposure to large\\-cap Indian conglomerates with diversified holdings\\, particularly those with existing governance concerns\\, until clarity emerges\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0,
-    "lastError": null
+    "consecutiveFailures": 1,
+    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
