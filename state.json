@@ -1,10 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1789954668527,
+    "lastRun": 1789974401995,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Dr Reddy's Laboratories, Takeda, Adobe\n• *Announcement:* Dr Reddy's Laboratories will distribute Takeda's QDENGA dengue vaccine in India by mid\\-2027, marking the country's first approved dengue vaccine\\. Additionally, Adobe has acquired Indian market intelligence startup Rilo\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90% \\- These are explicit corporate announcements and product launch plans with confirmed details from multiple sources\\)\\.\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Pharma, IT\n• *Expected FII Sentiment:* Net Inflows \\(Positive corporate announcements and M&A activity indicate strong growth potential and attract foreign investment into Indian Pharma and IT sectors\\)\\.\n• *TACTICAL ACTIONABLE OUTCOME:* Overweight Indian Pharma and IT sectors, focusing on companies with strong R&D pipelines and M&A potential\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0,
-    "lastError": null
+    "consecutiveFailures": 1,
+    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
