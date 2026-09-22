@@ -1,9 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1790091425682,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Takeda, Dr\\. Reddy's Laboratories, and Adobe\n• *Announcement:* Takeda's QDENGA dengue vaccine, approved in India, is set for a mid\\-2027 launch with Dr\\. Reddy's as the exclusive distributor\\. Separately, Adobe has acquired the Indian market intelligence startup Rilo\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit corporate announcements detailing product launch plans and an acquisition\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Pharma, IT\n• *Expected FII Sentiment:* Net Inflows \\(These positive corporate actions signal growth and investment opportunities in key Indian sectors, attracting foreign capital\\. \\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Overweight Indian Pharma firms with strong product pipelines and distribution\\. Increase exposure to innovative Indian IT service providers, which are potential M&A targets or beneficiaries of heightened investment\\.",
+    "lastRun": 1790103998485,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Adobe\n• *Announcement:* Adobe has acquired Indian market intelligence startup Rilo, marking its second acquisition in India.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit corporate announcement/acquisition reported by major news sources\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* IT \\(Indian Tech Services, ER&D\\)\n• *Expected FII Sentiment:* Net Inflows \\(This acquisition signals a positive outlook for the Indian tech sector\\, potentially attracting further foreign investment and aligning with the \"China\\+1 shift acceleration\" logic by showcasing India's strong tech ecosystem\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Overweight Indian IT services and ER&D companies, particularly those in niche intelligence or AI domains, as global corporations continue strategic acquisitions\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
