@@ -1,9 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1790257510340,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Apple \\(via CNBC analysis\\)\n• *Announcement:* Apple's recent iPhone launch is projected to significantly increase its market share in India, capitalizing on struggles faced by incumbent Chinese brands\\. This development indicates a shift in the world's second\\-largest smartphone market dynamics, with Apple expected to reach double\\-digit annual share in 2026\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(75\\% \\- News analysis detailing the market impact of a major transnational corporation\\'s product launch in India\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* EMS, IT \\(due to increased smartphone penetration and potential local manufacturing ecosystem growth\\)\\.\n• *Expected FII Sentiment:* Net Inflows \\(This reflects the broader \"China\\+1\" shift and potential for supply chain relocation to India\\, driven by increased presence of global brands like Apple\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should assess opportunities within the EMS sector\\, anticipating potential growth stemming from Apple\\'s expanding footprint in the Indian smartphone market\\.",
+    "lastRun": 1790272732343,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Apple Inc\\.\n• *Announcement:* Apple is projected to significantly boost its market share in India with its latest iPhone launch, leveraging the struggles faced by current Chinese brands dominating the market\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Market analysis explicitly states Apple's latest iPhone launch \"will boost\" its market share in India\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* EMS \\(Electronic Manufacturing Services\\)\n• *Expected FII Sentiment:* Net Inflows \\(Increased market penetration by a major transnational corporation like Apple supports the \"China\\+1\" shift acceleration and potential supply chain relocation to India\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should consider overweighting Indian Electronic Manufacturing Services \\(EMS\\) companies that stand to benefit from Apple's expanding presence and potential for increased local production\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
