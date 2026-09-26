@@ -1,10 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1790381027738,
+    "lastRun": 1790398039999,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Apple\n• *Announcement:* Apple, a major transnational corporation, is poised to significantly increase its market share in India's smartphone market following its latest iPhone launch, capitalizing on struggles faced by incumbent Chinese brands\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(75\\% \\- News report highlights strong market trend and corporate strategy for a major transnational corporation, supported by competitive landscape analysis for the Indian market\\. \\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* EMS\n• *Expected FII Sentiment:* Net Inflows \\(Increased presence of a global tech giant like Apple in India signals accelerated China\\+1 shift and supply chain relocation, attracting foreign direct investment\\. \\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should consider overweighting companies in the Electronic Manufacturing Services \\(EMS\\) sector due to potential growth driven by Apple’s expanding market presence and local manufacturing initiatives\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+    "consecutiveFailures": 0
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
