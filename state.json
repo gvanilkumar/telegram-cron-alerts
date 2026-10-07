@@ -1,9 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1791322611373,
+    "lastRun": 1791334816547,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Honda & Tata Technologies\n• *Announcement:* Honda is targeting cost cuts through a partnership with Tata Technologies\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Corporate announcement of a strategic partnership\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* IT \\(Indian Tech Services, ER\\&D\\)\n• *Expected FII Sentiment:* Net Inflows \\(This partnership signals global corporate confidence in Indian IT capabilities\\, potentially contributing to the China\\+1 shift acceleration\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Overweight Indian IT services\\, particularly firms involved in engineering research and development \\(ER\\&D\\) or securing large global partnerships\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0
+    "consecutiveFailures": 1,
+    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
