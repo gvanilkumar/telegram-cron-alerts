@@ -1,10 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1791418064680,
+    "lastRun": 1791438917215,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Commerce Secretary Rajesh Agrawal\n• *Announcement:* India\\'s Commerce Secretary highlighted the robust India\\-EFTA trade pact\\, covering 99\\.6\\% of Indian exports\\, and encouraged leveraging the \\$500\\-billion EFTA market and \\$100\\-billion investment pledge\\.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(95\\% \\- Official statement by Commerce Secretary on existing\\, high\\-coverage trade pact and investment pledges\\)\\.\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* IT\\, Pharma\\, Textiles\\, Metals/Auto \\(e\\.g\\.\\, auto components from the Gabriel\\-Forvia JV\\)\\, EMS\\, Chemicals\\, Infrastructure \\(logistics\\)\\.\n• *Expected FII Sentiment:* Net Inflows \\(The strong trade agreement signals enhanced market access and investment opportunities\\, supporting export\\-driven growth and India\\'s role in global supply chain diversification\\)\\.\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Overweight export\\-oriented sectors like IT\\, Pharma\\, and select Auto Components\\, focusing on companies with demonstrated or potential market penetration in EFTA countries\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 2,
-    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+    "consecutiveFailures": 0
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
