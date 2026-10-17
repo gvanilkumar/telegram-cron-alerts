@@ -1,9 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1792212704175,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Nike\n• *Announcement:* Nike is establishing a new campus in Bengaluru by FY28, signalling a long-term investment in India as a significant growth market and manufacturing hub, encompassing operations for Nike, Jordan, and Converse brands.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit corporate announcement from a major transnational corporation\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Textiles \\(Garments\\), potentially EMS \\(Electronic Manufacturing Services\\) due to manufacturing growth support, and Infrastructure \\(Logistics, Ports\\) from expanded operations.\n• *Expected FII Sentiment:* Net Inflows \\(Major multinational corporation expanding operations in India indicates confidence, potential for increased foreign direct investment, and strengthening of India's role in global supply chains\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Consider overweighting Indian manufacturing and retail\\-oriented textile companies with exposure to global brands, and evaluate select infrastructure/logistics plays that could benefit from increased corporate presence and manufacturing activity\\.",
+    "lastRun": 1792227140139,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India's Central Bank\n• *Announcement:* The Central Bank's recent foreign exchange curbs have caused Indian rupee forward premiums to spike to multi\\-year highs, leading to significant strain and turmoil in India's FX market\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit central bank action confirmed by market reaction reported by Reuters and MarketScreener\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* IT, Pharma, Textiles, Metals\\/Auto, EMS, Chemicals, OGCs, Aviation\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(The FX market strain and turmoil, driven by increased hedging costs and liquidity concerns, create a risk\\-off macro environment, likely leading to foreign institutional investors withdrawing capital\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should consider hedging strategies for FX exposure and reduce positions in companies with high foreign currency debt\\. Overweighting domestic\\-focused defensive sectors may also be prudent\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
