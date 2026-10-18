@@ -1,10 +1,9 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1792328387749,
+    "lastRun": 1792340737900,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* Renault India CEO Stephane Deblaise\n• *Announcement:* Renault India anticipates hybrids and CNG vehicles will constitute 50% of its total sales within 2-3 years, aiming for a 3-5% market share by 2030.\n• *Market Stance:* 🟢 BULLISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Explicit corporate announcement from a major transnational corporation's CEO regarding future sales strategy\\)\\.\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* None\n• *Strategic Tailwinds:* Metals/Auto\n• *Expected FII Sentiment:* Net Inflows \\(Positive outlook for a significant segment of the Indian auto market, particularly in the growing green mobility space, is likely to attract investment\\. This aligns with broader themes of domestic market growth and diversified offerings\\)\\.\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Overweight Indian auto companies demonstrating strong R\\&D and production capabilities in hybrid and CNG vehicle segments, considering potential long\\-term growth and market share expansion\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 1,
-    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+    "consecutiveFailures": 0
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
