@@ -1,9 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1792435836518,
-    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India's Finance Minister\n• *Announcement:* India's Finance Minister stated that easy exits, excess liquidity, and continued capital outflows pose significant risks to the equity market's underperformance in 2027\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(70\\% \\- An official statement from a high\\-ranking government official regarding future market risks, but not a finalized policy or legislation\\.\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* All\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(The Finance Minister explicitly highlighted continued capital outflows as a major risk for 2027, signaling a challenging environment for FIIs\\.\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Indian fund managers should consider a defensive portfolio posture, potentially reducing exposure to broad market segments susceptible to FII selling pressure and increasing allocation to more resilient domestic\\-growth oriented investments\\.",
+    "lastRun": 1792449575292,
+    "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India's Finance Minister, Nirmala Sitharaman\n• *Announcement:* India's Finance Minister, Nirmala Sitharaman, identified fuel, fertilizer, and the flow of capital (specifically toward AI and the US) as key risks for India's economy in 2027.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* MEDIUM \\(70\\% \\- Official statement from a high\\-ranking government official identifying future economic risks\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* OGCs, Chemicals \\(Agrochemicals\\), Infrastructure \\(Power\\)\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Identified economic risks for 2027, coupled with market volatility, suggest a cautious stance from foreign institutional investors\\. The statement about market liquidity facilitating investor exit further supports this outlook\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should consider reducing exposure to sectors highly dependent on fuel and fertilizer inputs, such as OGCs and Agrochemicals, and re\\-evaluate positions in infrastructure projects sensitive to capital access risks\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0
+    "consecutiveFailures": 0,
+    "lastError": null
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
