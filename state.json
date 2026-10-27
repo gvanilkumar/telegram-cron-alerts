@@ -1,9 +1,10 @@
 {
   "task_ak83xn71j": {
-    "lastRun": 1793056509032,
+    "lastRun": 1793066811811,
     "lastAlertText": "🚨 *GLOBAL POLICY TRIGGERS ALERT*\n• *Source/Speaker:* India's Finance Minister & Market Analysis\n• *Announcement:* India's Finance Minister cited fuel, fertilizer, and capital access as 2027 economic risks\\. High oil prices and Middle East tensions are pressuring Indian equities due to increased Gulf crude import dependence\\.\n• *Market Stance:* 🔴 BEARISH\n\n📊 *CONFIDENCE LEVEL:* HIGH \\(90\\% \\- Direct statements from Finance Minister and verified market analysis points\\)\n\n🎯 *INDIAN MARKET IMPACT:*\n• *Vulnerable Sectors:* OGCs, Chemicals, Infrastructure, Metals/Auto\n• *Strategic Tailwinds:* None\n• *Expected FII Sentiment:* Net Outflows \\(Macro environment suggests risk\\-off positioning, increasing oil import bill and potential INR pressure\\)\n\n💡 *TACTICAL ACTIONABLE OUTCOME:* Fund managers should consider defensive positioning, underweight sectors sensitive to commodity inflation and external shocks, and closely monitor INR depreciation\\.",
     "lastEmbedding": null,
-    "consecutiveFailures": 0
+    "consecutiveFailures": 1,
+    "lastError": "Gemini API failed: Status 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
   },
   "task_lfe72iyrm": {
     "lastRun": 1785690879873,
